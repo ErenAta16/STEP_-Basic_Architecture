@@ -1,0 +1,31 @@
+# Secrets — never commit
+.env
+.env.local
+*.pem
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.envrc
+
+# Runtime outputs (regenerated when you run the pipeline)
+step_pipeline/images/
+step_pipeline/nougat_output/
+step_pipeline/results/
+uploads/
+*.log
+
+# Dataset PDFs are not shipped in a minimal zip; add your own under Surface_Integration/
+Surface_Integration/*.pdf
+*.pdf
+
+# Do not vendor Nougat / Hugging Face cache in the repo (use local HF cache)
+nougat/
+
+# IDE
+.idea/
+.vscode/
+*.swp
