@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STEP Pipeline</title>
+<!-- UI: muted professional layout rev 6 -->
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$','$'],['\\(','\\)']],
+    displayMath: [['$$','$$'],['\\[','\\]']],
+    processEscapes: true
+  },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
+<style>
+:root {
+  --bg: #0d1117;
+  --surface: #161b22;
+  --surface2: #1c2129;
+  --border: #30363d;
+  --border-strong: #3d444d;
+  --text: #e6edf3;
+  --text2: #8b949e;
+  --text3: #6e7681;
+  /* Single restrained accent (no bright blues/greens) */
+  --accent: #8b949e;
+  --accent-weak: #484f58;
+  --ok: #7a8f7a;
+  --warn: #9a8b6a;
+  --err: #b87a7a;
+  --radius: 0;
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Code", "Fira Code", Consolas, monospace;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Header ── */
+.header {
+  height: 56px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.brand-icon {
+  width: 28px; height: 28px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  display: grid; place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text2);
+  font-family: var(--mono);
+  font-variant-emoji: text;
+}
+.header-actions { display: flex; gap: 10px; align-items: center; }
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  border-radius: 0;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text);
+  transition: border-color .12s, background .12s;
+}
+.btn:hover { border-color: var(--text2); background: var(--surface); }
+.btn-primary {
+  background: var(--surface2);
+  border: 1px solid var(--border-strong);
+  color: var(--text);
+}
+.btn-primary:hover {
+  background: #252b33;
+  border-color: var(--text3);
+  color: var(--text);
+}
+.btn input[type="file"] { display: none; }
+
+/* ── Main Layout ── */
+.main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.panel + .panel { border-left: 1px solid var(--border); }
+.panel-head {
+  height: 40px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text2);
+  flex-shrink: 0;
+}
+.panel-body {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+}
+
+/* ── Upload Zone ── */
+.upload-zone {
+  position: absolute;
+  inset: 20px;
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all .2s;
+}
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--text3);
+  background: rgba(255,255,255,.02);
+}
+.upload-icon {
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px dashed var(--border);
+  padding: 10px 14px;
+}
+.upload-zone .upload-title { color: var(--text); font-size: 14px; font-weight: 500; }
+.upload-zone .sub { font-size: 12px; color: var(--text3); }
+
+/* ── PDF Embed ── */
+#pdfViewer {
+  width: 100%; height: 100%;
+  border: none;
+  display: none;
+}
+
+/* ── Placeholder ── */
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: var(--text2);
+  gap: 8px;
+}
+.placeholder-hint {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ── Pipeline Steps ── */
+.pipeline-section {
+  padding: 16px;
+}
+.section-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+  margin-bottom: 12px;
+  font-weight: 700;
+}
+.steps { display: flex; flex-direction: column; gap: 2px; }
+.step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 0;
+  border-left: 2px solid transparent;
+  transition: background .15s, border-color .15s;
+}
+.step-badge {
+  width: 32px; height: 32px;
+  border-radius: 0;
+  display: grid; place-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--mono);
+  font-variant-emoji: text;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text2);
+  flex-shrink: 0;
+  transition: border-color .2s, color .2s, background .2s;
+}
+.step-body { flex: 1; min-width: 0; }
+.step-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.step-detail {
+  font-size: 11px;
+  color: var(--text2);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.step-status {
+  width: 20px; height: 20px;
+  display: grid; place-items: center;
+  flex-shrink: 0;
+}
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 0;
+  background: var(--border);
+  transition: background .2s;
+}
+
+/* Step states */
+.step.running {
+  background: rgba(255,255,255,.03);
+  border-left-color: var(--text3);
+}
+.step.running .step-badge {
+  border-color: var(--border-strong);
+  background: var(--surface);
+  color: var(--text);
+}
+.step.running .dot {
+  background: var(--text2);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+.step.done .step-badge {
+  border-color: var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+}
+.step.done .dot { background: var(--text3); }
+.step.error .step-badge {
+  border-color: var(--err);
+  background: var(--surface2);
+  color: var(--err);
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: .45; }
+}
+
+/* ── Cards ── */
+.cards-section { padding: 0 16px 16px; display: flex; flex-direction: column; gap: 12px; }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  overflow: hidden;
+}
+.card-head {
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-body { padding: 14px 16px; }
+
+/* Answer highlight */
+.answer-box {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  padding: 20px;
+  text-align: center;
+  margin: 14px 16px;
+}
+.answer-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+  margin-bottom: 8px;
+}
+.answer-value {
+  font-size: 22px;
+  color: var(--text);
+  line-height: 1.6;
+}
+
+/* Info grid */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.info-item { display: flex; flex-direction: column; gap: 2px; }
+.info-item.full { grid-column: 1 / -1; }
+.info-label {
+  font-size: 11px;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.info-value {
+  font-size: 13px;
+  color: var(--text);
+}
+
+/* Pills */
+.meta-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 16px;
+}
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 0;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+/* Tags: flat chrome; thin left accent only */
+.pill-success { border: 1px solid var(--border); border-left: 2px solid var(--ok); color: var(--text2); background: var(--surface2); }
+.pill-warning { border: 1px solid var(--border); border-left: 2px solid var(--warn); color: var(--text2); background: var(--surface2); }
+.pill-info { border: 1px solid var(--border); border-left: 2px solid var(--accent-weak); color: var(--text2); background: var(--surface2); }
+.pill-neutral { background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
+
+/* Solution details */
+.solution-toggle {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-top: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s;
+}
+.solution-toggle:hover { background: rgba(255,255,255,.04); color: var(--text); }
+.solution-toggle .arrow {
+  display: inline-block;
+  width: 1em;
+  font-family: var(--mono);
+  font-weight: 700;
+}
+.solution-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease;
+  padding: 0 16px;
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text);
+}
+.solution-content.open {
+  max-height: 4000px;
+  padding: 16px;
+  overflow: auto;
+}
+.solution-content p { margin-bottom: 10px; }
+.solution-content strong { color: var(--text); font-weight: 600; }
+
+/* ── Terminal ── */
+.terminal-section { padding: 0 16px 20px; }
+.terminal-toggle {
+  width: 100%;
+  padding: 8px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  color: var(--text2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--mono);
+}
+.terminal {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease;
+  background: #0a0c10;
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.terminal.open {
+  max-height: 300px;
+  overflow: auto;
+  padding: 10px 12px;
+}
+.term-line { white-space: pre-wrap; word-break: break-all; }
+.term-config { color: var(--text3); }
+.term-success { color: var(--ok); }
+.term-warning { color: var(--warn); }
+.term-error { color: var(--err); }
+.term-log { color: var(--text2); }
+.term-layer { color: var(--text); }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 0; }
+::-webkit-scrollbar-thumb:hover { background: var(--text2); }
+
+/* ── Loading overlay ── */
+.loading-bar {
+  height: 2px;
+  background: var(--border-strong);
+  display: none;
+  opacity: .9;
+}
+.loading-bar.active {
+  display: block;
+  animation: loadpulse 1.1s ease-in-out infinite;
+}
+@keyframes loadpulse {
+  0%, 100% { opacity: .35; }
+  50% { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="brand">
+    <div class="brand-icon">S</div>
+    <span>STEP Pipeline</span>
+  </div>
+  <div class="header-actions">
+    <label class="btn btn-primary" id="uploadBtn">
+      <input type="file" accept=".pdf" id="fileInput">
+      Upload PDF
+    </label>
+  </div>
+</header>
+<div class="loading-bar" id="loadingBar"></div>
+
+<!-- Main -->
+<main class="main">
+  <!-- Left: PDF Viewer -->
+  <div class="panel left-panel">
+    <div class="panel-head">
+      <span>PDF viewer</span>
+      <span id="fileName" style="color:var(--text);font-weight:400"></span>
+    </div>
+    <div class="panel-body">
+      <div class="upload-zone" id="uploadZone">
+        <div class="upload-icon">PDF</div>
+        <p class="upload-title">Drag and drop a PDF here</p>
+        <p class="sub">or use the upload button above</p>
+      </div>
+      <iframe id="pdfViewer"></iframe>
+    </div>
+  </div>
+
+  <!-- Right: Pipeline Output -->
+  <div class="panel right-panel">
+    <div class="panel-head">
+      <span>Pipeline output</span>
+      <span id="timerDisplay" style="color:var(--text2);font-weight:400"></span>
+    </div>
+    <div class="panel-body" id="outputBody">
+      <div class="placeholder" id="outputPlaceholder">
+        <div class="placeholder-hint">Ready</div>
+        <p>Upload a PDF to see the result here</p>
+      </div>
+
+      <div id="pipelineView" style="display:none">
+        <!-- Steps -->
+        <div class="pipeline-section">
+          <div class="section-label">Pipeline stages</div>
+          <div class="steps" id="stepsContainer"></div>
+        </div>
+
+        <!-- Result cards (hidden until done) -->
+        <div class="cards-section" id="cardsSection" style="display:none">
+
+          <!-- Profiling -->
+          <div class="card" id="profilingCard">
+            <div class="card-head">PDF profiling</div>
+            <div class="card-body" id="profilingBody"></div>
+          </div>
+
+          <!-- Solution -->
+          <div class="card" id="solutionCard">
+            <div class="card-head">Answer</div>
+            <div class="answer-box" id="answerBox"></div>
+            <div class="meta-pills" id="solutionMeta"></div>
+            <button class="solution-toggle" id="solToggle" onclick="toggleSolution()">
+              <span class="arrow">+</span> Show full solution
+            </button>
+            <div class="solution-content" id="solutionContent"></div>
+          </div>
+
+          <!-- Analysis -->
+          <div class="card" id="analysisCard" style="display:none">
+            <div class="card-head">Model summary</div>
+            <div class="card-body" id="analysisBody"></div>
+          </div>
+        </div>
+
+        <!-- Terminal log -->
+        <div class="terminal-section">
+          <button class="terminal-toggle" onclick="toggleTerminal()">
+            <span>+</span> Terminal log
+          </button>
+          <div class="terminal" id="terminal"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+// ── Locale: normalize older Turkish stdout if an old solver process is still running ──
+function normalizePipelineText(s) {
+  if (s == null || typeof s !== 'string') return s;
+  return s
+    .replace(/(\d+)\s*sayfa/gi, '$1 pages')
+    .replace(/(\d+)\s*karakter/gi, '$1 chars')
+    .replace(/\bkalite\b/gi, 'quality')
+    .replace(/\bBekleniyor\.{0,3}/gi, 'Waiting...')
+    .replace(/\bmeşgul\b/gi, 'busy')
+    .replace(/\bTüm modeller\b/gi, 'All models')
+    .replace(/\bbekleyip\b/gi, 'wait and')
+    .replace(/\beşleşme\b/gi, 'agree')
+    .replace(/\bgeçiliyor\b/gi, 'switching')
+    .replace(/\bHATA\b/g, 'ERR')
+    .replace(/\bçözümü\b/gi, 'solution')
+    .replace(/\bdoğrulanamadı\b/gi, 'not verified')
+    .replace(/\bNougat OCR\.{3}/gi, 'Nougat OCR...');
+}
+
+// ── Constants ──
+const LAYERS = [
+  {id:'0', name:'PDF processing', label:'L0'},
+  {id:'1', name:'Profile analysis', label:'L1'},
+  {id:'3', name:'VLM extraction', label:'L3'},
+  {id:'1b', name:'Profile update', label:'L1b'},
+  {id:'4', name:'Synthesis', label:'L4'},
+  {id:'5', name:'LLM solution', label:'L5'},
+  {id:'6', name:'Verification', label:'L6'},
+];
+
+const LAYER_ORDER = LAYERS.map(l => l.id);
+
+let currentTaskId = null;
+let eventSource = null;
+let timerInterval = null;
+let startTime = null;
+
+// ── Elements ──
+const $ = id => document.getElementById(id);
+const fileInput = $('fileInput');
+const uploadZone = $('uploadZone');
+const pdfViewer = $('pdfViewer');
+const loadingBar = $('loadingBar');
+
+// ── Upload Handling ──
+uploadZone.addEventListener('click', () => fileInput.click());
+
+uploadZone.addEventListener('dragover', e => {
+  e.preventDefault();
+  uploadZone.classList.add('dragover');
+});
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener('change', () => {
+  if (fileInput.files.length) handleFile(fileInput.files[0]);
+});
+
+function handleFile(file) {
+  if (!file.name.toLowerCase().endsWith('.pdf')) {
+    alert('Please choose a PDF file');
+    return;
+  }
+
+  // Show PDF locally first
+  const url = URL.createObjectURL(file);
+  pdfViewer.src = url;
+  pdfViewer.style.display = 'block';
+  uploadZone.style.display = 'none';
+  $('fileName').textContent = file.name;
+
+  resetPipeline();
+  loadingBar.classList.add('active');
+  startTimer();
+
+  const fd = new FormData();
+  fd.append('pdf', file);
+
+  fetch('/upload', {method:'POST', body: fd})
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) { addTerminal(data.error, 'error'); return; }
+      currentTaskId = data.task_id;
+      pdfViewer.src = `/pdf/${encodeURIComponent(data.filename)}`;
+      startStream(data.task_id);
+    })
+    .catch(err => addTerminal('Upload error: ' + err.message, 'error'));
+}
+
+// ── Timer ──
+function startTimer() {
+  startTime = Date.now();
+  clearInterval(timerInterval);
+  timerInterval = setInterval(() => {
+    const s = ((Date.now() - startTime) / 1000).toFixed(1);
+    $('timerDisplay').textContent = `${s}s`;
+  }, 100);
+}
+function stopTimer() { clearInterval(timerInterval); }
+
+// ── Pipeline Reset ──
+function resetPipeline() {
+  $('outputPlaceholder').style.display = 'none';
+  $('pipelineView').style.display = 'block';
+  $('cardsSection').style.display = 'none';
+  $('analysisCard').style.display = 'none';
+  $('timerDisplay').textContent = '';
+
+  const c = $('stepsContainer');
+  c.innerHTML = '';
+  LAYERS.forEach(l => {
+    const div = document.createElement('div');
+    div.className = 'step pending';
+    div.id = `step-${l.id}`;
+    div.innerHTML = `
+      <div class="step-badge">${l.label}</div>
+      <div class="step-body">
+        <div class="step-title">${l.name}</div>
+        <div class="step-detail">Waiting...</div>
+      </div>
+      <div class="step-status"><div class="dot"></div></div>
+    `;
+    c.appendChild(div);
+  });
+
+  $('terminal').innerHTML = '';
+  $('terminal').classList.remove('open');
+}
+
+// ── SSE Streaming ──
+function startStream(taskId) {
+  if (eventSource) eventSource.close();
+  eventSource = new EventSource(`/stream/${taskId}`);
+  eventSource.onmessage = e => {
+    const msg = JSON.parse(e.data);
+    handleEvent(msg);
+  };
+  eventSource.onerror = () => eventSource.close();
+}
+
+function handleEvent(msg) {
+  switch (msg.type) {
+    case 'layer': {
+      const d = normalizePipelineText(msg.detail);
+      updateLayer(msg.layer, d);
+      addTerminal(`[L${msg.layer}] ${d}`, 'layer');
+      break;
+    }
+    case 'config':
+      addTerminal(normalizePipelineText(msg.text), 'config');
+      break;
+    case 'success':
+      addTerminal(normalizePipelineText(msg.text), 'success');
+      break;
+    case 'warning':
+      addTerminal(normalizePipelineText(msg.text), 'warning');
+      break;
+    case 'error':
+      addTerminal(normalizePipelineText(msg.text), 'error');
+      break;
+    case 'log':
+      addTerminal(normalizePipelineText(msg.text), 'log');
+      break;
+    case 'done':
+      loadingBar.classList.remove('active');
+      stopTimer();
+      showResult(msg.data);
+      if (eventSource) eventSource.close();
+      break;
+    case 'ping':
+      break;
+  }
+}
+
+// ── Layer Updates ──
+function updateLayer(layerId, detail) {
+  const idx = LAYER_ORDER.indexOf(layerId);
+  LAYERS.forEach((l, i) => {
+    const el = $(`step-${l.id}`);
+    if (!el) return;
+    if (i < idx) {
+      el.className = 'step done';
+    } else if (l.id === layerId) {
+      el.className = 'step running';
+      el.querySelector('.step-detail').textContent = detail;
+    }
+  });
+
+  setTimeout(() => {
+    const el = $(`step-${layerId}`);
+    if (el) {
+      el.className = 'step done';
+      el.querySelector('.step-detail').textContent = detail;
+    }
+  }, 800);
+}
+
+// ── Terminal ──
+function addTerminal(text, type = 'log') {
+  const t = $('terminal');
+  const line = document.createElement('div');
+  line.className = `term-line term-${type}`;
+  line.textContent = text;
+  t.appendChild(line);
+  t.scrollTop = t.scrollHeight;
+}
+
+function toggleTerminal() {
+  $('terminal').classList.toggle('open');
+  const btn = $('terminal').previousElementSibling;
+  btn.querySelector('span').textContent = $('terminal').classList.contains('open') ? '−' : '+';
+}
+
+function toggleSolution() {
+  const c = $('solutionContent');
+  const btn = $('solToggle');
+  c.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.querySelector('.arrow').textContent = c.classList.contains('open') ? '−' : '+';
+  btn.childNodes[btn.childNodes.length - 1].textContent =
+    c.classList.contains('open') ? ' Hide full solution' : ' Show full solution';
+  if (c.classList.contains('open') && window.MathJax) {
+    MathJax.typesetPromise([c]);
+  }
+}
+
+// ── Show Result ──
+function showResult(data) {
+  // Mark all steps done
+  LAYERS.forEach(l => {
+    const el = $(`step-${l.id}`);
+    if (el) el.className = 'step done';
+  });
+
+  $('cardsSection').style.display = 'flex';
+
+  // ─ Profiling ─
+  const domain = data.domain === 'surface_integral' ? 'Surface integral' : 'General math';
+  const kws = Array.isArray(data.keywords) ? data.keywords.join(', ') : (data.keywords || '-');
+
+  $('profilingBody').innerHTML = `
+    <div class="info-grid">
+      <div class="info-item"><span class="info-label">File</span><span class="info-value">${esc(data.file || '?')}</span></div>
+      <div class="info-item"><span class="info-label">Pages</span><span class="info-value">${data.pages || '?'}</span></div>
+      <div class="info-item"><span class="info-label">Chars</span><span class="info-value">${data.chars || 0}</span></div>
+      <div class="info-item"><span class="info-label">Category</span><span class="info-value">${esc(data.category || 'unknown')}</span></div>
+      <div class="info-item"><span class="info-label">Surface type</span><span class="info-value">${esc(data.surface_type || 'unknown')}</span></div>
+      <div class="info-item"><span class="info-label">Domain</span><span class="info-value">${domain}</span></div>
+      <div class="info-item full"><span class="info-label">Keywords</span><span class="info-value">${esc(kws)}</span></div>
+      ${data.summary ? `<div class="info-item full"><span class="info-label">Summary</span><span class="info-value">${esc(data.summary)}</span></div>` : ''}
+    </div>
+  `;
+
+  // ─ Solution ─
+  const answer = data.final_answer || '?';
+  const consensus = data.consensus;
+  const model = data.model_used || '?';
+  const elapsed = data.elapsed_s || '?';
+  const verification = data.verification || '';
+
+  $('answerBox').innerHTML = `
+    <div class="answer-label">Result</div>
+    <div class="answer-value">$\\displaystyle ${answer}$</div>
+  `;
+
+  let verPill = '';
+  if (verification === 'match')
+    verPill = '<span class="pill pill-success">Verified</span>';
+  else if (verification === 'mismatch')
+    verPill = '<span class="pill pill-warning">Mismatch</span>';
+  else if (verification === 'no_known_answer')
+    verPill = '<span class="pill pill-neutral">No reference</span>';
+
+  $('solutionMeta').innerHTML = `
+    <span class="pill ${consensus ? 'pill-success' : 'pill-warning'}">${consensus ? 'Consensus' : 'No consensus'}</span>
+    <span class="pill pill-info">${esc(model)}</span>
+    <span class="pill pill-neutral">${elapsed}s</span>
+    <span class="pill pill-neutral">Source: ${esc(data.source || '?')}</span>
+    ${verPill}
+  `;
+
+  if (data.solution) {
+    $('solutionContent').innerHTML = renderSolution(data.solution);
+  }
+
+  // ─ Analysis ─
+  const llm = data.llm_summary;
+  if (llm && Object.keys(llm).length) {
+    $('analysisCard').style.display = 'block';
+    const labels = {
+      problem_type: 'Problem type',
+      method_used: 'Method',
+      surface: 'Surface',
+      key_steps: 'Key steps',
+      difficulty: 'Difficulty',
+      domain: 'Domain',
+    };
+    let h = '<div class="info-grid">';
+    for (const [k, label] of Object.entries(labels)) {
+      if (llm[k]) h += `<div class="info-item"><span class="info-label">${label}</span><span class="info-value">${esc(llm[k])}</span></div>`;
+    }
+    h += '</div>';
+    $('analysisBody').innerHTML = h;
+  }
+
+  // Re-render math
+  if (window.MathJax) MathJax.typesetPromise();
+
+  // Scroll to answer
+  $('answerBox').scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+
+// ── Helpers ──
+function esc(s) {
+  const d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function renderSolution(text) {
+  let work = text.split('SUMMARY:')[0];
+  work = esc(work);
+  work = work.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  work = work.split(/\n\n+/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+  return work;
+}
+</script>
+</body>
+</html>
