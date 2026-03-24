@@ -109,21 +109,69 @@ class Layer5_LLMSolver:
     def is_available(self) -> bool:
         return self.client is not None
 
+    _BOXED_FOLLOWUP = (
+        "Based on the following solution, state ONLY the final answer "
+        "inside \\boxed{{}}. Nothing else.\n\nSolution:\n{tail}"
+    )
+
     def solve(self, problem_latex: str, system_prompt: str | None = None) -> str:
-        """Run the model on `problem_latex`; optional `system_prompt` overrides the default."""
+        """Run the model on `problem_latex`; optional `system_prompt` overrides the default.
+        If the answer lacks \\boxed{}, a cheap follow-up asks for one (all providers)."""
         if not self.is_available:
             raise RuntimeError("No LLM client configured. Check your API keys in .env")
 
         prompt = system_prompt or LLM_SYSTEM_PROMPT
 
         if self.provider in ("groq", "openai"):
-            return self._solve_openai_compat(problem_latex, prompt)
+            text = self._solve_openai_compat(problem_latex, prompt)
         elif self.provider == "gemini":
-            return self._solve_gemini(problem_latex, prompt)
+            text = self._solve_gemini(problem_latex, prompt)
         elif self.provider == "claude":
-            return self._solve_claude(problem_latex, prompt)
+            text = self._solve_claude(problem_latex, prompt)
         else:
             raise RuntimeError(f"Unknown LLM provider: {self.provider}")
+
+        if "\\boxed" not in text:
+            text = self._boxed_followup(text)
+        return text
+
+    def _boxed_followup(self, text: str) -> str:
+        """Cheap second call: ask the same provider to emit \\boxed{} only."""
+        followup_prompt = self._BOXED_FOLLOWUP.format(tail=text[-1500:])
+        try:
+            if self.provider in ("groq", "openai"):
+                resp = self.client.chat.completions.create(
+                    model=self.model_name,
+                    max_tokens=256,
+                    temperature=0.0,
+                    messages=[{"role": "user", "content": followup_prompt}],
+                )
+                boxed = resp.choices[0].message.content or ""
+            elif self.provider == "gemini":
+                from google.genai import types
+                resp = self.client.models.generate_content(
+                    model=self.model_name,
+                    contents=followup_prompt,
+                    config=types.GenerateContentConfig(max_output_tokens=256, temperature=0.0),
+                )
+                boxed = resp.text or ""
+            elif self.provider == "claude":
+                resp = self.client.messages.create(
+                    model=self.model_name,
+                    max_tokens=256,
+                    temperature=0.0,
+                    messages=[{"role": "user", "content": followup_prompt}],
+                )
+                boxed = resp.content[0].text or ""
+            else:
+                return text
+
+            boxed = boxed.strip()
+            if "\\boxed" in boxed:
+                return text + "\n\n" + boxed
+        except Exception:
+            pass
+        return text
 
     def _solve_openai_compat(self, problem_latex: str, system_prompt: str) -> str:
         """Chat completions API (shared by Groq and OpenAI)."""
@@ -139,7 +187,7 @@ class Layer5_LLMSolver:
         return response.choices[0].message.content or ""
 
     def _solve_gemini(self, problem_latex: str, system_prompt: str) -> str:
-        """Gemini generate_content; if there is no \\boxed{}, ask once more for a boxed line only."""
+        """Gemini generate_content (follow-up is handled centrally in `solve`)."""
         from google.genai import types
         response = self.client.models.generate_content(
             model=self.model_name,
@@ -150,28 +198,7 @@ class Layer5_LLMSolver:
                 temperature=LLM_TEMPERATURE,
             ),
         )
-        text = response.text or ""
-
-        if "\\boxed" not in text:
-            try:
-                followup = self.client.models.generate_content(
-                    model=self.model_name,
-                    contents=(
-                        f"Based on the following solution, state ONLY the final answer "
-                        f"inside \\boxed{{}}. Nothing else.\n\nSolution:\n{text[-1500:]}"
-                    ),
-                    config=types.GenerateContentConfig(
-                        max_output_tokens=256,
-                        temperature=0.0,
-                    ),
-                )
-                boxed_text = (followup.text or "").strip()
-                if "\\boxed" in boxed_text:
-                    text = text + "\n\n" + boxed_text
-            except Exception:
-                pass
-
-        return text
+        return response.text or ""
 
     def _solve_claude(self, problem_latex: str, system_prompt: str) -> str:
         response = self.client.messages.create(
