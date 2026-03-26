@@ -1,5 +1,8 @@
 """
-JSON event log for batch runs: per-PDF layer timings and LLM attempts.
+Builds timestamped ``pipeline_log_*.json`` files for batch runs.
+
+Each PDF becomes one entry under ``pdf_profiles`` with nested layer records; ``save()``
+computes roll-up stats (layer success counts, per-provider attempt counts).
 """
 
 import json
@@ -9,7 +12,7 @@ from pathlib import Path
 
 
 class PipelineLogger:
-    """Accumulates one structured log file per batch (`pipeline_log_*.json`)."""
+    """Mutable run log; call ``start_pdf`` → layer ``log_*`` methods → ``finish_pdf`` per file."""
 
     def __init__(self, output_dir: Path):
         self.output_dir = Path(output_dir)
@@ -35,8 +38,6 @@ class PipelineLogger:
 
     def log_models(self, models: list[dict]):
         self.run_log["models_used"] = models
-
-    # --- PDF profiling ---
 
     def start_pdf(self, filename: str):
         self._current_pdf = {
@@ -172,6 +173,7 @@ class PipelineLogger:
 
     def log_layer5_attempt(self, provider: str, model: str, solution_chars: int,
                            elapsed_s: float, status: str, error: str = None):
+        # status: "ok" = model returned text; "error" = exception or empty failure path
         layer5 = self._current_pdf["layers"].setdefault("L5_llm_solver", {
             "technology": "LLM Ensemble",
             "attempts": [],
@@ -194,16 +196,15 @@ class PipelineLogger:
         layer5["best_provider"] = provider
         layer5["best_status"] = status
 
-    def log_layer6(self, verification: dict, elapsed_s: float):
-        self._current_pdf["layers"]["L6_verification"] = {
-            "technology": "SymPy",
-            "status": verification.get("status", "unknown"),
-            "elapsed_s": round(elapsed_s, 3),
+    def log_answer_extraction(self, final_answer: str, elapsed_s: float):
+        """Record L6: whether a non-empty string was parsed from the LLM output."""
+        ok = bool(final_answer and str(final_answer).strip())
+        self._current_pdf["layers"]["L6_extraction"] = {
+            "technology": "Answer extraction",
+            "status": "OK" if ok else "FAIL",
+            "elapsed_s": round(elapsed_s, 4),
             "metrics": {
-                "known_answer": str(verification.get("known", "")),
-                "llm_answer": verification.get("llm_answer", ""),
-                "method": verification.get("method", ""),
-                "error_margin": verification.get("error"),
+                "final_answer_chars": len(final_answer) if final_answer else 0,
             },
         }
 
@@ -213,8 +214,6 @@ class PipelineLogger:
         self.run_log["pdf_profiles"].append(self._current_pdf)
         self._current_pdf = None
 
-    # --- Summary ---
-
     def compute_summary(self):
         profiles = self.run_log["pdf_profiles"]
         total = len(profiles)
@@ -223,35 +222,37 @@ class PipelineLogger:
         l2_ok = sum(1 for p in profiles if p["layers"].get("L2_ocr", {}).get("status") == "OK")
         l3_ok = sum(1 for p in profiles if p["layers"].get("L3_vlm", {}).get("status") == "OK")
         l4_ok = sum(1 for p in profiles if p["layers"].get("L4_synthesis", {}).get("status") == "OK")
-        l5_ok = sum(1 for p in profiles if p["layers"].get("L5_llm_solver", {}).get("best_status") == "match")
-        l6_match = sum(1 for p in profiles if p.get("final_status") == "match")
-        l6_tested = sum(1 for p in profiles if p.get("final_status") in ("match", "mismatch"))
+        l5_ok = sum(1 for p in profiles if p["layers"].get("L5_llm_solver", {}).get("best_status") == "ok")
+        pdfs_ok = sum(1 for p in profiles if p.get("final_status") == "ok")
+        l6_extract_ok = sum(
+            1 for p in profiles
+            if p["layers"].get("L6_extraction", {}).get("status") == "OK"
+        )
 
         total_time = sum(p.get("elapsed_s", 0) for p in profiles)
         nougat_time = sum(p["layers"].get("L2_ocr", {}).get("elapsed_s", 0) for p in profiles)
         vlm_time = sum(p["layers"].get("L3_vlm", {}).get("elapsed_s", 0) for p in profiles)
 
-        # Per-model stats
+        # ``match`` = successful attempts (name kept for older consumers of the JSON shape).
         model_stats = {}
         for p in profiles:
             for attempt in p["layers"].get("L5_llm_solver", {}).get("attempts", []):
                 prov = attempt["provider"]
                 if prov not in model_stats:
-                    model_stats[prov] = {"total": 0, "match": 0, "mismatch": 0, "error": 0,
+                    model_stats[prov] = {"total": 0, "match": 0, "error": 0,
                                          "total_time_s": 0, "total_chars": 0}
                 model_stats[prov]["total"] += 1
                 model_stats[prov]["total_time_s"] += attempt.get("elapsed_s", 0)
                 model_stats[prov]["total_chars"] += attempt.get("solution_chars", 0)
-                if attempt["status"] == "match":
+                if attempt["status"] == "ok":
                     model_stats[prov]["match"] += 1
-                elif attempt["status"] == "mismatch":
-                    model_stats[prov]["mismatch"] += 1
-                elif "error" in attempt.get("status", ""):
+                elif attempt["status"] == "error":
                     model_stats[prov]["error"] += 1
 
         for prov, stats in model_stats.items():
-            tested = stats["match"] + stats["mismatch"]
-            stats["accuracy_pct"] = round(stats["match"] / tested * 100, 1) if tested else 0
+            ok_n = stats["match"]
+            att_n = stats["total"]
+            stats["accuracy_pct"] = round(ok_n / att_n * 100, 1) if att_n else 0
             stats["avg_time_s"] = round(stats["total_time_s"] / stats["total"], 2) if stats["total"] else 0
             stats["total_time_s"] = round(stats["total_time_s"], 1)
 
@@ -268,14 +269,14 @@ class PipelineLogger:
                            "total_time_s": round(vlm_time, 1)},
                 "L4_synthesis": {"technology": "Multi-Source Fusion", "success_rate": f"{l4_ok}/{total}"},
                 "L5_llm_solver": {"technology": "LLM Ensemble", "success_rate": f"{l5_ok}/{total}"},
-                "L6_verification": {"technology": "SymPy", "verified": f"{l6_match}/{l6_tested}",
-                                     "accuracy_pct": round(l6_match / l6_tested * 100, 1) if l6_tested else 0},
+                "L6_extraction": {"technology": "Answer extraction",
+                                  "success_rate": f"{l6_extract_ok}/{total}"},
             },
             "model_comparison": model_stats,
-            "final_accuracy": {
-                "match": l6_match,
-                "total_testable": l6_tested,
-                "accuracy_pct": round(l6_match / l6_tested * 100, 1) if l6_tested else 0,
+            "run_outcomes": {
+                "completed_ok": pdfs_ok,
+                "total_pdfs": total,
+                "extract_ok": l6_extract_ok,
             },
         }
         self.run_log["finished_at"] = datetime.now(timezone.utc).isoformat()
@@ -308,12 +309,11 @@ class PipelineLogger:
             print(f"    {layer_name:<20} {tech:<15} {rate}{extra}")
 
         print(f"\n  --- LLM attempts ---")
-        print(f"    {'Provider':<25} {'Match':>10} {'Avg s':>10} {'Total s':>10}")
+        print(f"    {'Provider':<25} {'OK':>10} {'Avg s':>10} {'Total s':>10}")
         print(f"    {'─'*55}")
         for prov, stats in s.get("model_comparison", {}).items():
-            tested = stats["match"] + stats["mismatch"]
-            acc = f"{stats['match']}/{tested}" if tested else "N/A"
+            acc = f"{stats['match']}/{stats['total']}" if stats["total"] else "N/A"
             print(f"    {prov:<25} {acc:>10} {stats['avg_time_s']:>9}s {stats['total_time_s']:>9}s")
 
-        fa = s["final_accuracy"]
-        print(f"\n  ═══ Verified: {fa['match']}/{fa['total_testable']} = %{fa['accuracy_pct']} ═══")
+        ro = s.get("run_outcomes", {})
+        print(f"\n  ═══ Completed: {ro.get('completed_ok', 0)}/{ro.get('total_pdfs', 0)} ═══")

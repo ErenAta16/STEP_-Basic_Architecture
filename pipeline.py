@@ -1,6 +1,8 @@
 """
-Legacy orchestrator: L0→L1→L2→L3→L4→L5→L6 with `PipelineLogger` JSON output.
-Prefer `run.py` / `STEPSolver` for new work; `main.py` still imports this.
+Batch driver used by ``main.py``: same stages as ``run.STEPSolver``, plus JSON logging.
+
+For single files or day-to-day use, ``python run.py …`` is usually simpler; this class
+exists for multi-PDF runs and structured ``pipeline_log_*.json`` output.
 """
 
 import json
@@ -16,7 +18,6 @@ from config import (
     IMG_DIR,
     NOUGAT_OUT,
     RESULTS_DIR,
-    KNOWN_ANSWERS,
     NOUGAT_DPI,
     get_system_prompt,
 )
@@ -31,7 +32,7 @@ from pipeline_logger import PipelineLogger
 
 
 class STEPPipeline:
-    """Wires layers together for `main.py` batch demos."""
+    """Builds layer objects once, then runs ``run_full_pipeline`` over a PDF directory."""
 
     def __init__(self, pdf_dir: str | Path = None, provider: str | None = None,
                  ensemble: bool = False, use_nougat: bool = True, use_vlm: bool = True):
@@ -57,80 +58,14 @@ class STEPPipeline:
         self.layer6 = Layer6_SymPyVerifier()
 
     def get_pdf_files(self) -> list[Path]:
-        """Sorted `*.pdf` list; warns if the folder is empty."""
+        """Return PDFs sorted by name; prints a warning when the folder has none."""
         pdfs = sorted(self.pdf_dir.glob("*.pdf"))
         if not pdfs:
             print(f"  [!] No PDFs in {self.pdf_dir}")
         return pdfs
 
-    def run_layer0_test(self, count: int = 5):
-        """Smoke-test Layer 0 on the first N files."""
-        pdfs = self.get_pdf_files()
-        if not pdfs:
-            return
-
-        test_count = min(count, len(pdfs))
-        print("=" * 58)
-        print(f"  LAYER 0: PDF ingest ({test_count} PDFs)")
-        print("=" * 58)
-
-        results = []
-        for pdf in pdfs[:test_count]:
-            result = self.layer0.process(pdf)
-            results.append(result)
-
-        return results
-
-    def run_layer2_test(self, count: int = 5):
-        """Batch Nougat-only run with a short quality summary."""
-        pdfs = self.get_pdf_files()
-        if not pdfs:
-            return
-
-        test_count = min(count, len(pdfs))
-        print("=" * 58)
-        print(f"  LAYER 2: Nougat batch ({test_count} PDFs)")
-        print("=" * 58)
-
-        results = []
-        for pdf in pdfs[:test_count]:
-            print(f"\n  {'─'*56}")
-            print(f"  {pdf.name}")
-            print(f"  {'─'*56}")
-
-            result = self.layer2.extract_from_pdf(pdf)
-            quality = self.layer2.check_quality(result.get("latex", ""))
-            result["quality_score"] = quality["score"]
-            result["quality_max"] = quality["max_score"]
-            results.append(result)
-
-            checks_str = " ".join(
-                "[OK]" if v else "[FAIL]"
-                for v in quality["checks"].values()
-            )
-            print(f"    Quality: {quality['score']}/{quality['max_score']} | {checks_str}")
-
-        # Ozet
-        print(f"\n\n{'='*58}")
-        print("  BATCH SUMMARY")
-        print(f"{'='*58}")
-
-        good = sum(1 for r in results if r["quality_score"] >= 3)
-        total_chars = sum(r.get("char_count", 0) for r in results)
-
-        for r in results:
-            s = r["quality_score"]
-            m = r["quality_max"]
-            status = "[+++]" if s >= 4 else "[++]" if s >= 2 else "[--]"
-            print(f"    {status} {r['file']}: {s}/{m} ({r.get('char_count', 0)} chars, {r.get('pages', 0)} pages)")
-
-        print(f"\n    Strong (>=3/{results[0]['quality_max']}): {good}/{len(results)}")
-        print(f"    Total LaTeX chars: {total_chars}")
-
-        return results
-
     def run_full_pipeline(self, count: int = 5):
-        """End-to-end run with JSON log under `RESULTS_DIR`."""
+        """Process up to ``count`` PDFs and append one JSON log file under ``RESULTS_DIR``."""
         pdfs = self.get_pdf_files()
         if not pdfs:
             return
@@ -138,7 +73,6 @@ class STEPPipeline:
         test_count = min(count, len(pdfs))
         pipeline_results = []
 
-        # Structured JSON log (see `PipelineLogger`)
         logger = PipelineLogger(RESULTS_DIR)
         logger.log_config({
             "ensemble": self.ensemble,
@@ -185,7 +119,7 @@ class STEPPipeline:
             ocr_desc = "no OCR"
         print("=" * 66)
         print(f"  FULL PIPELINE — {test_count} PDF(s)")
-        print(f"  L0(PyMuPDF+PNG) -> L1 -> {ocr_desc} -> L4 -> L5({llm_name}) -> L6(SymPy)")
+        print(f"  L0(PyMuPDF+PNG) -> L1 -> {ocr_desc} -> L4 -> L5({llm_name}) -> L6(extract)")
         print(f"  GPU: {gpu_name} | Nougat: {'on' if self.use_nougat else 'off'} | VLM: {vlm_status}")
         print("=" * 66)
 
@@ -200,11 +134,11 @@ class STEPPipeline:
 
             # === LAYER 0: Metadata + Text + PNGs (align with STEPSolver) ===
             t0 = time.time()
-            metadata = self.layer0.extract_metadata(pdf)
-            raw_pages = self.layer0.extract_text(pdf)
-            self.layer0.extract_images(pdf, dpi=NOUGAT_DPI)
+            metadata, raw_pages, _img_meta = self.layer0.extract_metadata_text_and_images(
+                pdf, dpi=NOUGAT_DPI
+            )
             raw_text = "\n".join(p["text"] for p in raw_pages).strip()
-            md_text = self.layer0.extract_markdown(pdf)
+            md_text = self.layer0.extract_markdown(pdf, text_pages=raw_pages)
             text_quality = self.layer0.analyze_text_quality(raw_pages)
             t0_elapsed = time.time() - t0
             logger.log_layer0(metadata, raw_pages, t0_elapsed, text_quality=text_quality)
@@ -412,11 +346,12 @@ class STEPPipeline:
             print(f"  [L5] system={dom_tag}{sec_l5_s} (per attempt below)")
 
             best_solution = ""
-            best_verification = None
             best_provider = None
             disabled_providers = getattr(self, '_disabled_providers', set())
             self._disabled_providers = disabled_providers
 
+            # Without ``ensemble``, stop at the first non-empty reply. With ``ensemble``, still hit
+            # every provider (useful when comparing backends); ``best_solution`` stays the first hit.
             for solver_name, solver in self.solvers.items():
                 if solver_name in disabled_providers:
                     continue
@@ -427,25 +362,15 @@ class STEPPipeline:
                     t5_elapsed = time.time() - t5
                     print(f"       {len(solution)} char ({t5_elapsed:.1f}s)")
 
-                    t6 = time.time()
-                    verification = self.layer6.verify_llm_answer(fname, solution)
-                    t6_elapsed = time.time() - t6
-
                     logger.log_layer5_attempt(solver_name, solver.model_name,
-                                              len(solution), t5_elapsed, verification["status"])
+                                              len(solution), t5_elapsed, "ok")
 
-                    if verification["status"] == "match":
-                        best_solution = solution
-                        best_verification = verification
-                        best_provider = solver_name
-                        known = KNOWN_ANSWERS.get(fname)
-                        print(f"  [L6] {solver_name}: [OK] match (expected {known})")
+                    if solution.strip():
+                        if not best_solution:
+                            best_solution = solution
+                            best_provider = solver_name
                         if not self.ensemble:
                             break
-                    elif best_verification is None or best_verification["status"] != "match":
-                        best_solution = solution
-                        best_verification = verification
-                        best_provider = solver_name
 
                 except Exception as e:
                     t5_elapsed = time.time() - t5
@@ -457,77 +382,25 @@ class STEPPipeline:
                         print(f"       [WARN] {solver_name} skipped for this PDF (quota)")
                         disabled_providers.add(solver_name)
 
-            # Retry: mismatch/parse_error/no_answer durumunda
-            if best_verification and best_verification["status"] in ("mismatch", "parse_error", "no_answer"):
-                wrong_ans = best_verification.get("llm_answer", "unknown")
-
-                retry_prompts = [
-                    prompt + "\n\n"
-                    f"CRITICAL: A previous attempt gave the WRONG answer: {wrong_ans}\n"
-                    "This answer is INCORRECT. Solve from scratch with extreme care.\n"
-                    "CHECKLIST:\n"
-                    "- For multi-surface problems: compute EVERY surface integral separately, then SUM all.\n"
-                    "- Track ALL coefficients carefully.\n"
-                    "- Double-check integration bounds.\n"
-                    "Put your final answer inside \\boxed{}.",
-                    prompt + "\n\n"
-                    f"WARNING: Previous attempts failed. Wrong answer: {wrong_ans}\n"
-                    "Use a DIFFERENT approach:\n"
-                    "1. Try a different parametrization.\n"
-                    "2. For closed surfaces with multiple parts, compute ALL parts.\n"
-                    "3. For flux integrals, verify orientation.\n"
-                    "Put your final answer inside \\boxed{}.",
-                ]
-
-                working_solvers = [(n, s) for n, s in self.solvers.items() if n not in disabled_providers]
-                for retry_idx, retry_prompt in enumerate(retry_prompts):
-                    if best_verification["status"] == "match":
-                        break
-                    rname, rslvr = working_solvers[retry_idx % len(working_solvers)]
-                    print(f"  [L5] Retry {retry_idx+1}: {rname.capitalize()}...")
-                    t5r = time.time()
-                    try:
-                        retry_sol = rslvr.solve(retry_prompt, system_prompt=system_prompt)
-                        t5r_elapsed = time.time() - t5r
-                        print(f"       {len(retry_sol)} char ({t5r_elapsed:.1f}s)")
-                        retry_ver = self.layer6.verify_llm_answer(fname, retry_sol)
-
-                        logger.log_layer5_attempt(f"{rname}_retry{retry_idx+1}",
-                                                  rslvr.model_name, len(retry_sol),
-                                                  t5r_elapsed, retry_ver["status"])
-
-                        if retry_ver["status"] == "match":
-                            best_solution = retry_sol
-                            best_verification = retry_ver
-                            best_provider = f"{rname}_retry{retry_idx+1}"
-                            print(f"  [L6] Retry: [OK] match")
-                    except Exception as e:
-                        t5r_elapsed = time.time() - t5r
-                        print(f"       Retry [FAIL] {str(e)[:60]}")
-                        logger.log_layer5_attempt(f"{rname}_retry{retry_idx+1}",
-                                                  rslvr.model_name, 0, t5r_elapsed,
-                                                  "error", str(e)[:200])
-
-            # Finalize
-            final_status = "skip"
-            if best_solution and best_verification:
-                final_status = best_verification["status"]
-                logger.log_layer5_best(best_provider, final_status)
+            final_status = "error"
+            if best_solution and best_provider:
+                logger.log_layer5_best(best_provider, "ok")
                 t6_final = time.time()
-                logger.log_layer6(best_verification, 0.001)
+                extracted = self.layer6._extract_final_answer(best_solution)
+                t6_elapsed = time.time() - t6_final
+                logger.log_answer_extraction(extracted, t6_elapsed)
 
                 result["layers"]["L5"] = {
                     "status": "OK", "provider": best_provider, "source": source,
                 }
-                status_map = {"match": "OK", "mismatch": "FAIL", "no_answer": "?",
-                              "parse_error": "?", "skip": "SKIP"}
+                disp = "OK" if extracted else "?"
                 result["layers"]["L6"] = {
-                    **best_verification,
-                    "display_status": status_map.get(final_status, "?"),
+                    "final_answer": extracted,
+                    "display_status": disp,
                 }
-                if final_status != "match":
-                    known = KNOWN_ANSWERS.get(fname)
-                    print(f"  [L6] [FAIL] {final_status} (expected {known})")
+                tag = "[OK]" if extracted else "[?]"
+                print(f"  [L6] {tag} extracted final line for display ({t6_elapsed:.3f}s)")
+                final_status = "ok"
             else:
                 result["layers"]["L5"] = {"status": "SKIP"}
                 result["layers"]["L6"] = {"status": "skip", "display_status": "SKIP"}
@@ -535,7 +408,6 @@ class STEPPipeline:
             logger.finish_pdf(final_status)
             pipeline_results.append(result)
 
-        # Summary table + JSON log
         stats = self._compute_stats(pipeline_results)
         self._print_pipeline_summary(pipeline_results, stats)
 
@@ -550,35 +422,28 @@ class STEPPipeline:
         l2_ok = sum(1 for r in pipeline_results if r["layers"]["L2"]["status"] == "OK")
         l3_ok = sum(1 for r in pipeline_results if r["layers"].get("L3", {}).get("status") == "OK")
         l5_ok = sum(1 for r in pipeline_results if r["layers"].get("L5", {}).get("status") == "OK")
-        l6_match = sum(
+        l6_extract_ok = sum(
             1 for r in pipeline_results
-            if r["layers"].get("L6", {}).get("status") == "match"
-        )
-        l6_tested = sum(
-            1 for r in pipeline_results
-            if r["layers"].get("L6", {}).get("status") in ("match", "mismatch")
+            if r["layers"].get("L6", {}).get("display_status") == "OK"
         )
         return {
             "nougat_ok": l2_ok,
             "vlm_ok": l3_ok,
             "llm_ok": l5_ok,
-            "verified_match": l6_match,
-            "verified_total": l6_tested,
-            "accuracy_pct": round(l6_match / l6_tested * 100, 1) if l6_tested else 0,
+            "extract_ok": l6_extract_ok,
         }
 
     def _print_pipeline_summary(self, pipeline_results: list[dict], stats: dict):
-        """Print the batch results table to stdout."""
+        """Stdout table mirroring per-PDF layer status (complements the JSON log)."""
         print(f"\n\n{'='*58}")
         print("  BATCH RESULTS")
         print(f"{'='*58}")
 
         l2_ok = stats["nougat_ok"]
         l5_ok = stats["llm_ok"]
-        l6_match = stats["verified_match"]
-        l6_tested = stats["verified_total"]
+        l6_ok = stats["extract_ok"]
 
-        header = f"  {'File':<12} {'Nougat':<8} {'VLM':<8} {'Source':<16} {'LLM':<8} {'SymPy':<8}"
+        header = f"  {'File':<12} {'Nougat':<8} {'VLM':<8} {'Source':<16} {'LLM':<8} {'Answer':<8}"
         print(f"\n{header}")
         print(f"  {'─'*62}")
         for r in pipeline_results:
@@ -595,15 +460,4 @@ class STEPPipeline:
         print(f"\n  Nougat OK:       {l2_ok}/{total}")
         print(f"  VLM OK:          {l3_ok}/{total}")
         print(f"  LLM OK:          {l5_ok}/{total}")
-        print(f"  Verified match:  {l6_match}/{l6_tested} (with reference answer)")
-
-        if l6_tested > 0:
-            accuracy = l6_match / l6_tested * 100
-            print(f"\n  End-to-end accuracy: {accuracy:.0f}%")
-
-            if accuracy >= 80:
-                print(f"  Target met (≥80%).")
-            elif accuracy >= 60:
-                print(f"  Decent — room left in prompts / OCR.")
-            else:
-                print(f"  Low accuracy — inspect Nougat output or prompts.")
+        print(f"  Answer extracted:{l6_ok}/{total} (non-empty parsed final line)")

@@ -596,7 +596,7 @@ const LAYERS = [
   {id:'1b', name:'Profile update', label:'L1b'},
   {id:'4', name:'Synthesis', label:'L4'},
   {id:'5', name:'LLM solution', label:'L5'},
-  {id:'6', name:'Verification', label:'L6'},
+  {id:'6', name:'Answer extraction', label:'L6'},
 ];
 
 const LAYER_ORDER = LAYERS.map(l => l.id);
@@ -845,27 +845,16 @@ function showResult(data) {
   const consensus = data.consensus;
   const model = data.model_used || '?';
   const elapsed = data.elapsed_s || '?';
-  const verification = data.verification || '';
-
   $('answerBox').innerHTML = `
     <div class="answer-label">Result</div>
     <div class="answer-value">$\\displaystyle ${answer}$</div>
   `;
-
-  let verPill = '';
-  if (verification === 'match')
-    verPill = '<span class="pill pill-success">Verified</span>';
-  else if (verification === 'mismatch')
-    verPill = '<span class="pill pill-warning">Mismatch</span>';
-  else if (verification === 'no_known_answer')
-    verPill = '<span class="pill pill-neutral">No reference</span>';
 
   $('solutionMeta').innerHTML = `
     <span class="pill ${consensus ? 'pill-success' : 'pill-warning'}">${consensus ? 'Consensus' : 'No consensus'}</span>
     <span class="pill pill-info">${esc(model)}</span>
     <span class="pill pill-neutral">${elapsed}s</span>
     <span class="pill pill-neutral">Source: ${esc(data.source || '?')}</span>
-    ${verPill}
   `;
 
   if (data.solution) {

@@ -1,26 +1,24 @@
 """
-STEP pipeline — main CLI entry.
+CLI entry for the STEP PDF → LLM pipeline (see STEPSolver).
 
 Usage:
-    python run.py problem.pdf                    # single PDF
-    python run.py problem.pdf --no-nougat        # skip Nougat (VLM path, faster)
-    python run.py Surface_Integration/           # every PDF in folder
-    python run.py Surface_Integration/ -n 5       # first 5 only
-    python run.py --check                        # GPU / keys / VLM sanity check
-    python run.py --benchmark Surface_Integration/ --no-nougat   # accuracy + timings JSON
+    python run.py problem.pdf
+    python run.py problem.pdf --no-nougat
+    python run.py Surface_Integration/
+    python run.py Surface_Integration/ -n 5
+    python run.py --check
 """
 
 import argparse
-import json
 import sys
 import time
 import platform
-from datetime import datetime
+from collections import OrderedDict
 from pathlib import Path
 
 import torch
 
-from config import (PDF_DIR, IMG_DIR, NOUGAT_OUT, RESULTS_DIR, KNOWN_ANSWERS, NOUGAT_DPI,
+from config import (PDF_DIR, IMG_DIR, NOUGAT_OUT, RESULTS_DIR, NOUGAT_DPI,
                     get_system_prompt)
 from layer0_ingestion import Layer0_PDFIngestion
 from layer1_profiler import Layer1_Profiler
@@ -33,7 +31,7 @@ from pipeline_logger import PipelineLogger
 
 
 class STEPSolver:
-    """Glue L0-L6: ingest -> profile -> optional Nougat/VLM -> LLM -> extract answer -> verify."""
+    """Orchestrates layers 0–6: PDF ingest, profiling, optional Nougat/VLM, prompt build, LLM, answer parse."""
 
     def __init__(self, use_nougat: bool = True, use_vlm: bool = True):
         self.l0 = Layer0_PDFIngestion(PDF_DIR, IMG_DIR)
@@ -47,7 +45,8 @@ class STEPSolver:
         self.l6 = Layer6_SymPyVerifier()
         self.use_nougat = use_nougat
         self.use_vlm = use_vlm
-        self._result_cache: dict[str, dict] = {}
+        self._result_cache: OrderedDict[str, dict] = OrderedDict()
+        self._result_cache_max = 32
 
     @staticmethod
     def _pdf_hash(pdf_path: Path) -> str:
@@ -55,17 +54,22 @@ class STEPSolver:
         return hashlib.sha256(pdf_path.read_bytes()).hexdigest()
 
     def solve(self, pdf_path: str | Path, verbose: bool = True) -> dict:
-        """Run the stack on one file; returned dict always includes timings."""
+        """Run all enabled stages on one PDF.
+
+        On success the dict includes timings, solution text, and final_answer (parsed line).
+        On failure look for an ``error`` string; partial timings may still be present.
+        """
         pdf_path = Path(pdf_path)
         if not pdf_path.exists():
             return {"error": f"File not found: {pdf_path}"}
 
         h = self._pdf_hash(pdf_path)
-        # Same PDF with different flags (nougat/VLM) must not share cache.
+        # Cache is per file content + OCR flags so --no-nougat runs do not reuse full-pipeline results.
         cache_key = f"{h}|nougat={int(self.use_nougat)}|vlm={int(self.use_vlm)}"
         if cache_key in self._result_cache:
             if verbose:
                 print(f"  [CACHE] Returning previous result for {pdf_path.name}")
+            self._result_cache.move_to_end(cache_key)
             return self._result_cache[cache_key]
 
         fname = pdf_path.stem
@@ -75,11 +79,11 @@ class STEPSolver:
 
         # --- L0: PDF Ingestion ---
         t0 = time.time()
-        metadata = self.l0.extract_metadata(pdf_path)
-        raw_pages = self.l0.extract_text(pdf_path)
-        self.l0.extract_images(pdf_path, dpi=NOUGAT_DPI)
+        metadata, raw_pages, _img_meta = self.l0.extract_metadata_text_and_images(
+            pdf_path, dpi=NOUGAT_DPI
+        )
         raw_text = "\n".join(p["text"] for p in raw_pages).strip()
-        md_text = self.l0.extract_markdown(pdf_path)
+        md_text = self.l0.extract_markdown(pdf_path, text_pages=raw_pages)
         text_quality = self.l0.analyze_text_quality(raw_pages)
         result["pages"] = metadata.get("pages", 0)
         result["chars"] = sum(len(p["text"]) for p in raw_pages)
@@ -98,7 +102,7 @@ class STEPSolver:
             sec_s = f" | also: {', '.join(sec)}" if sec else ""
             print(f"  [L1] {profile['category']} / {profile['surface_type']}{sec_s} ({timings['l1_profile']:.3f}s)")
 
-        # --- L2 + L3: OCR channels (run in parallel when both enabled) ---
+        # Nougat and VLM are independent I/O-heavy steps; run together when both are on.
         from concurrent.futures import ThreadPoolExecutor, as_completed
 
         nougat_latex = ""
@@ -131,7 +135,7 @@ class STEPSolver:
                 print(f"       {res.get('char_count', 0)} chars, quality {q['score']}/4 ({elapsed:.1f}s)")
             return "vlm", res.get("vlm_latex", ""), q["score"], elapsed
 
-        # Auto-skip Nougat when native text quality is high (6+ / 7)
+        # Skip Nougat if PyMuPDF text already looks strong (saves minutes on GPU).
         nougat_needed = self.use_nougat and self.l2 is not None
         if nougat_needed and text_quality["score"] >= 6 and result["chars"] > 100:
             nougat_needed = False
@@ -221,38 +225,34 @@ class STEPSolver:
         result["consensus"] = best.get("consensus", False)
         result["model_used"] = best.get("model", "")
 
-        # --- L6: compare to KNOWN_ANSWERS when we have one ---
+        # --- L6: extract FINAL_ANSWER / boxed for display ---
         t6 = time.time()
-        known = KNOWN_ANSWERS.get(fname)
-        if known is not None:
-            verification = self.l6.verify_llm_answer(fname, best["solution"])
-            result["verification"] = verification["status"]
-            result["known_answer"] = str(known)
-            if verbose:
-                tag = "[OK]" if verification["status"] == "match" else "[FAIL]"
-                print(f"  [L6] {tag} {verification['status']} (expected {known})")
-        else:
-            result["verification"] = "no_known_answer"
-            if verbose:
-                print(f"  [L6] No reference answer; skipped numeric check")
-
-        # --- strip FINAL_ANSWER / boxed from model text ---
         fa = self.l6._extract_final_answer(best["solution"])
         result["final_answer"] = fa if fa else "(could not extract)"
+        if verbose:
+            tag = "[OK]" if fa else "[?]"
+            print(f"  [L6] {tag} extracted final line for display")
 
         # --- optional SUMMARY: block for the UI ---
         result["llm_summary"] = self._extract_llm_summary(best["solution"])
 
-        timings["l6_verify"] = round(time.time() - t6, 4)
+        timings["l6_extract"] = round(time.time() - t6, 4)
         result["timings"] = timings
         result["elapsed_s"] = round(time.time() - t_start, 1)
 
         self._result_cache[cache_key] = result
+        self._result_cache.move_to_end(cache_key)
+        while len(self._result_cache) > self._result_cache_max:
+            self._result_cache.popitem(last=False)
         return result
 
     def _solve_with_consensus(self, prompt: str, system_prompt: str,
                                max_attempts: int = 3, verbose: bool = True) -> list[dict]:
-        """Multi-model consensus with rate-limit delay and 503 retry."""
+        """Up to ``max_attempts`` solves, rotating Gemini (primary) and Groq (fallback).
+
+        Parses each reply to a numeric value when possible and stops early if two
+        attempts agree. Handles 429/503-style errors by backing off and switching provider.
+        """
         from latex_parser import parse_latex_to_value
 
         INTER_ATTEMPT_DELAY = 3
@@ -371,7 +371,7 @@ class STEPSolver:
 
     @staticmethod
     def _extract_llm_summary(solution: str) -> dict:
-        """Pull key/value lines after `SUMMARY:` if the model followed the template."""
+        """Parse the structured SUMMARY: block from the system prompt template (if present)."""
         import re
         summary = {}
         idx = solution.find("SUMMARY:")
@@ -394,7 +394,7 @@ class STEPSolver:
 
 
 def solve_single(pdf_path: str, use_nougat: bool = True, use_vlm: bool = True):
-    """CLI pretty-printer around `STEPSolver.solve`."""
+    """Run STEPSolver and print a human-readable report to stdout."""
     print()
     print("  " + "=" * 56)
     print("  STEP Pipeline — math problem solver")
@@ -448,13 +448,6 @@ def solve_single(pdf_path: str, use_nougat: bool = True, use_vlm: bool = True):
         elif result.get("attempts", 1) > 1:
             print(f"  Consensus:       no ({result.get('attempts', '?')} runs)")
 
-        if result["verification"] == "match":
-            print(f"  Verification:    MATCH (expected {result.get('known_answer', '?')})")
-        elif result["verification"] == "no_known_answer":
-            print(f"  Verification:    n/a (no benchmark answer)")
-        else:
-            print(f"  Verification:    {result['verification']}")
-
         llm_sum = result.get('llm_summary', {})
         if llm_sum:
             print(f"\n  MODEL SUMMARY")
@@ -479,7 +472,7 @@ def solve_single(pdf_path: str, use_nougat: bool = True, use_vlm: bool = True):
 
 
 def solve_batch(pdf_dir: str, count: int = None, use_nougat: bool = True, use_vlm: bool = True):
-    """Process every `*.pdf` in a directory (logs go to `RESULTS_DIR`)."""
+    """Run every ``*.pdf`` in order; writes ``pipeline_log_*.json`` under ``RESULTS_DIR``."""
     pdf_dir = Path(pdf_dir)
     pdfs = sorted(pdf_dir.glob("*.pdf"))
     if not pdfs:
@@ -508,177 +501,31 @@ def solve_batch(pdf_dir: str, count: int = None, use_nougat: bool = True, use_vl
     })
 
     results = []
-    match_count = 0
-    total_testable = 0
+    ok_count = 0
 
     for i, pdf in enumerate(pdfs):
-        fname = pdf.stem
         print(f"\n  --- [{i+1}/{len(pdfs)}] {pdf.name} ---")
         logger.start_pdf(pdf.name)
         r = solver.solve(pdf, verbose=True)
         results.append(r)
 
-        if r.get("verification") == "match":
-            match_count += 1
-            total_testable += 1
-        elif r.get("verification") in ("mismatch", "parse_error"):
-            total_testable += 1
-
-        logger.finish_pdf(r.get("verification", "skip"))
+        fin = "ok" if not r.get("error") else "error"
+        if fin == "ok":
+            ok_count += 1
+        logger.finish_pdf(fin)
 
     log_path = logger.save()
     logger.print_summary()
 
     print("\n  " + "=" * 50)
-    print(f"  BATCH: {match_count}/{total_testable} matched reference answers")
+    print(f"  BATCH: {ok_count}/{len(pdfs)} completed without error")
     print(f"  Log: {log_path}")
     print("  " + "=" * 50 + "\n")
     return results
 
 
-def run_benchmark(
-    pdf_dir: str,
-    count: int | None = None,
-    use_nougat: bool = True,
-    use_vlm: bool = True,
-):
-    """Accuracy vs `KNOWN_ANSWERS` plus mean layer timings; writes JSON under `RESULTS_DIR`."""
-    pdf_dir = Path(pdf_dir)
-    pdfs = sorted(pdf_dir.glob("*.pdf"))
-    if not pdfs:
-        print(f"  [!] No PDFs under {pdf_dir}.")
-        return None
-
-    if count:
-        pdfs = pdfs[:count]
-
-    print()
-    print("  " + "=" * 62)
-    print("  STEP — performance / benchmark")
-    print("  " + "=" * 62)
-    print(f"\n  Folder:           {pdf_dir.resolve()}")
-    print(f"  PDF count:        {len(pdfs)}")
-    print(f"  Nougat:           {'on' if use_nougat else 'off'}")
-    print(f"  VLM:              {'on' if use_vlm else 'off'}")
-    print(f"  Reference set:    {len(KNOWN_ANSWERS)} problems")
-    print()
-
-    solver = STEPSolver(use_nougat=use_nougat, use_vlm=use_vlm)
-    rows = []
-    status_counts: dict[str, int] = {}
-    sum_t = {k: 0.0 for k in ("l0_ingest", "l1_profile", "l2_nougat", "l3_vlm",
-                              "l4_synthesis", "l5_llm", "l6_verify", "total")}
-
-    for i, pdf in enumerate(pdfs):
-        fname = pdf.stem
-        print(f"  [{i+1:3d}/{len(pdfs)}] {fname} ... ", end="", flush=True)
-        r = solver.solve(pdf, verbose=False)
-
-        if r.get("error"):
-            st = "error"
-            print(f"ERR: {r['error'][:50]}")
-        else:
-            st = r.get("verification", "unknown")
-            ok = st == "match"
-            tag = "OK" if ok else "FAIL"
-            print(f"{tag}  {st}  ({r.get('elapsed_s', 0)}s)")
-
-        status_counts[st] = status_counts.get(st, 0) + 1
-
-        tim = r.get("timings") or {}
-        for k in sum_t:
-            if k == "total":
-                sum_t[k] += float(r.get("elapsed_s") or 0)
-            elif k in tim:
-                sum_t[k] += float(tim[k])
-
-        rows.append({
-            "file": fname,
-            "verification": r.get("verification"),
-            "source": r.get("source"),
-            "domain": r.get("domain"),
-            "secondary_categories": r.get("secondary_categories"),
-            "l5_system": r.get("l5_system"),
-            "nougat_score": r.get("nougat_score"),
-            "vlm_score": r.get("vlm_score"),
-            "prompt_chars": r.get("prompt_chars"),
-            "attempts": r.get("attempts"),
-            "consensus": r.get("consensus"),
-            "model_used": r.get("model_used"),
-            "final_answer": r.get("final_answer"),
-            "elapsed_s": r.get("elapsed_s"),
-            "timings": tim,
-            "error": r.get("error"),
-        })
-
-    n = len(pdfs)
-    testable = sum(status_counts.get(s, 0) for s in ("match", "mismatch", "parse_error", "no_answer"))
-    matches = status_counts.get("match", 0)
-    acc = (100.0 * matches / testable) if testable else 0.0
-
-    def avg(key: str) -> float:
-        return sum_t[key] / n if n else 0.0
-
-    print()
-    print("  " + "─" * 58)
-    print("  SUMMARY — verification (problems with a reference answer)")
-    print("  " + "─" * 58)
-    for label, key in [
-        ("match", "match"),
-        ("mismatch", "mismatch"),
-        ("parse_error", "parse_error"),
-        ("no_answer", "no_answer"),
-        ("no_known_answer", "no_known_answer"),
-        ("error (pipeline)", "error"),
-    ]:
-        c = status_counts.get(key, 0)
-        if c or key in ("match", "mismatch"):
-            print(f"    {label:36s} {c}")
-
-    print(f"\n  Accuracy (testable): {matches}/{testable} = {acc:.1f}%")
-    print()
-    print("  " + "─" * 58)
-    print("  SUMMARY — mean time (seconds / PDF)")
-    print("  " + "─" * 58)
-    for key, label in [
-        ("l0_ingest", "L0 PDF ingest"),
-        ("l1_profile", "L1 profiling"),
-        ("l2_nougat", "L2 Nougat"),
-        ("l3_vlm", "L3 VLM"),
-        ("l4_synthesis", "L4 synthesis"),
-        ("l5_llm", "L5 LLM (+ retries)"),
-        ("l6_verify", "L6 verify + extract"),
-        ("total", "Total"),
-    ]:
-        print(f"    {label:22s} {avg(key):.2f}s")
-    print()
-
-    out = {
-        "run_at": datetime.now().isoformat(),
-        "pdf_dir": str(pdf_dir.resolve()),
-        "count": n,
-        "use_nougat": use_nougat,
-        "use_vlm": use_vlm,
-        "summary": {
-            "match": matches,
-            "testable": testable,
-            "accuracy_pct": round(acc, 2),
-            "status_counts": status_counts,
-            "avg_timings_s": {k: round(avg(k), 3) for k in sum_t},
-        },
-        "per_pdf": rows,
-    }
-    RESULTS_DIR.mkdir(parents=True, exist_ok=True)
-    log_path = RESULTS_DIR / f"benchmark_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-    with open(log_path, "w", encoding="utf-8") as f:
-        json.dump(out, f, ensure_ascii=False, indent=2)
-    print(f"  JSON report: {log_path}\n")
-
-    return out
-
-
 def check_system():
-    """Quick environment snapshot before a long run."""
+    """Print GPU, API key presence, VLM status, and PDF folder count (``python run.py --check``)."""
     try:
         if hasattr(sys.stdout, "reconfigure"):
             sys.stdout.reconfigure(encoding="utf-8", errors="replace")
@@ -718,10 +565,9 @@ def check_system():
     pdf_count = len(list(PDF_DIR.glob("*.pdf"))) if PDF_DIR.exists() else 0
     pdf_st = "OK" if pdf_count else "!"
     print(f"  [{pdf_st}] PDF folder: {pdf_count} file(s) ({PDF_DIR})")
-    print(f"  [OK] Reference answers: {len(KNOWN_ANSWERS)} problems")
     print()
 
-    # Yonlendirme: --check sonrasi kullanici ne yapacagini gorsun
+    # Hints after --check (also shown in Turkish for local users).
     print("  " + "-" * 44)
     print("  Sonraki adimlar / Next steps")
     print("  " + "-" * 44)
@@ -735,7 +581,6 @@ def check_system():
     print("  Web arayuz:  python web_app.py")
     print("               -> tarayici: http://127.0.0.1:5000")
     print("  Eski batch:  python main.py -n 5")
-    print("  Bench JSON:  python run.py --benchmark Surface_Integration/ -n 10")
     print("  (Windows'ta garip karakterler icin: $env:PYTHONIOENCODING=\"utf-8\")")
     print()
 
@@ -755,28 +600,11 @@ def main():
                         help="Skip the vision model (Nougat + raw text only)")
     parser.add_argument("--check", action="store_true",
                         help="Print GPU / API key / VLM status")
-    parser.add_argument("--benchmark", action="store_true",
-                        help="Measure accuracy + layer timings; writes JSON under results/")
 
     args = parser.parse_args()
 
     if args.check:
         check_system()
-        return
-
-    if args.benchmark:
-        bench_dir = args.input or str(PDF_DIR)
-        p = Path(bench_dir)
-        if not p.is_dir():
-            print(f"\n  [!] Benchmark needs a directory: {p}")
-            print("      Example: python run.py --benchmark Surface_Integration/ --no-nougat\n")
-            return
-        run_benchmark(
-            str(p.resolve()),
-            count=args.count,
-            use_nougat=not args.no_nougat,
-            use_vlm=not args.no_vlm,
-        )
         return
 
     if args.input is None:
@@ -789,7 +617,6 @@ def main():
         print("  python run.py my_problem.pdf --no-nougat")
         print("  python run.py my_problem.pdf --no-vlm")
         print("  python run.py --check")
-        print("  python run.py --benchmark Surface_Integration/ --no-nougat -n 10")
         return
 
     input_path = Path(args.input)

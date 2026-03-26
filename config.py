@@ -1,5 +1,7 @@
 """
-Central paths, model names, and prompts. API keys come from `.env` via python-dotenv.
+Paths, default model IDs, and long system prompts for the LLM.
+
+Secrets live in ``.env`` (loaded below); do not commit real keys.
 """
 
 import os
@@ -19,7 +21,6 @@ RESULTS_DIR = WORK_DIR / "results"
 for d in [WORK_DIR, PDF_DIR, IMG_DIR, NOUGAT_OUT, RESULTS_DIR]:
     d.mkdir(parents=True, exist_ok=True)
 
-# API keys — set in `.env`, never commit real values
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
@@ -28,7 +29,6 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 NOUGAT_MODEL = "nougat"
 NOUGAT_DPI = 400
 
-# Default LLM IDs (override some via env)
 GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
 GROQ_BASE_URL = "https://api.groq.com/openai/v1"
 CLAUDE_MODEL = "claude-sonnet-4-20250514"
@@ -168,7 +168,7 @@ def get_system_prompt(
     secondary_categories: list[str] | None = None,
     primary_category: str | None = None,
 ) -> str:
-    """Pick the right system prompt from L1 `domain`; optionally add compact secondary hints."""
+    """Return surface vs general prompt, optionally appending a short secondary-category hint block."""
     base = LLM_SYSTEM_PROMPT_SURFACE if domain == "surface_integral" else LLM_SYSTEM_PROMPT_GENERAL
 
     if not secondary_categories:
@@ -192,74 +192,4 @@ def get_system_prompt(
 
     return base + extra
 
-LLM_SYSTEM_PROMPT = LLM_SYSTEM_PROMPT_SURFACE  # legacy default
-
-# Reference answers for SymPy verification in L6.
-# Sources: "At the end you should get:" hints in PDFs, manual checks, LLM consensus.
-from sympy import pi, sqrt, S, E, Symbol
-
-a = Symbol('a', positive=True)
-
-KNOWN_ANSWERS = {
-    # --- Scalar surface integrals ---
-    "si1": 4 * pi / 3,
-    "si2": 13 * sqrt(2) / 3,
-    "si3": pi * (sqrt(2) + S(3) / 2),
-    "si4": 11 * sqrt(14),
-    "si5": sqrt(2) / 10,
-    "si6": 2 * (2 * sqrt(2) - 1) / 3,
-    "si7": sqrt(2) * pi,
-    "si8": 171 * sqrt(14),
-    "si9": S(4),
-    "si10": sqrt(21) / 3,
-    "si11": 4 * (9 * sqrt(3) + 4 * sqrt(2) - 2) / 105,
-    "si12": 364 * sqrt(2) * pi / 3,
-    "si13": 13 * sqrt(2) / 12,
-    "si14": pi * (391 * sqrt(17) + 1) / 60,
-    "si15": (S(32) / 3 - 6 * sqrt(3)) * pi,
-    "si16": 16 * pi,
-    "si17": S(0),
-    "si18": S(12),
-    "si22": S(4),
-    "si23": pi,
-    "si24": S(713) / 180,
-    "si34": sqrt(3) / 24,
-    "si35": 5 * sqrt(5) / 48 + S(1) / 240,
-    "si37": (17 * sqrt(17) - 1) / 4,
-    "si38": S(24),
-    "si39": 2 * a**4 * pi / 3,
-    "si40": 3 * sqrt(3),
-    "si41": 2 * pi * sqrt(2) / 3,
-    "si42": 11 * pi / 12,
-    "si43": S(0),
-    # --- Flux integrals ---
-    "si19": 241 * pi,
-    "si20": 4 * pi / 3,
-    "si21": pi / 2,
-    "si25": S(-1712) * pi / 15,
-    "si26": -4 * pi / 3,
-    "si27": S(0),
-    "si28": S(0),
-    "si29": 1 - E,
-    "si30": S(48),
-    "si31": 4 * pi,
-    "si32": 2 * pi + S(8) / 3,
-    "si33": S(-1) / 6,
-    "si44": S(-32),
-    "si45": S(-4) / 3,
-    "si46": 4 * pi * a**3,
-    "si47": 4 * pi * a**3,
-    "si48": 13 * a**4 / 6,
-    "si49": 2 * pi * a,
-    # --- Volume / divergence–theorem style ---
-    "si50": 2 * pi / 3,
-    "si51": 4 * pi / 3,
-    "si52(r)": S(184) / 35,
-    "si53": S(9) / 2,
-    "si55": 9 * pi / 2,
-    "si56": 384 * pi / 5,
-    "si57": S(0),
-    "si59": 32 * pi / 3,
-    "si60": 2 * pi / 3,
-    "si61": S(2),
-}
+LLM_SYSTEM_PROMPT = LLM_SYSTEM_PROMPT_SURFACE
