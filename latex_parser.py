@@ -1,5 +1,7 @@
 """
-LaTeX-ish fragments → SymPy: used by L6 to compare LLM answers to references.
+Convert small LaTeX fragments to SymPy for numeric comparison in ``STEPSolver._solve_with_consensus``.
+
+Not a full LaTeX parser—only the patterns we see in model output.
 """
 
 import re
@@ -7,7 +9,7 @@ from sympy import sympify
 
 
 def find_matching_brace(s: str, pos: int) -> int:
-    """Return the index of the closing `}` that pairs with `s[pos]`=`{`."""
+    """Index of the ``}`` that closes the ``{`` at ``s[pos]`` (``pos`` must point at ``{``)."""
     depth = 1
     i = pos + 1
     while i < len(s) and depth > 0:
@@ -20,7 +22,7 @@ def find_matching_brace(s: str, pos: int) -> int:
 
 
 def latex_to_sympy(s: str) -> str:
-    """Strip `$`, expand common macros, then hand off to `sympify`."""
+    """Normalize dollars and common macros into a string ``sympify`` can read."""
     s = s.replace("$", "").strip()
     s = s.replace("\\dfrac", "\\frac").replace("\\tfrac", "\\frac")
 
@@ -100,7 +102,7 @@ def latex_to_sympy(s: str) -> str:
 
 
 def parse_latex_to_value(latex_str: str) -> float | None:
-    """SymPy evalf → Python float, or None if parsing fails."""
+    """Evaluate to a float, or ``None`` if the fragment is not numeric enough."""
     try:
         parsed = latex_to_sympy(latex_str)
         expr = sympify(parsed, locals={"pi": __import__("sympy").pi,
@@ -113,7 +115,7 @@ def parse_latex_to_value(latex_str: str) -> float | None:
 
 
 def parse_latex_to_expr(latex_str: str):
-    """Return a SymPy object (may still contain symbols)."""
+    """Like ``parse_latex_to_value`` but keeps a SymPy expression (e.g. symbolic ``a``)."""
     try:
         parsed = latex_to_sympy(latex_str)
         from sympy import pi as sym_pi, sqrt as sym_sqrt, E as sym_E, Symbol
@@ -123,32 +125,3 @@ def parse_latex_to_expr(latex_str: str):
         return expr
     except Exception:
         return None
-
-
-if __name__ == "__main__":
-    from sympy import pi, sqrt
-
-    test_cases = [
-        (r"$\frac{4\pi}{3}$", 4 * pi / 3),
-        (r"$\frac{\sqrt{21}}{3}$", sqrt(21) / 3),
-        (r"$\frac{4(9\sqrt{3} + 4\sqrt{2} - 2)}{105}$", 4 * (9 * sqrt(3) + 4 * sqrt(2) - 2) / 105),
-        (r"$\frac{364\pi\sqrt{2}}{3}$", 364 * pi * sqrt(2) / 3),
-        (r"$\frac{13\sqrt{2}}{12}$", 13 * sqrt(2) / 12),
-    ]
-
-    print("LaTeX parser smoke test\n")
-    ok = 0
-    for latex_str, expected in test_cases:
-        parsed = latex_to_sympy(latex_str)
-        val = parse_latex_to_value(latex_str)
-        expected_val = float(expected.evalf())
-
-        if val is not None and abs(val - expected_val) < 0.01:
-            print(f"  [OK] {latex_str}")
-            print(f"       Parsed: {parsed} -> {val:.6f} (expected {expected_val:.6f})")
-            ok += 1
-        else:
-            print(f"  [FAIL] {latex_str}")
-            print(f"         Parsed: {parsed}, value: {val}")
-
-    print(f"\nResult: {ok}/{len(test_cases)}")
