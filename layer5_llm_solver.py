@@ -1,7 +1,11 @@
 """
 Layer 5 — LLM solver (Groq, Gemini, Claude, or OpenAI-compatible).
-Picks the first provider that has a working API key unless `force_provider` is set.
+
+Picks the first provider that has a working API key unless ``force_provider`` is set.
+Initialization messages go through the standard ``logging`` logger for this module.
 """
+
+import logging
 
 from config import (
     GROQ_API_KEY,
@@ -17,6 +21,8 @@ from config import (
     LLM_TEMPERATURE,
     LLM_SYSTEM_PROMPT,
 )
+
+_log = logging.getLogger(__name__)
 
 
 class Layer5_LLMSolver:
@@ -41,13 +47,13 @@ class Layer5_LLMSolver:
             if force_provider in providers:
                 providers[force_provider]()
             else:
-                print(f"  [!] Unknown LLM provider: {force_provider}")
+                _log.info(f"  [!] Unknown LLM provider: {force_provider}")
             return
 
         for name, init_fn in providers.items():
             if init_fn():
                 return
-        print("  [!] No LLM API key found in the environment.")
+        _log.info("  [!] No LLM API key found in the environment.")
 
     def _init_groq(self) -> bool:
         if not GROQ_API_KEY:
@@ -57,10 +63,10 @@ class Layer5_LLMSolver:
             self.client = OpenAI(api_key=GROQ_API_KEY, base_url=GROQ_BASE_URL)
             self.provider = "groq"
             self.model_name = GROQ_MODEL
-            print(f"  LLM: Groq ({GROQ_MODEL})")
+            _log.info(f"  LLM: Groq ({GROQ_MODEL})")
             return True
         except ImportError:
-            print("  [!] `openai` package missing. pip install openai")
+            _log.info("  [!] `openai` package missing. pip install openai")
             return False
 
     def _init_gemini(self) -> bool:
@@ -71,10 +77,10 @@ class Layer5_LLMSolver:
             self.client = genai.Client(api_key=GEMINI_API_KEY)
             self.provider = "gemini"
             self.model_name = GEMINI_MODEL
-            print(f"  LLM: Gemini ({GEMINI_MODEL})")
+            _log.info(f"  LLM: Gemini ({GEMINI_MODEL})")
             return True
         except ImportError:
-            print("  [!] google-genai missing. pip install google-genai")
+            _log.info("  [!] google-genai missing. pip install google-genai")
             return False
 
     def _init_claude(self) -> bool:
@@ -85,10 +91,10 @@ class Layer5_LLMSolver:
             self.client = anthropic.Anthropic(api_key=ANTHROPIC_API_KEY)
             self.provider = "claude"
             self.model_name = CLAUDE_MODEL
-            print(f"  LLM: Claude ({CLAUDE_MODEL})")
+            _log.info(f"  LLM: Claude ({CLAUDE_MODEL})")
             return True
         except ImportError:
-            print("  [!] anthropic package missing. pip install anthropic")
+            _log.info("  [!] anthropic package missing. pip install anthropic")
             return False
 
     def _init_openai(self) -> bool:
@@ -99,10 +105,10 @@ class Layer5_LLMSolver:
             self.client = OpenAI(api_key=OPENAI_API_KEY)
             self.provider = "openai"
             self.model_name = GPT_MODEL
-            print(f"  LLM: GPT-4o ({GPT_MODEL})")
+            _log.info(f"  LLM: GPT-4o ({GPT_MODEL})")
             return True
         except ImportError:
-            print("  [!] `openai` package missing. pip install openai")
+            _log.info("  [!] `openai` package missing. pip install openai")
             return False
 
     @property
@@ -202,7 +208,7 @@ class Layer5_LLMSolver:
 
     def _solve_claude(self, problem_latex: str, system_prompt: str) -> str:
         response = self.client.messages.create(
-            model=CLAUDE_MODEL,
+            model=self.model_name,
             max_tokens=LLM_MAX_TOKENS,
             temperature=LLM_TEMPERATURE,
             system=system_prompt,
