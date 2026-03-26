@@ -6,6 +6,9 @@ The class name ``Layer6_SymPyVerifier`` is historical; there is no reference-ans
 
 import re
 
+# Prefix to search for in model output: backslash + "boxed" + "{" (length 7).
+_BOXED_TAG = r"\boxed{"
+
 
 class Layer6_SymPyVerifier:
     """Heuristic parsers for \\boxed{}, FINAL_ANSWER:, and common math tail patterns."""
@@ -19,19 +22,19 @@ class Layer6_SymPyVerifier:
         results = []
         start = 0
         while True:
-            idx = text.find("\\boxed{", start)
+            idx = text.find(_BOXED_TAG, start)
             if idx == -1:
                 break
-            brace_start = idx + 6
+            open_brace = idx + len(_BOXED_TAG) - 1  # the ``{`` right after ``\boxed``
             depth = 0
-            i = brace_start
+            i = open_brace
             while i < len(text):
                 if text[i] == '{':
                     depth += 1
                 elif text[i] == '}':
                     depth -= 1
                     if depth == 0:
-                        results.append(text[brace_start + 1:i])
+                        results.append(text[open_brace + 1:i])
                         break
                 i += 1
             start = i + 1
