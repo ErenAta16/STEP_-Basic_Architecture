@@ -1,11 +1,15 @@
 """
 Convert small LaTeX fragments to SymPy for numeric comparison in ``STEPSolver._solve_with_consensus``.
 
-Not a full LaTeX parser—only the patterns we see in model output.
+Not a full LaTeX parser—only patterns common in model ``\\boxed{}`` / final-line output.
+Uses a shared ``_SYM_LOCALS`` dict for ``sympify`` (``pi``, ``sqrt``, ``E``, positive ``a``).
 """
 
 import re
-from sympy import sympify
+from sympy import E, Symbol, pi, sqrt, sympify
+
+# Shared namespace for ``sympify`` (avoids repeated ``__import__("sympy")`` per call).
+_SYM_LOCALS = {"pi": pi, "sqrt": sqrt, "E": E, "a": Symbol("a", positive=True)}
 
 
 def find_matching_brace(s: str, pos: int) -> int:
@@ -57,7 +61,7 @@ def latex_to_sympy(s: str) -> str:
     # Standalone e -> E (Euler's number) in final answer context
     s = re.sub(r'(?<![a-df-zA-DF-Z])e(?![a-df-zA-DF-Z])', 'E', s)
 
-    # ^{...} -> **(...) us notasyonu
+    # ^{...} -> **(...)  (Python power syntax for sympify)
     while "^{" in s:
         idx = s.index("^{")
         brace_start = idx + 1
@@ -69,7 +73,7 @@ def latex_to_sympy(s: str) -> str:
     # ^N (single-digit exponent) -> **N
     s = re.sub(r'\^(\d)', r'**\1', s)
 
-    # Temel donusumler
+    # Common LaTeX spacing and operators
     s = s.replace("\\pi", "(pi)")
     s = s.replace("\\cdot", "*")
     s = s.replace("\\times", "*")
@@ -86,7 +90,7 @@ def latex_to_sympy(s: str) -> str:
     s = re.sub(r'(\w)\s+\(', r'\1*(', s)
     s = re.sub(r'([a-zA-Z0-9])\s+([a-zA-Z])', r'\1*\2', s)
 
-    # Implicit multiplication (bitisik karakterler)
+    # Implicit multiplication (adjacent factors)
     s = re.sub(r'(\d)([a-zA-Z(])', r'\1*\2', s)         # 4a -> 4*a, 4( -> 4*(
     s = re.sub(r'(\))(\()', r'\1*\2', s)                  # )( -> )*(
     s = re.sub(r'(\))([\da-zA-Z])', r'\1*\2', s)         # )2 -> )*2, )a -> )*a
@@ -105,10 +109,7 @@ def parse_latex_to_value(latex_str: str) -> float | None:
     """Evaluate to a float, or ``None`` if the fragment is not numeric enough."""
     try:
         parsed = latex_to_sympy(latex_str)
-        expr = sympify(parsed, locals={"pi": __import__("sympy").pi,
-                                        "sqrt": __import__("sympy").sqrt,
-                                        "E": __import__("sympy").E,
-                                        "a": __import__("sympy").Symbol("a", positive=True)})
+        expr = sympify(parsed, locals=_SYM_LOCALS)
         return float(expr.evalf())
     except Exception:
         return None
@@ -118,10 +119,7 @@ def parse_latex_to_expr(latex_str: str):
     """Like ``parse_latex_to_value`` but keeps a SymPy expression (e.g. symbolic ``a``)."""
     try:
         parsed = latex_to_sympy(latex_str)
-        from sympy import pi as sym_pi, sqrt as sym_sqrt, E as sym_E, Symbol
-        expr = sympify(parsed, locals={"pi": sym_pi, "sqrt": sym_sqrt,
-                                        "E": sym_E,
-                                        "a": Symbol("a", positive=True)})
+        expr = sympify(parsed, locals=_SYM_LOCALS)
         return expr
     except Exception:
         return None
