@@ -98,6 +98,29 @@ class Layer2_Nougat:
         self.model = None
         self.transform = None
         self.device = None
+        self.disabled = False
+        self.disabled_reason = ""
+
+    def _disable(self, reason: str, verbose: bool = True) -> None:
+        """Disable Nougat for the current process after a fatal runtime issue."""
+        if self.disabled:
+            return
+        self.disabled = True
+        self.disabled_reason = reason
+        if verbose:
+            _log.info(f"  [L2] Nougat disabled for this run: {reason}")
+
+    @staticmethod
+    def _empty_result(fname: str, pages: int = 0) -> dict:
+        return {
+            "file": fname,
+            "latex": "",
+            "char_count": 0,
+            "pages": pages,
+            "output_path": "",
+            "cached": False,
+            "disabled": True,
+        }
 
     def initialize(self):
         """First call downloads weights — can take a while."""
@@ -139,6 +162,10 @@ class Layer2_Nougat:
 
         pdf_path = Path(pdf_path)
         fname = pdf_path.stem
+        if self.disabled:
+            if verbose:
+                _log.info(f"  [L2] Skipped Nougat (disabled): {self.disabled_reason}")
+            return self._empty_result(fname)
         out_dir = self.nougat_out / fname
         out_dir.mkdir(parents=True, exist_ok=True)
         mmd_path = out_dir / f"{fname}.mmd"
@@ -161,7 +188,11 @@ class Layer2_Nougat:
                     "cached": True,
                 }
 
-        self.initialize()
+        try:
+            self.initialize()
+        except Exception as e:
+            self._disable(str(e), verbose=verbose)
+            return self._empty_result(fname)
         img_dir = self.img_dir / fname
         img_dir.mkdir(parents=True, exist_ok=True)
 
@@ -187,6 +218,10 @@ class Layer2_Nougat:
             except Exception as e:
                 if verbose:
                     _log.info(f"  [L2] Nougat: {pg}... [FAIL] {e}")
+                msg = str(e)
+                if "meta tensors" in msg.lower():
+                    self._disable(msg, verbose=verbose)
+                    return self._empty_result(fname, pages=len(img_paths))
                 all_latex.append("")
 
         full = "\n\n".join(all_latex)

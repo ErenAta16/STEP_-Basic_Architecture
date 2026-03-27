@@ -97,14 +97,19 @@ def main():
         help="Run every configured LLM and pick best (experimental)",
     )
     parser.add_argument(
+        "--with-nougat",
+        action="store_true",
+        help="Enable Nougat (default is off for this environment)",
+    )
+    parser.add_argument(
         "--no-nougat",
         action="store_true",
-        help="Full pipeline: skip Nougat (VLM + raw/markdown only)",
+        help="Deprecated alias; Nougat is already off by default",
     )
     parser.add_argument(
         "--no-vlm",
         action="store_true",
-        help="Full pipeline: skip vision model (Nougat + raw only)",
+        help="Full pipeline: skip vision model (Nougat-only if enabled, else raw fallback)",
     )
 
     args = parser.parse_args()
@@ -132,7 +137,7 @@ def main():
         pdf_dir=pdf_dir,
         provider=args.provider,
         ensemble=args.ensemble,
-        use_nougat=not args.no_nougat,
+        use_nougat=args.with_nougat and not args.no_nougat,
         use_vlm=not args.no_vlm,
     )
 

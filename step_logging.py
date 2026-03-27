@@ -36,4 +36,7 @@ def configure_logging(level: int = logging.INFO) -> None:
     h = logging.StreamHandler(sys.stdout)
     h.setFormatter(logging.Formatter("%(message)s"))
     root.addHandler(h)
+    # Reduce third-party INFO noise in CLI output.
+    for noisy in ("httpx", "httpcore", "google", "google_genai"):
+        logging.getLogger(noisy).setLevel(logging.WARNING)
     _configured = True

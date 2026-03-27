@@ -40,7 +40,7 @@ class STEPPipeline:
     """Builds layer objects once, then runs ``run_full_pipeline`` over a PDF directory."""
 
     def __init__(self, pdf_dir: str | Path = None, provider: str | None = None,
-                 ensemble: bool = False, use_nougat: bool = True, use_vlm: bool = True):
+                 ensemble: bool = False, use_nougat: bool = False, use_vlm: bool = True):
         self.pdf_dir = Path(pdf_dir) if pdf_dir else PDF_DIR
         self.use_nougat = use_nougat
         self.use_vlm = use_vlm

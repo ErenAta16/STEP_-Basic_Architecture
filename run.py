@@ -41,7 +41,7 @@ _log = logging.getLogger(__name__)
 class STEPSolver:
     """Orchestrates layers 0–6: ingest, profile, optional Nougat/VLM (via ``parallel_ocr``), synthesis, LLM, extract."""
 
-    def __init__(self, use_nougat: bool = True, use_vlm: bool = True):
+    def __init__(self, use_nougat: bool = False, use_vlm: bool = True):
         self.l0 = Layer0_PDFIngestion(IMG_DIR)
         self.l1 = Layer1_Profiler()
         self.l2 = Layer2_Nougat(IMG_DIR, NOUGAT_OUT) if use_nougat else None
@@ -214,6 +214,7 @@ class STEPSolver:
             return result
 
         best = next((a for a in answers if a.get("solution")), answers[0])
+        result["attempts"] = best.get("attempt_count", result["attempts"])
         result["solution"] = best.get("solution", "")
         result["solution_chars"] = len(best.get("solution", ""))
         result["consensus"] = best.get("consensus", False)
@@ -300,6 +301,7 @@ class STEPSolver:
                     "key": fa_key,
                     "elapsed": elapsed,
                     "model": solver_label,
+                    "attempt_count": i + 1,
                 })
 
                 if fa_key is not None:
@@ -319,6 +321,7 @@ class STEPSolver:
                     for a in attempts:
                         if a["key"] == fa_key:
                             a["consensus"] = True
+                            a["attempt_count"] = i + 1
                     return [a for a in attempts if a["key"] == fa_key][:1]
 
             except Exception as e:
@@ -361,13 +364,23 @@ class STEPSolver:
                 )
             result = [a for a in attempts if a.get("key") == best_key]
             if result:
+                for a in result:
+                    a["attempt_count"] = len(attempts)
                 return result
 
         valid = [a for a in attempts if a.get("final_answer")]
         if valid:
+            for a in valid:
+                a["attempt_count"] = len(attempts)
             return valid[:1]
         valid = [a for a in attempts if a.get("solution")]
-        return valid[:1] if valid else attempts[:1]
+        if valid:
+            for a in valid:
+                a["attempt_count"] = len(attempts)
+            return valid[:1]
+        for a in attempts:
+            a["attempt_count"] = len(attempts)
+        return attempts[:1]
 
     @staticmethod
     def _extract_llm_summary(solution: str) -> dict:
@@ -393,7 +406,7 @@ class STEPSolver:
         return summary
 
 
-def solve_single(pdf_path: str, use_nougat: bool = True, use_vlm: bool = True):
+def solve_single(pdf_path: str, use_nougat: bool = False, use_vlm: bool = True):
     """Run ``STEPSolver`` and emit a human-readable report via the root logger (stdout)."""
     ensure_dirs()
     configure_logging()
@@ -473,7 +486,7 @@ def solve_single(pdf_path: str, use_nougat: bool = True, use_vlm: bool = True):
     return result
 
 
-def solve_batch(pdf_dir: str, count: int = None, use_nougat: bool = True, use_vlm: bool = True):
+def solve_batch(pdf_dir: str, count: int = None, use_nougat: bool = False, use_vlm: bool = True):
     """Run every ``*.pdf`` in order; append ``pipeline_log_*.json`` under ``RESULTS_DIR`` via ``PipelineLogger``."""
     ensure_dirs()
     configure_logging()
@@ -584,7 +597,8 @@ def check_system():
         _log.info("")
     _log.info("  Tek PDF:     python run.py <dosya.pdf>")
     _log.info("  Klasor:      python run.py Surface_Integration/ -n 5")
-    _log.info("  Hizli yol:   python run.py dosya.pdf --no-nougat")
+    _log.info("  Varsayilan:  Nougat kapali (VLM + raw)")
+    _log.info("  Nougat ac:   python run.py dosya.pdf --with-nougat")
     _log.info("  Web arayuz:  python web_app.py")
     _log.info("               -> tarayici: http://127.0.0.1:5000")
     _log.info("  Eski batch:  python main.py -n 5")
@@ -594,17 +608,19 @@ def check_system():
 
 def main():
     parser = argparse.ArgumentParser(
-        description="STEP — surface-integral PDF solver",
+        description="STEP - surface-integral PDF solver",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("input", nargs="?", default=None,
                         help="Path to a .pdf file or a folder of PDFs")
     parser.add_argument("-n", "--count", type=int, default=None,
                         help="Folder mode: max number of PDFs to process")
+    parser.add_argument("--with-nougat", action="store_true",
+                        help="Enable Nougat OCR (default is off)")
     parser.add_argument("--no-nougat", action="store_true",
-                        help="Skip Nougat OCR (VLM-only path, often ~3x faster)")
+                        help="Deprecated alias; Nougat is already off by default")
     parser.add_argument("--no-vlm", action="store_true",
-                        help="Skip the vision model (Nougat + raw text only)")
+                        help="Skip the vision model (Nougat-only if enabled, else raw fallback)")
     parser.add_argument("--check", action="store_true",
                         help="Print GPU / API key / VLM status")
 
@@ -623,13 +639,14 @@ def main():
         _log.info("  python run.py Surface_Integration/si1.pdf")
         _log.info("  python run.py Surface_Integration/")
         _log.info("  python run.py Surface_Integration/ -n 10")
-        _log.info("  python run.py my_problem.pdf --no-nougat")
+        _log.info("  python run.py my_problem.pdf            # default: no Nougat")
+        _log.info("  python run.py my_problem.pdf --with-nougat")
         _log.info("  python run.py my_problem.pdf --no-vlm")
         _log.info("  python run.py --check")
         return
 
     input_path = Path(args.input)
-    use_nougat = not args.no_nougat
+    use_nougat = args.with_nougat and not args.no_nougat
     use_vlm = not args.no_vlm
 
     if input_path.is_file() and input_path.suffix.lower() == ".pdf":

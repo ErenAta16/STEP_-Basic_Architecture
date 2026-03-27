@@ -165,7 +165,8 @@ Open `http://127.0.0.1:5000`.
 **CLI:**
 
 ```bash
-python run.py path/to/problem.pdf --no-nougat
+python run.py path/to/problem.pdf
+python run.py path/to/problem.pdf --with-nougat
 python run.py --check
 python run.py Surface_Integration/
 ```
