@@ -1,5 +1,5 @@
 """
-CLI entry for the STEP PDF → LLM pipeline (``STEPSolver``).
+CLI entry for the STEP PDF -> LLM pipeline (``STEPSolver``).
 
 Uses ``logging`` (via ``step_logging.configure_logging``) for stdout-friendly
 lines and ``config.ensure_dirs`` before touching pipeline paths.
@@ -75,7 +75,7 @@ class STEPSolver:
 
         h = self._pdf_hash(pdf_path)
         path_key = str(pdf_path.resolve())
-        # Per resolved path + content hash + OCR flags (same bytes at two paths → separate entries).
+        # Per resolved path + content hash + OCR flags (same bytes at two paths -> separate entries).
         cache_key = f"{path_key}|{h}|nougat={int(self.use_nougat)}|vlm={int(self.use_vlm)}"
         if cache_key in self._result_cache:
             if verbose:
@@ -399,7 +399,7 @@ def solve_single(pdf_path: str, use_nougat: bool = True, use_vlm: bool = True):
     configure_logging()
     _log.info("")
     _log.info("  " + "=" * 56)
-    _log.info("  STEP Pipeline — math problem solver")
+    _log.info("  STEP Pipeline - math problem solver")
     _log.info("  " + "=" * 56)
     _log.info("")
     _log.info(f"  PDF: {pdf_path}")
@@ -414,7 +414,7 @@ def solve_single(pdf_path: str, use_nougat: bool = True, use_vlm: bool = True):
     else:
         # --- PDF Profiling ---
         _log.info("  PDF PROFILING")
-        _log.info(f"  {'─'*55}")
+        _log.info(f"  {'-'*55}")
         _log.info(f"  File:            {result['file']}")
         _log.info(f"  Pages:           {result.get('pages', '?')}")
         _log.info(f"  Chars:           {result.get('chars', 0)}")
@@ -429,7 +429,7 @@ def solve_single(pdf_path: str, use_nougat: bool = True, use_vlm: bool = True):
         if ls and isinstance(ls, dict):
             l5d = ls.get("domain", domain_label)
             l5sec = ls.get("secondary_categories") or []
-            sec_txt = f" · hints→{', '.join(l5sec)}" if l5sec else ""
+            sec_txt = f" - hints->{', '.join(l5sec)}" if l5sec else ""
             _log.info(f"  LLM system:      {l5d}{sec_txt}")
         kws = result.get('keywords', [])
         if kws:
@@ -442,7 +442,7 @@ def solve_single(pdf_path: str, use_nougat: bool = True, use_vlm: bool = True):
                 _log.info(f"  Summary:         {summary_text}")
 
         _log.info("\n  ANSWER")
-        _log.info(f"  {'─'*55}")
+        _log.info(f"  {'-'*55}")
         _log.info(f"  Source:          {result['source']}")
         _log.info(f"  Final:           {result['final_answer']}")
         if result.get("consensus"):
@@ -453,7 +453,7 @@ def solve_single(pdf_path: str, use_nougat: bool = True, use_vlm: bool = True):
         llm_sum = result.get('llm_summary', {})
         if llm_sum:
             _log.info("\n  MODEL SUMMARY")
-            _log.info(f"  {'─'*55}")
+            _log.info(f"  {'-'*55}")
             field_labels = {
                 "problem_type": "Problem type",
                 "method_used": "Method",
@@ -488,7 +488,7 @@ def solve_batch(pdf_dir: str, count: int = None, use_nougat: bool = True, use_vl
 
     _log.info("")
     _log.info("  " + "=" * 44)
-    _log.info("  STEP Pipeline — batch run")
+    _log.info("  STEP Pipeline - batch run")
     _log.info("  " + "=" * 44)
     _log.info(f"\n  {len(pdfs)} PDF(s) queued")
 
@@ -543,7 +543,7 @@ def check_system():
 
     _log.info("")
     _log.info("  " + "=" * 44)
-    _log.info("  STEP Pipeline — health check")
+    _log.info("  STEP Pipeline - health check")
     _log.info("  " + "=" * 44)
     _log.info("")
 
