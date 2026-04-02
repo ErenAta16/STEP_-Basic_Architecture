@@ -4,11 +4,40 @@ Layer 0: PyMuPDF (``fitz``) for metadata, per-page text, PNG tiles, and optional
 Raster output feeds Nougat/VLM; text + markdown feed profiling and the LLM prompt.
 """
 
+import hashlib
 import logging
 import fitz  # PyMuPDF
 from pathlib import Path
 
+from config import NOUGAT_DPI
+
 _log = logging.getLogger(__name__)
+
+# Written next to page_*.png so Layer 2 can reuse rasters only when DPI and PDF match.
+RASTER_SIDECAR_NAME = ".step_raster_meta"
+
+
+def write_raster_sidecar(out_dir: Path, dpi: int, pdf_sha256: str) -> None:
+    """Record DPI and PDF content hash for the PNGs in ``out_dir`` (newline-separated)."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / RASTER_SIDECAR_NAME).write_text(
+        f"{dpi}\n{pdf_sha256}\n",
+        encoding="utf-8",
+    )
+
+
+def read_raster_sidecar(out_dir: Path) -> tuple[int | None, str | None]:
+    """Return ``(dpi, pdf_sha256)`` or ``(None, None)`` if missing or invalid."""
+    p = out_dir / RASTER_SIDECAR_NAME
+    if not p.exists():
+        return None, None
+    try:
+        lines = p.read_text(encoding="utf-8").strip().splitlines()
+        if len(lines) < 2:
+            return None, None
+        return int(lines[0]), lines[1].strip()
+    except (ValueError, OSError):
+        return None, None
 
 
 class Layer0_PDFIngestion:
@@ -66,19 +95,24 @@ class Layer0_PDFIngestion:
         return images
 
     def extract_metadata_text_and_images(
-        self, pdf_path: str | Path, dpi: int = 300
+        self, pdf_path: str | Path, dpi: int | None = None
     ) -> tuple[dict, list[dict], list[dict]]:
         """Single ``fitz.open`` pass: metadata, text per page, and page PNGs under ``img_dir``.
 
         Uses ``alpha=False`` pixmaps (smaller files; fine for OCR/VLM).
+        When ``dpi`` is omitted, uses ``NOUGAT_DPI`` so L0/L2 raster reuse stays aligned.
         """
         pdf_path = Path(pdf_path)
+        if dpi is None:
+            dpi = NOUGAT_DPI
         out_dir = self.img_dir / pdf_path.stem
+        pdf_sha256 = hashlib.sha256(pdf_path.read_bytes()).hexdigest()
         with fitz.open(str(pdf_path)) as doc:
             info = self._file_info(pdf_path, doc)
             pages = self._pages_text(doc)
             images = self._rasterize_pages(doc, out_dir, dpi)
-            return info, pages, images
+        write_raster_sidecar(out_dir, dpi, pdf_sha256)
+        return info, pages, images
 
     def extract_metadata_and_text(self, pdf_path: str | Path) -> tuple[dict, list[dict]]:
         """Metadata plus ``get_text`` per page without writing images."""
@@ -114,15 +148,20 @@ class Layer0_PDFIngestion:
                 return "\n\n".join(p["text"] for p in text_pages).strip()
             return "\n\n".join(p["text"] for p in self.extract_text(pdf_path)).strip()
 
-    def extract_images(self, pdf_path: str | Path, dpi: int = 300) -> list[dict]:
+    def extract_images(self, pdf_path: str | Path, dpi: int | None = None) -> list[dict]:
         """Rasterize each page to PNG under `img_dir/<stem>/` for Nougat/VLM.
 
         Prefer `extract_metadata_text_and_images` in hot paths to avoid a second
         PDF open when text is also needed."""
         pdf_path = Path(pdf_path)
+        if dpi is None:
+            dpi = NOUGAT_DPI
         out_dir = self.img_dir / pdf_path.stem
+        pdf_sha256 = hashlib.sha256(pdf_path.read_bytes()).hexdigest()
         with fitz.open(str(pdf_path)) as doc:
-            return self._rasterize_pages(doc, out_dir, dpi)
+            images = self._rasterize_pages(doc, out_dir, dpi)
+        write_raster_sidecar(out_dir, dpi, pdf_sha256)
+        return images
 
     def analyze_text_quality(self, pages: list[dict]) -> dict:
         """Cheap heuristics: did we lose integrals, superscripts, greek letters?

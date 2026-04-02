@@ -7,8 +7,10 @@ pass already achieves the maximum ``check_quality`` score (then pass 2 is skippe
 """
 
 import logging
+import os
 import re
 import base64
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from pathlib import Path
 
 from openai import OpenAI
@@ -17,6 +19,9 @@ from config import GROQ_API_KEY, GROQ_BASE_URL, GEMINI_API_KEY
 
 _log = logging.getLogger(__name__)
 
+# Conservative default: two passes × N workers can burst the API (RPM limits).
+# Set STEP_VLM_PAGE_WORKERS=1 if you see 429s or Gemini thread issues.
+VLM_PAGE_WORKERS_DEFAULT = 2
 VLM_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
 GEMINI_VLM_MODEL = "gemini-2.5-flash"
 
@@ -40,6 +45,17 @@ EXAMPLE OUTPUT:
 \\text{Find the flux of } \\mathbf{F} = x^3\\,\\mathbf{i} + y^3\\,\\mathbf{j} + z^3\\,\\mathbf{k} \\text{ across } S: x^2+y^2+z^2=9 \\text{, outward orientation.}
 
 If you include solutions, calculations, or numerical answers, you have FAILED."""
+
+
+def _page_png_sort_key(p: Path) -> int:
+    try:
+        return int(p.stem.split("_", 1)[1])
+    except (IndexError, ValueError):
+        return 0
+
+
+def _sorted_page_pngs(page_dir: Path) -> list[Path]:
+    return sorted(page_dir.glob("page_*.png"), key=_page_png_sort_key)
 
 
 class Layer3_VLM:
@@ -141,17 +157,39 @@ class Layer3_VLM:
         return response.text or ""
 
     def _extract_single_pass(self, img_paths: list[Path], verbose: bool = True) -> str:
-        """Run every page in order, concat with blank lines."""
-        all_latex = []
-        for img_path in img_paths:
+        """Run every page in order, concat with blank lines. Uses a small thread pool for I/O-bound APIs."""
+        n = len(img_paths)
+        if n == 0:
+            return ""
+
+        try:
+            w = int(os.environ.get("STEP_VLM_PAGE_WORKERS", str(VLM_PAGE_WORKERS_DEFAULT)))
+        except ValueError:
+            w = VLM_PAGE_WORKERS_DEFAULT
+        workers = max(1, min(w, n, 8))
+
+        def one(idx: int) -> tuple[int, str]:
             try:
-                latex = self.extract_from_image(img_path)
-                all_latex.append(latex)
+                return idx, self.extract_from_image(img_paths[idx])
             except Exception as e:
                 if verbose:
                     _log.info(f"  [L3] [FAIL] {str(e)[:50]}")
-                all_latex.append("")
-        return "\n\n".join(all_latex)
+                return idx, ""
+
+        if workers == 1:
+            parts = [""] * n
+            for i in range(n):
+                _, latex = one(i)
+                parts[i] = latex
+            return "\n\n".join(parts)
+
+        parts = [""] * n
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = [pool.submit(one, i) for i in range(n)]
+            for fut in as_completed(futures):
+                i, latex = fut.result()
+                parts[i] = latex
+        return "\n\n".join(parts)
 
     def extract_from_pdf_images(self, img_dir: Path, fname: str,
                                 verbose: bool = True) -> dict:
@@ -165,7 +203,7 @@ class Layer3_VLM:
         if not page_dir.exists():
             return {"file": fname, "vlm_latex": "", "char_count": 0, "pages": 0}
 
-        img_paths = sorted(page_dir.glob("page_*.png"))
+        img_paths = _sorted_page_pngs(page_dir)
         if not img_paths:
             return {"file": fname, "vlm_latex": "", "char_count": 0, "pages": 0}
 

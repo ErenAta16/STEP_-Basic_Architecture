@@ -41,11 +41,32 @@ class Layer6_SymPyVerifier:
         return results
 
     @staticmethod
+    def _rhs_after_last_top_level_equals(text: str) -> str | None:
+        """If there is a ``=`` at brace depth 0, return the substring after the last one.
+
+        Avoids naive ``split('='')`` breaking ``\\text{a = b}``, ``\\frac{a}{b} = \\frac{c}{d}``,
+        and similar cases where ``=`` appears only inside groups or is not a top-level chain.
+        """
+        depth = 0
+        last = -1
+        for i, c in enumerate(text):
+            if c == "{":
+                depth += 1
+            elif c == "}":
+                depth = max(0, depth - 1)
+            elif c == "=" and depth == 0:
+                last = i
+        if last < 0:
+            return None
+        return text[last + 1 :]
+
+    @staticmethod
     def _clean_boxed_content(text: str) -> str:
-        """Models sometimes chain ``a = b = c``; keep the last segment."""
-        if "=" in text:
-            parts = text.split("=")
-            return parts[-1].strip()
+        """Models sometimes chain ``a = b = c``; keep the segment after the last top-level ``=``."""
+        text = text.strip()
+        rhs = Layer6_SymPyVerifier._rhs_after_last_top_level_equals(text)
+        if rhs is not None:
+            return rhs.strip()
         return text
 
     def _extract_final_answer(self, llm_solution: str) -> str:

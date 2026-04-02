@@ -37,7 +37,8 @@ def run_parallel_nougat_vlm(
 
     Args:
         pdf_path: PDF file being processed.
-        fname: Basename stem (must match ``img_dir / fname / page_*.png`` for VLM).
+        fname: Basename stem (must match ``img_dir / fname / page_*.png`` for VLM;
+            Layer 2/3 load those PNGs with numeric sort so ``page_10`` follows ``page_9``).
         img_dir: Parent directory of per-PDF page image folders (from config).
         nougat_layer: ``Layer2_Nougat`` instance, or ``None`` when Nougat is disabled.
         vlm_layer: ``Layer3_VLM`` instance, or ``None`` when VLM is disabled.

@@ -56,7 +56,13 @@ _TASK_MAX = 256
 
 _thread_local = threading.local()
 _original_stdout = sys.stdout
-_solve_lock = threading.Lock()
+# Allow a few concurrent pipeline runs (API-bound). With Nougat/GPU, set
+# STEP_WEB_MAX_CONCURRENT_SOLVES=1 to avoid CUDA OOM from overlapping inference.
+try:
+    _MAX_CONCURRENT_SOLVES = max(1, int(os.environ.get("STEP_WEB_MAX_CONCURRENT_SOLVES", "2")))
+except ValueError:
+    _MAX_CONCURRENT_SOLVES = 2
+_solve_semaphore = threading.BoundedSemaphore(_MAX_CONCURRENT_SOLVES)
 
 
 def _prune_tasks() -> None:
@@ -199,14 +205,32 @@ def upload():
     safe = secure_filename(f.filename)
     if not safe:
         return jsonify(error="Invalid filename"), 400
+
+    _prune_tasks()
+    with _tasks_lock:
+        for t in _tasks.values():
+            if not t.get("done") and t.get("filename") == safe:
+                return (
+                    jsonify(
+                        error="This file is already being processed",
+                        detail=safe,
+                    ),
+                    409,
+                )
+
     fp = UPLOAD_DIR / safe
     f.save(fp)
 
-    _prune_tasks()
     tid = f"t{int(time.time() * 1000)}"
     q = queue.Queue()
     with _tasks_lock:
-        _tasks[tid] = {"queue": q, "done": False, "result": None, "finished_at": None}
+        _tasks[tid] = {
+            "queue": q,
+            "done": False,
+            "result": None,
+            "finished_at": None,
+            "filename": safe,
+        }
 
     threading.Thread(target=_worker, args=(tid, fp), daemon=True).start()
     return jsonify(task_id=tid, filename=safe)
@@ -246,7 +270,7 @@ def serve_pdf(name):
 # Background solver
 # ---------------------------------------------------------------------------
 def _worker(tid: str, filepath: Path):
-    """Solve one uploaded PDF under a lock; push log lines to the task queue, then ``done``/``error``."""
+    """Solve one uploaded PDF (bounded by ``_solve_semaphore``); push log lines to the task queue."""
     with _tasks_lock:
         task = _tasks.get(tid)
     if task is None:
@@ -255,7 +279,7 @@ def _worker(tid: str, filepath: Path):
     _thread_local.queue = q
     _thread_local.buf = ""
 
-    with _solve_lock:
+    with _solve_semaphore:
         try:
             ensure_dirs()
             from run import STEPSolver
@@ -294,6 +318,7 @@ if __name__ == "__main__":
     _log.info("")
     _log.info("  " + "=" * 44)
     _log.info("  STEP Pipeline - Web UI")
+    _log.info(f"  Max concurrent solves: {_MAX_CONCURRENT_SOLVES}")
     _log.info("  " + "=" * 44)
     _log.info("")
     _log.info("  Tarayiciya TAM su adresi yapistirin (http:// sart):")

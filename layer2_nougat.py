@@ -16,8 +16,29 @@ from PIL import Image
 from torchvision import transforms as T
 
 from config import NOUGAT_DPI
+from layer0_ingestion import read_raster_sidecar, write_raster_sidecar
 
 _log = logging.getLogger(__name__)
+
+
+def _page_png_sort_key(p: Path) -> int:
+    try:
+        return int(p.stem.split("_", 1)[1])
+    except (IndexError, ValueError):
+        return -1
+
+
+def _sorted_page_pngs(img_dir: Path) -> list[Path]:
+    return sorted(img_dir.glob("page_*.png"), key=_page_png_sort_key)
+
+
+def _page_pngs_match_pdf(paths: list[Path], n_pages: int) -> bool:
+    if n_pages < 1 or len(paths) != n_pages:
+        return False
+    for i, p in enumerate(paths):
+        if _page_png_sort_key(p) != i + 1:
+            return False
+    return True
 
 
 def _setup_albumentations_bypass():
@@ -156,7 +177,11 @@ class Layer2_Nougat:
         return processed
 
     def extract_from_pdf(self, pdf_path: str | Path, verbose: bool = True) -> dict:
-        """Render pages, run Nougat on each PNG, concatenate LaTeX.
+        """Run Nougat on each page PNG, concatenate LaTeX.
+
+        Reuses ``img_dir/<stem>/page_N.png`` from Layer 0 when page files match,
+        ``.step_raster_meta`` records the same ``NOUGAT_DPI`` and the same PDF
+        SHA-256 as this file. Otherwise rasterizes and refreshes the sidecar.
         Skips inference when a cached .mmd with matching PDF hash exists."""
         import hashlib
 
@@ -196,16 +221,39 @@ class Layer2_Nougat:
         img_dir = self.img_dir / fname
         img_dir.mkdir(parents=True, exist_ok=True)
 
-        if verbose:
-            _log.info("  [L2] Rasterizing PDF pages...")
-        doc = fitz.open(str(pdf_path))
-        img_paths = []
-        for i, page in enumerate(doc):
-            pix = page.get_pixmap(dpi=NOUGAT_DPI)
-            p = img_dir / f"page_{i + 1}.png"
-            pix.save(str(p))
-            img_paths.append(p)
-        doc.close()
+        with fitz.open(str(pdf_path)) as doc:
+            n_pages = doc.page_count
+            candidate = _sorted_page_pngs(img_dir)
+            side_dpi, side_hash = read_raster_sidecar(img_dir)
+            meta_ok = (
+                side_dpi is not None
+                and side_hash is not None
+                and side_dpi == NOUGAT_DPI
+                and side_hash == pdf_hash
+            )
+            if meta_ok and _page_pngs_match_pdf(candidate, n_pages):
+                img_paths = candidate
+                if verbose:
+                    _log.info(
+                        f"  [L2] Reusing {len(img_paths)} page image(s) from Layer 0 "
+                        f"(skip rasterize, DPI={NOUGAT_DPI}, hash OK)"
+                    )
+            else:
+                if verbose and not meta_ok and candidate and _page_pngs_match_pdf(
+                    candidate, n_pages
+                ):
+                    _log.info(
+                        "  [L2] Raster sidecar missing or mismatch (DPI/PDF changed); re-rasterizing..."
+                    )
+                if verbose:
+                    _log.info("  [L2] Rasterizing PDF pages...")
+                img_paths = []
+                for i, page in enumerate(doc):
+                    pix = page.get_pixmap(dpi=NOUGAT_DPI)
+                    p = img_dir / f"page_{i + 1}.png"
+                    pix.save(str(p))
+                    img_paths.append(p)
+                write_raster_sidecar(img_dir, NOUGAT_DPI, pdf_hash)
 
         all_latex = []
         for p in img_paths:
