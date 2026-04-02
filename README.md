@@ -151,6 +151,18 @@ Nougat: sahte modül + `generate` yaması + VLM yedek. VLM: `clean_output()` en 
 
 ---
 
+#### Çalışma zamanı ve güvenilirlik güncellemeleri
+
+**Katman 0 / 2 — raster yeniden kullanım:** `dpi` verilmezse Katman 0, yapılandırmadaki **`NOUGAT_DPI`** ile raster üretir; Nougat ile uyum korunur. Her `page_*.png` klasöründe **`.step_raster_meta`** bulunur (1. satır: DPI, 2. satır: PDF SHA-256). Katman 2, bu dosya ve sayfa adları güncel PDF ile örtüşmedikçe PNG’leri **yeniden çizer**; örtüşürse **yeniden rasterize etmeden** kullanır. **`page_*.png`** listesi **sayısal** sıralanır; 9. sayfanın üzerindeki PDF’lerde sıra bozulmaz.
+
+**Katman 3 — VLM eşzamanlılığı:** Sayfa başına API çağrıları **sınırlı iş parçacığı havuzu** ile yürütülebilir. Yoğun RPM veya tam seri çalışma için **`STEP_VLM_PAGE_WORKERS`** (ör. `1`) ayarlanabilir.
+
+**Web arayüzü:** Eşzamanlı çözüm sayısı **`STEP_WEB_MAX_CONCURRENT_SOLVES`** ile sınırlanır (varsayılan 2). Bitmemiş bir görev varken **aynı güvenli dosya adıyla** ikinci yükleme **HTTP 409** döner. Nougat ve GPU yükü yüksekse limit düşürülebilir.
+
+**Katman 6 — cevap temizliği:** Final metin çıkarımında düz `split('=')` kullanılmaz; **süslü parantez derinliği** ile yalnızca üst düzeydeki son `=` dikkate alınır; `\text{...}` gibi yapılar budanmaz.
+
+---
+
 #### Teknoloji seçimleri
 
 PyMuPDF (hız); Nougat (görüntüden LaTeX); LLaMA 4 Scout + Groq (VLM); Gemini (ana metin çözücü); Groq 70B (yedek); SymPy tabanlı `latex_parser` (denemeler arası sayısal karşılaştırma); Flask + SSE; MathJax 3.
