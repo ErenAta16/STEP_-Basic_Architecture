@@ -117,6 +117,8 @@ body {
   flex-direction: column;
   overflow: hidden;
 }
+.left-panel { flex: 0 0 34%; min-width: 320px; }
+.right-panel { flex: 1 1 66%; }
 .panel + .panel { border-left: 1px solid var(--border); }
 .panel-head {
   height: 40px;
@@ -323,9 +325,26 @@ body {
   margin-bottom: 8px;
 }
 .answer-value {
-  font-size: 22px;
+  font-size: 26px;
   color: var(--text);
   line-height: 1.6;
+}
+.compact-note {
+  margin: 0 16px 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.55;
+}
+.compact-note .label {
+  display: block;
+  color: var(--text2);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  margin-bottom: 6px;
 }
 
 /* Info grid */
@@ -473,6 +492,10 @@ body {
   0%, 100% { opacity: .35; }
   50% { opacity: 1; }
 }
+@media (max-width: 1200px) {
+  .left-panel { flex: 0 0 40%; min-width: 260px; }
+  .right-panel { flex: 1 1 60%; }
+}
 </style>
 </head>
 <body>
@@ -542,6 +565,7 @@ body {
           <div class="card" id="solutionCard">
             <div class="card-head">Answer</div>
             <div class="answer-box" id="answerBox"></div>
+            <div class="compact-note" id="compactNote" style="display:none"></div>
             <div class="meta-pills" id="solutionMeta"></div>
             <button class="solution-toggle" id="solToggle" onclick="toggleSolution()">
               <span class="arrow">+</span> Show full solution
@@ -843,6 +867,7 @@ function showResult(data) {
   // ─ Solution ─
   const answer = data.final_answer || '?';
   const consensus = data.consensus;
+  const sympyVerified = !!data.sympy_definite_verified;
   const model = data.model_used || '?';
   const elapsed = data.elapsed_s || '?';
   $('answerBox').innerHTML = `
@@ -850,8 +875,25 @@ function showResult(data) {
     <div class="answer-value">$\\displaystyle ${answer}$</div>
   `;
 
+  const compactParts = [];
+  if (data.llm_summary?.problem_type) compactParts.push(`Type: ${data.llm_summary.problem_type}`);
+  if (data.llm_summary?.method_used) compactParts.push(`Method: ${data.llm_summary.method_used}`);
+  if (data.llm_summary?.key_steps) compactParts.push(`Key idea: ${data.llm_summary.key_steps}`);
+  const compactNote = $('compactNote');
+  if (compactParts.length) {
+    compactNote.style.display = 'block';
+    compactNote.innerHTML = `<span class="label">Simple explanation</span>${esc(compactParts.join(' · '))}`;
+  } else {
+    compactNote.style.display = 'none';
+    compactNote.innerHTML = '';
+  }
+
+  const statusPill = sympyVerified
+    ? `<span class="pill pill-success">SymPy verified (definite integral)</span>`
+    : `<span class="pill ${consensus ? 'pill-success' : 'pill-warning'}">${consensus ? 'Consensus' : 'No consensus'}</span>`;
+
   $('solutionMeta').innerHTML = `
-    <span class="pill ${consensus ? 'pill-success' : 'pill-warning'}">${consensus ? 'Consensus' : 'No consensus'}</span>
+    ${statusPill}
     <span class="pill pill-info">${esc(model)}</span>
     <span class="pill pill-neutral">${elapsed}s</span>
     <span class="pill pill-neutral">Source: ${esc(data.source || '?')}</span>
@@ -859,6 +901,10 @@ function showResult(data) {
 
   if (data.solution) {
     $('solutionContent').innerHTML = renderSolution(data.solution);
+    $('solutionContent').classList.add('open');
+    $('solToggle').classList.add('open');
+    $('solToggle').querySelector('.arrow').textContent = '−';
+    $('solToggle').childNodes[$('solToggle').childNodes.length - 1].textContent = ' Hide full solution';
   }
 
   // ─ Analysis ─
