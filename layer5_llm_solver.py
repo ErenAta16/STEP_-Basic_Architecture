@@ -1,5 +1,5 @@
 """
-Layer 5 — LLM solver (Groq, Gemini, Claude, or OpenAI-compatible).
+Layer 5 — LLM solver (Together, Gemini, Claude, or OpenAI-compatible).
 
 Picks the first provider that has a working API key unless ``force_provider`` is set.
 Initialization messages go through the standard ``logging`` logger for this module.
@@ -8,13 +8,14 @@ Initialization messages go through the standard ``logging`` logger for this modu
 import logging
 
 from config import (
-    GROQ_API_KEY,
-    GROQ_MODEL,
-    GROQ_BASE_URL,
+    TOGETHER_API_KEY,
+    TOGETHER_MODEL,
+    TOGETHER_BASE_URL,
     ANTHROPIC_API_KEY,
     OPENAI_API_KEY,
     GEMINI_API_KEY,
     GEMINI_MODEL,
+    GEMINI_FALLBACK_MODEL,
     CLAUDE_MODEL,
     GPT_MODEL,
     LLM_MAX_TOKENS,
@@ -32,12 +33,13 @@ class Layer5_LLMSolver:
         self.provider = None
         self.client = None
         self.model_name = None
+        self.gemini_fallback_model = None
         self._setup(force_provider)
 
     def _setup(self, force_provider: str | None = None):
         """Wire up one client. If `force_provider` is set, only that backend is tried."""
         providers = {
-            "groq": self._init_groq,
+            "together": self._init_together,
             "gemini": self._init_gemini,
             "claude": self._init_claude,
             "openai": self._init_openai,
@@ -55,15 +57,15 @@ class Layer5_LLMSolver:
                 return
         _log.info("  [!] No LLM API key found in the environment.")
 
-    def _init_groq(self) -> bool:
-        if not GROQ_API_KEY:
+    def _init_together(self) -> bool:
+        if not TOGETHER_API_KEY:
             return False
         try:
             from openai import OpenAI
-            self.client = OpenAI(api_key=GROQ_API_KEY, base_url=GROQ_BASE_URL)
-            self.provider = "groq"
-            self.model_name = GROQ_MODEL
-            _log.info(f"  LLM: Groq ({GROQ_MODEL})")
+            self.client = OpenAI(api_key=TOGETHER_API_KEY, base_url=TOGETHER_BASE_URL)
+            self.provider = "together"
+            self.model_name = TOGETHER_MODEL
+            _log.info(f"  LLM: Together ({TOGETHER_MODEL})")
             return True
         except ImportError:
             _log.info("  [!] `openai` package missing. pip install openai")
@@ -77,6 +79,7 @@ class Layer5_LLMSolver:
             self.client = genai.Client(api_key=GEMINI_API_KEY)
             self.provider = "gemini"
             self.model_name = GEMINI_MODEL
+            self.gemini_fallback_model = GEMINI_FALLBACK_MODEL
             _log.info(f"  LLM: Gemini ({GEMINI_MODEL})")
             return True
         except ImportError:
@@ -128,7 +131,7 @@ class Layer5_LLMSolver:
 
         prompt = system_prompt or LLM_SYSTEM_PROMPT
 
-        if self.provider in ("groq", "openai"):
+        if self.provider in ("together", "openai"):
             text = self._solve_openai_compat(problem_latex, prompt)
         elif self.provider == "gemini":
             text = self._solve_gemini(problem_latex, prompt)
@@ -145,7 +148,7 @@ class Layer5_LLMSolver:
         """Cheap second call: ask the same provider to emit \\boxed{} only."""
         followup_prompt = self._BOXED_FOLLOWUP.format(tail=text[-1500:])
         try:
-            if self.provider in ("groq", "openai"):
+            if self.provider in ("together", "openai"):
                 resp = self.client.chat.completions.create(
                     model=self.model_name,
                     max_tokens=256,
@@ -180,7 +183,7 @@ class Layer5_LLMSolver:
         return text
 
     def _solve_openai_compat(self, problem_latex: str, system_prompt: str) -> str:
-        """Chat completions API (shared by Groq and OpenAI)."""
+        """Chat completions API (shared by Together and OpenAI)."""
         response = self.client.chat.completions.create(
             model=self.model_name,
             max_tokens=LLM_MAX_TOKENS,
@@ -192,11 +195,11 @@ class Layer5_LLMSolver:
         )
         return response.choices[0].message.content or ""
 
-    def _solve_gemini(self, problem_latex: str, system_prompt: str) -> str:
-        """Gemini generate_content (follow-up is handled centrally in `solve`)."""
+    def _solve_gemini_once(self, model_name: str, problem_latex: str, system_prompt: str) -> str:
+        """Single Gemini call with an explicit model name."""
         from google.genai import types
         response = self.client.models.generate_content(
-            model=self.model_name,
+            model=model_name,
             contents=problem_latex,
             config=types.GenerateContentConfig(
                 system_instruction=system_prompt,
@@ -205,6 +208,19 @@ class Layer5_LLMSolver:
             ),
         )
         return response.text or ""
+
+    def _solve_gemini(self, problem_latex: str, system_prompt: str) -> str:
+        """Gemini generate_content (follow-up is handled centrally in `solve`)."""
+        try:
+            return self._solve_gemini_once(self.model_name, problem_latex, system_prompt)
+        except Exception:
+            fallback = (self.gemini_fallback_model or "").strip()
+            if fallback and fallback != self.model_name:
+                _log.warning(
+                    f"  [L5] Gemini primary '{self.model_name}' failed; retrying with '{fallback}'"
+                )
+                return self._solve_gemini_once(fallback, problem_latex, system_prompt)
+            raise
 
     def _solve_claude(self, problem_latex: str, system_prompt: str) -> str:
         response = self.client.messages.create(
