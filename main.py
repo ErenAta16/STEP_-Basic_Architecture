@@ -88,7 +88,7 @@ def main():
         "--provider",
         type=str,
         default=None,
-        choices=["groq", "gemini", "claude", "openai"],
+        choices=["together", "gemini", "claude", "openai"],
         help="Force one LLM backend (default: auto)",
     )
     parser.add_argument(
