@@ -14,13 +14,16 @@ Usage:
 
 import argparse
 import logging
+import re
 import sys
 import time
 import platform
 from collections import OrderedDict
+from concurrent.futures import ThreadPoolExecutor, TimeoutError as FuturesTimeoutError
 from pathlib import Path
 
 import torch
+import sympy as sp
 
 from config import (PDF_DIR, IMG_DIR, NOUGAT_OUT, RESULTS_DIR, NOUGAT_DPI,
                     get_system_prompt, ensure_dirs)
@@ -48,7 +51,7 @@ class STEPSolver:
         self.l3 = Layer3_VLM() if use_vlm else None
         self.l4 = Layer4_Synthesis()
         self.l5_primary = Layer5_LLMSolver(force_provider="gemini")
-        self.l5_fallback = Layer5_LLMSolver(force_provider="groq")
+        self.l5_fallback = Layer5_LLMSolver(force_provider="together")
         self.l5 = self.l5_primary if self.l5_primary.is_available else self.l5_fallback
         self.l6 = Layer6_SymPyVerifier()
         self.use_nougat = use_nougat
@@ -114,12 +117,17 @@ class STEPSolver:
         profile = self.l1.profile(fname, metadata, raw_text)
         timings["l1_profile"] = round(time.time() - t1, 4)
         if verbose:
-            sec = profile.get("secondary_categories") or []
-            sec_s = f" | also: {', '.join(sec)}" if sec else ""
-            _log.info(
-                f"  [L1] {profile['category']} / {profile['surface_type']}{sec_s} "
-                f"({timings['l1_profile']:.3f}s)"
-            )
+            # Raw text can be empty on scanned/image PDFs; in that case L1b (after OCR/VLM)
+            # is the meaningful profile update.
+            if result["chars"] == 0 and self.use_vlm:
+                _log.info(f"  [L1] deferred (raw text empty) ({timings['l1_profile']:.3f}s)")
+            else:
+                sec = profile.get("secondary_categories") or []
+                sec_s = f" | also: {', '.join(sec)}" if sec else ""
+                _log.info(
+                    f"  [L1] {profile['category']} / {profile['surface_type']}{sec_s} "
+                    f"({timings['l1_profile']:.3f}s)"
+                )
 
         nougat_latex = ""
         nougat_score = 0
@@ -160,6 +168,9 @@ class STEPSolver:
             profile = self.l1.profile(fname, metadata, raw_text, latex_text=ocr_text)
             if verbose:
                 _log.info(f"  [L1b] Re-profiled: {profile['category']} / {profile['surface_type']}")
+                sec = profile.get("secondary_categories") or []
+                sec_s = f", signals={sec}" if sec else ""
+                _log.info(f"  [L1] final={profile['category']} / {profile['surface_type']}{sec_s}")
 
         result["category"] = profile["category"]
         result["surface_type"] = profile["surface_type"]
@@ -186,6 +197,64 @@ class STEPSolver:
                 f"  [L4] source={synthesis['source']}, domain={domain_label}, "
                 f"prompt_chars={synthesis['prompt_chars']}"
             )
+
+        # Fast path: for parseable one-variable definite integrals, run exactly one
+        # control LLM pass, then return deterministic SymPy final answer.
+        if result.get("category") == "definite_integral":
+            fast_sympy = self._sympy_definite_integral_from_prompt(prompt)
+            if fast_sympy:
+                system_prompt = get_system_prompt(
+                    domain,
+                    secondary_categories=profile.get("secondary_categories"),
+                    primary_category=profile.get("category"),
+                )
+                result["l5_system"] = {
+                    "domain": domain,
+                    "secondary_categories": list(profile.get("secondary_categories") or []),
+                }
+                t5 = time.time()
+                checks = self._solve_with_consensus(
+                    prompt,
+                    system_prompt,
+                    max_attempts=1,
+                    verbose=verbose,
+                    allow_extra_provider_attempt=False,
+                )
+                timings["l5_llm"] = round(time.time() - t5, 2)
+                best_check = next((a for a in checks if a.get("solution")), checks[0] if checks else {})
+                result["attempts"] = 1
+                result["solution"] = best_check.get("solution", "")
+                result["solution_chars"] = len(best_check.get("solution", ""))
+                result["consensus"] = False
+                result["model_used"] = best_check.get("model", "sympy/definite-integral-fast-path")
+                result["sympy_definite_verified"] = True
+                result["final_answer"] = fast_sympy
+                result["llm_summary"] = self._extract_llm_summary(result["solution"]) if result["solution"] else {}
+                timings["l6_extract"] = 0.0
+                result["timings"] = timings
+                result["elapsed_s"] = round(time.time() - t_start, 1)
+                if verbose:
+                    _log.info("  [L5] [CHECK] One control pass completed (definite integral)")
+                    _log.info("  [L6] [SYMPY] deterministic definite integral override")
+                    _log.info("  [L6] [OK] extracted final line for display")
+                self._result_cache[cache_key] = result
+                self._result_cache.move_to_end(cache_key)
+                while len(self._result_cache) > self._result_cache_max:
+                    self._result_cache.popitem(last=False)
+                return result
+
+        # No readable input: avoid wasting LLM calls and returning misleading
+        # "no problem provided" style answers from the model.
+        no_raw = result["chars"] == 0
+        no_useful_ocr = nougat_score == 0 and vlm_score == 0
+        if no_raw and no_useful_ocr:
+            result["error"] = "No readable mathematical content detected in the PDF"
+            result["final_answer"] = "(input not readable)"
+            result["timings"] = timings
+            result["elapsed_s"] = round(time.time() - t_start, 1)
+            if verbose:
+                _log.info("  [L5] [SKIP] No readable content after L0/L2/L3 quality checks; skipping LLM")
+            return result
 
         # --- L5: LLM Solve with Consensus (2-3 attempts) ---
         system_prompt = get_system_prompt(
@@ -223,6 +292,22 @@ class STEPSolver:
         # --- L6: extract FINAL_ANSWER / boxed for display ---
         t6 = time.time()
         fa = self.l6._extract_final_answer(best["solution"])
+        if self._looks_intermediate_answer(fa) or self._needs_category_refine(result.get("category", ""), fa):
+            refined_fa = self._refine_final_answer(
+                prompt=prompt,
+                candidate_solution=best.get("solution", ""),
+                verbose=verbose,
+            )
+            if refined_fa:
+                fa = refined_fa
+        result["sympy_definite_verified"] = False
+        if result.get("category") == "definite_integral":
+            sympy_fa = self._sympy_definite_integral_from_prompt(prompt)
+            if sympy_fa:
+                fa = sympy_fa
+                result["sympy_definite_verified"] = True
+                if verbose:
+                    _log.info("  [L6] [SYMPY] deterministic definite integral override")
         result["final_answer"] = fa if fa else "(could not extract)"
         if verbose:
             tag = "[OK]" if fa else "[?]"
@@ -242,8 +327,9 @@ class STEPSolver:
         return result
 
     def _solve_with_consensus(self, prompt: str, system_prompt: str,
-                               max_attempts: int = 3, verbose: bool = True) -> list[dict]:
-        """Up to ``max_attempts`` solves, rotating Gemini (primary) and Groq (fallback).
+                               max_attempts: int = 3, verbose: bool = True,
+                               allow_extra_provider_attempt: bool = True) -> list[dict]:
+        """Up to ``max_attempts`` solves, rotating Gemini (primary) and Together (fallback).
 
         Parses each reply to a numeric value when possible and stops early if two
         attempts agree. Handles 429/503-style errors by backing off and switching provider.
@@ -264,7 +350,11 @@ class STEPSolver:
         rate_limited = set()
         consecutive_503 = 0
 
-        for i in range(max_attempts):
+        # Reserve one extra slot per additional provider so fallback gets at least
+        # one real attempt when the primary burns all base attempts on 503/429.
+        total_attempts = max_attempts + (max(0, len(solvers) - 1) if allow_extra_provider_attempt else 0)
+        i = 0
+        while i < total_attempts:
             if i > 0 and consecutive_503 == 0:
                 time.sleep(INTER_ATTEMPT_DELAY)
 
@@ -309,7 +399,7 @@ class STEPSolver:
 
                 if verbose:
                     _log.info(
-                        f"  [L5] {solver_label} [{i+1}/{max_attempts}]... "
+                        f"  [L5] {solver_label} [{i+1}/{total_attempts}]... "
                         f"-> {fa or '?'} ({elapsed:.1f}s)"
                     )
 
@@ -319,10 +409,10 @@ class STEPSolver:
                             f"  [L5] [OK] Consensus: {fa} ({answer_counts[fa_key]}/{i+1} agree)"
                         )
                     for a in attempts:
-                        if a["key"] == fa_key:
+                        if a.get("key") == fa_key:
                             a["consensus"] = True
                             a["attempt_count"] = i + 1
-                    return [a for a in attempts if a["key"] == fa_key][:1]
+                    return [a for a in attempts if a.get("key") == fa_key][:1]
 
             except Exception as e:
                 err = str(e)
@@ -332,8 +422,21 @@ class STEPSolver:
                 is_transient = any(k in err for k in ["503", "UNAVAILABLE", "overloaded", "high demand"])
                 is_rate = any(k in err for k in ["429", "RESOURCE_EXHAUSTED", "rate", "quota"])
                 is_fatal = any(k in err for k in ["404", "NOT_FOUND"])
+                has_any_valid_answer = any(a.get("key") is not None for a in attempts)
 
-                if is_transient and consecutive_503 < 2:
+                # If we already have at least one parseable answer, avoid long retry
+                # loops on a flaky provider; switch faster to fallback.
+                if is_transient and has_any_valid_answer:
+                    consecutive_503 = 0
+                    for tag, s in solvers:
+                        if s is solver:
+                            rate_limited.add(tag)
+                            if verbose:
+                                _log.info(f"  [L5] [WARN] {solver_label}: transient 503 after valid answer; switching")
+                            if i + 1 >= total_attempts and len(rate_limited) < len(solvers):
+                                total_attempts += 1
+                            break
+                elif is_transient and consecutive_503 < 2:
                     consecutive_503 += 1
                     delay = RETRY_503_DELAY * consecutive_503
                     if verbose:
@@ -346,9 +449,15 @@ class STEPSolver:
                             rate_limited.add(tag)
                             if verbose:
                                 _log.info(f"  [L5] [WARN] {solver_label}: switching to fallback")
+                            # If switch happens on the last slot, grant one extra
+                            # attempt so the fallback provider actually runs.
+                            if i + 1 >= total_attempts and len(rate_limited) < len(solvers):
+                                total_attempts += 1
                             break
 
                 attempts.append({"solution": "", "final_answer": "", "error": err})
+            finally:
+                i += 1
 
         if not attempts:
             return []
@@ -383,9 +492,130 @@ class STEPSolver:
         return attempts[:1]
 
     @staticmethod
+    def _looks_intermediate_answer(ans: str) -> bool:
+        """Heuristic guard: reject likely intermediate/non-final forms."""
+        if not ans:
+            return True
+        t = ans.strip()
+        lo = t.lower()
+
+        if t in {"?", "(could not extract)"}:
+            return True
+        if any(k in lo for k in ["assuming", "let ", "substitute", "set u=", "set u ="]):
+            return True
+        if t.endswith(":") or "$" in t:
+            return True
+
+        identity_markers = ["1-\\sin^2", "1 - \\sin^2", "\\cos^2", "\\tan", "\\cot", "\\sec", "\\csc"]
+        if any(m in lo for m in identity_markers):
+            if not any(k in lo for k in ["\\ln", "log", "+ c", "\\int", "\\frac"]):
+                return True
+
+        if len(t) < 18 and "+ c" not in lo and "\\ln" not in lo and "\\frac" not in lo:
+            return True
+        return False
+
+    def _refine_final_answer(self, prompt: str, candidate_solution: str, verbose: bool = True) -> str:
+        """Ask one extra strict pass only when current final looks intermediate."""
+        refine_timeout_s = 35
+        strict_system = (
+            "Return ONLY the final mathematical result in closed form. "
+            "Do not return intermediate identities or substitutions. "
+            "If indefinite integral, include + C. "
+            "Output exactly one \\\\boxed{...} answer."
+        )
+        strict_user = (
+            "Original problem:\n"
+            f"{prompt}\n\n"
+            "Candidate answer (possibly intermediate):\n"
+            f"{candidate_solution}\n\n"
+            "Now provide only the final closed-form answer."
+        )
+
+        for solver in (self.l5_primary, self.l5_fallback):
+            if not solver.is_available:
+                continue
+            try:
+                with ThreadPoolExecutor(max_workers=1) as pool:
+                    fut = pool.submit(solver.solve, strict_user, strict_system)
+                    refined_solution = fut.result(timeout=refine_timeout_s)
+                refined_fa = self.l6._extract_final_answer(refined_solution) or ""
+                if refined_fa and not self._looks_intermediate_answer(refined_fa):
+                    if verbose:
+                        _log.info(f"  [L6] [REFINE] final upgraded via {solver.provider}/{solver.model_name}")
+                    return refined_fa
+            except FuturesTimeoutError:
+                if verbose:
+                    _log.info(f"  [L6] [REFINE-TIMEOUT] {solver.provider}/{solver.model_name} > {refine_timeout_s}s")
+            except Exception as e:
+                if verbose:
+                    _log.info(f"  [L6] [REFINE-ERR] {str(e)[:80]}")
+        return ""
+
+    @staticmethod
+    def _needs_category_refine(category: str, ans: str) -> bool:
+        """Domain-aware guardrails for obvious final-form mismatches."""
+        a = (ans or "").lower()
+        c = (category or "").lower()
+        if c == "definite_integral" and "+ c" in a:
+            return True
+        return False
+
+    @staticmethod
+    def _sympy_definite_integral_from_prompt(prompt: str) -> str:
+        """Try deterministic solving for simple one-variable definite integrals."""
+        from latex_parser import parse_latex_to_expr, find_matching_brace
+
+        text = (prompt or "").replace("$", " ").strip()
+        idx = text.find("\\int_")
+        if idx < 0:
+            return ""
+        i = idx + len("\\int_")
+        if i >= len(text) or text[i] != "{":
+            return ""
+        a_end = find_matching_brace(text, i)
+        a_ltx = text[i + 1:a_end]
+        j = a_end + 1
+        if j >= len(text) or text[j] != "^":
+            return ""
+        j += 1
+        if j < len(text) and text[j] == "{":
+            b_end = find_matching_brace(text, j)
+            b_ltx = text[j + 1:b_end]
+            k = b_end + 1
+        else:
+            m_b = re.match(r"([^\s\\]+)", text[j:])
+            if not m_b:
+                return ""
+            b_ltx = m_b.group(1)
+            k = j + len(b_ltx)
+
+        tail = text[k:]
+        m_var = re.search(r"d([a-zA-Z])", tail)
+        if not m_var:
+            return ""
+        integrand_ltx = tail[:m_var.start()].strip()
+        var_name = m_var.group(1)
+        if not integrand_ltx:
+            return ""
+
+        var = sp.Symbol(var_name)
+        a_expr = parse_latex_to_expr(a_ltx)
+        b_expr = parse_latex_to_expr(b_ltx)
+        f_expr = parse_latex_to_expr(integrand_ltx)
+        if a_expr is None or b_expr is None or f_expr is None:
+            return ""
+        try:
+            val = sp.simplify(sp.integrate(f_expr, (var, a_expr, b_expr)))
+            # Prefer a standard log-style closed form over acosh/asinh when possible.
+            val = sp.simplify(val.rewrite(sp.log))
+            return sp.latex(val)
+        except Exception:
+            return ""
+
+    @staticmethod
     def _extract_llm_summary(solution: str) -> dict:
         """Parse the structured SUMMARY: block from the system prompt template (if present)."""
-        import re
         summary = {}
         idx = solution.find("SUMMARY:")
         if idx == -1:
@@ -568,8 +798,8 @@ def check_system():
         _log.info("  [!] No CUDA GPU (Nougat is slow on CPU)")
 
     # API Keys
-    from config import GROQ_API_KEY, GEMINI_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY
-    keys = [("Groq", GROQ_API_KEY), ("Gemini", GEMINI_API_KEY),
+    from config import TOGETHER_API_KEY, GEMINI_API_KEY, ANTHROPIC_API_KEY, OPENAI_API_KEY
+    keys = [("Together", TOGETHER_API_KEY), ("Gemini", GEMINI_API_KEY),
             ("Anthropic", ANTHROPIC_API_KEY), ("OpenAI", OPENAI_API_KEY)]
     for name, key in keys:
         status = "OK" if key else "NO"
