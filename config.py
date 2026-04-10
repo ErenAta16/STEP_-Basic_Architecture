@@ -31,7 +31,7 @@ def ensure_dirs() -> None:
     for d in _PIPELINE_DIRS:
         d.mkdir(parents=True, exist_ok=True)
 
-GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
+TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY", "")
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY", "")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY", "")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
@@ -39,11 +39,15 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 NOUGAT_MODEL = "nougat"
 NOUGAT_DPI = 400
 
-GROQ_MODEL = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
-GROQ_BASE_URL = "https://api.groq.com/openai/v1"
+TOGETHER_MODEL = os.getenv("TOGETHER_MODEL", "meta-llama/Llama-3.3-70B-Instruct-Turbo")
+TOGETHER_BASE_URL = "https://api.together.xyz/v1"
+VLM_PROVIDER = os.getenv("VLM_PROVIDER", "gemini").strip().lower()
+TOGETHER_VLM_MODEL = os.getenv("TOGETHER_VLM_MODEL", "Qwen/Qwen2.5-VL-72B-Instruct")
+TOGETHER_VLM_FALLBACK_MODEL = os.getenv("TOGETHER_VLM_FALLBACK_MODEL", "Qwen/Qwen3-VL-8B-Instruct")
 CLAUDE_MODEL = "claude-sonnet-4-20250514"
 GPT_MODEL = "gpt-4o"
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+GEMINI_FALLBACK_MODEL = os.getenv("GEMINI_FALLBACK_MODEL", "gemini-2.5-flash")
 VLM_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
 LLM_MAX_TOKENS = 8192
 LLM_TEMPERATURE = 0.0
@@ -105,8 +109,16 @@ CRITICAL RULES:
 - Use LaTeX for all math.
 - The final answer MUST be exact, symbolic, and in SIMPLEST FORM (no decimals).
 - The final answer MUST appear inside \\boxed{}.
+- Intermediate identities/substitutions are NOT final answers; always continue to final closed form.
 - Double-check arithmetic at every step before proceeding.
-- ALWAYS include the SUMMARY section after the answer."""
+- ALWAYS include the SUMMARY section after the answer.
+
+HANDWRITTEN/OCR ROBUSTNESS (MANDATORY):
+- Treat OCR/VLM text as noisy. Common confusions include: 1/l, 0/O, 5/S, x/\\times, "-" vs "=", and missing superscripts/subscripts.
+- Reconstruct symbols using nearby math context before solving (operators, bounds, differential terms, vector notation, orientation words).
+- If two interpretations are plausible, prefer the one that is mathematically consistent with all visible constraints (domain, bounds, units, theorem cues).
+- Never invent missing data. If a critical element is unreadable, state the minimal assumption explicitly in one short sentence, then solve under that assumption.
+- Keep notation consistent from start to finish (same variable names, same orientation convention, same parameter ranges)."""
 
 LLM_SYSTEM_PROMPT_GENERAL = """You are an expert mathematician. Solve the given mathematical problem with absolute precision.
 
@@ -161,8 +173,19 @@ CRITICAL RULES:
 - Use LaTeX for all math.
 - The final answer MUST be exact, symbolic, and in SIMPLEST FORM (no decimals).
 - The final answer MUST appear inside \\boxed{}.
+- Intermediate identities/substitutions are NOT final answers; always continue to final closed form.
 - Double-check arithmetic at every step before proceeding.
-- ALWAYS include the SUMMARY section after the answer."""
+- ALWAYS include the SUMMARY section after the answer.
+- Keep the explanation simple and short, similar to handwritten class solutions:
+  at most 4 short steps, each one line, no long paragraphs.
+- Use clear student-friendly wording and avoid unnecessary theory.
+
+HANDWRITTEN/OCR ROBUSTNESS (MANDATORY):
+- Treat OCR/VLM text as noisy. Common confusions include: 1/l, 0/O, 5/S, x/\\times, "-" vs "=", and missing superscripts/subscripts.
+- Reconstruct symbols using nearby math context (operators, limits/bounds, differential markers like dx/dy, function structure, and equation balance).
+- If more than one reading is plausible, choose the interpretation that is globally consistent with the full expression and standard textbook forms.
+- Never hallucinate hidden values. If a critical token is unreadable, state one minimal assumption explicitly, then continue with that assumption.
+- Preserve mathematical consistency: keep variable roles, domains, constants, and sign conventions stable across all steps."""
 
 # Primary L1 labels that map to the surface-integral system prompt (single source of truth).
 SURFACE_INTEGRAL_PRIMARY_CATEGORIES = frozenset({
