@@ -6,6 +6,7 @@ Raster output feeds Nougat/VLM; text + markdown feed profiling and the LLM promp
 
 import hashlib
 import logging
+import time
 import fitz  # PyMuPDF
 from pathlib import Path
 
@@ -82,7 +83,19 @@ class Layer0_PDFIngestion:
             pix = page.get_pixmap(dpi=dpi, alpha=False)
             try:
                 img_path = out_dir / f"page_{i + 1}.png"
-                pix.save(str(img_path))
+                # On Windows, concurrent runs may briefly lock an existing PNG.
+                # Retry a few times before failing hard.
+                last_err = None
+                for _ in range(4):
+                    try:
+                        pix.save(str(img_path))
+                        last_err = None
+                        break
+                    except Exception as e:
+                        last_err = e
+                        time.sleep(0.15)
+                if last_err is not None:
+                    raise last_err
                 images.append({
                     "page": i + 1,
                     "path": str(img_path),
