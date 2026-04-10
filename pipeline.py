@@ -52,7 +52,7 @@ class STEPPipeline:
         self.ensemble = ensemble
         if ensemble:
             self.solvers = {}
-            for p in ["groq", "gemini", "claude", "openai"]:
+            for p in ["together", "gemini", "claude", "openai"]:
                 solver = Layer5_LLMSolver(force_provider=p)
                 if solver.is_available:
                     self.solvers[p] = solver
@@ -105,7 +105,7 @@ class STEPPipeline:
         models = [{"provider": s.provider, "model": s.model_name}
                   for s in self.solvers.values()]
         if self.use_vlm and self.layer3.is_available:
-            vp = (self.layer3.provider or "groq") + "_vlm"
+            vp = (self.layer3.provider or "gemini") + "_vlm"
             models.insert(0, {"provider": vp, "model": self.layer3.model})
         logger.log_models(models)
 
@@ -114,7 +114,7 @@ class STEPPipeline:
         if self.ensemble:
             llm_name = "Ensemble(" + "+".join(s.capitalize() for s in self.solvers) + ")"
         else:
-            provider_names = {"groq": "Groq", "gemini": "Gemini", "claude": "Claude", "openai": "GPT-4o"}
+            provider_names = {"together": "Together", "gemini": "Gemini", "claude": "Claude", "openai": "GPT-4o"}
             llm_name = provider_names.get(self.layer5.provider, "LLM") if self.layer5.is_available else "LLM(none)"
 
         want_l2 = self.use_nougat
