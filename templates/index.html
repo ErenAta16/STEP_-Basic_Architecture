@@ -492,9 +492,272 @@ body {
   0%, 100% { opacity: .35; }
   50% { opacity: 1; }
 }
+/* ── Follow-up card ── */
+.followup-card .card-head {
+  background: var(--surface);
+}
+.followup-question {
+  padding: 14px 20px 10px;
+  border-bottom: 1px solid var(--border);
+}
+.followup-question .tag {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+.followup-question .text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+.followup-reply {
+  padding: 14px 20px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--text);
+}
+.followup-reply .tag {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+.followup-reply p { margin-bottom: 8px; }
+.followup-reply strong { color: var(--text); font-weight: 600; }
+.followup-reply .followup-meta {
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+.followup-error {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: var(--err);
+  line-height: 1.55;
+}
+
+/* ── Composer (user instruction to the model) ── */
+.composer {
+  padding: 16px 24px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.composer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.composer-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+}
+.composer-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+}
+.composer-label .req { color: var(--text3); font-weight: 500; letter-spacing: 0; text-transform: none; margin-left: 6px; }
+.composer-hint {
+  font-size: 11px;
+  color: var(--text3);
+}
+.composer textarea {
+  width: 100%;
+  resize: vertical;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  line-height: 1.55;
+  padding: 10px 12px;
+  min-height: 58px;
+  max-height: 160px;
+  outline: none;
+  border-radius: 0;
+  transition: border-color .15s;
+}
+.composer textarea:focus { border-color: var(--text3); }
+.composer-meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+.composer-count.warn { color: var(--warn); }
+
+.composer.inactive textarea { opacity: .55; cursor: not-allowed; }
+.composer.inactive .composer-label { color: var(--text3); }
+
+.composer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+}
+.composer-status {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+.composer-status.ready { color: var(--text); }
+.composer-status.running { color: var(--text2); }
+.btn-solve {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border-radius: 0;
+  transition: border-color .12s, background .12s, color .12s;
+}
+.btn-solve:hover:not(:disabled) {
+  background: #252b33;
+  border-color: var(--text3);
+}
+.btn-solve:disabled {
+  cursor: not-allowed;
+  color: var(--text3);
+  border-color: var(--border);
+  background: var(--surface);
+}
+
+/* ── Classification card (MathE-style) ── */
+.class-card .card-body { padding: 16px 20px; }
+.class-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 28px;
+}
+.class-field { display: flex; flex-direction: column; gap: 4px; }
+.class-field.full { grid-column: 1 / -1; }
+.class-field-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+}
+.class-field-value {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.4;
+  min-height: 20px;
+}
+.class-field-value.muted { color: var(--text3); font-style: italic; font-size: 12px; }
+.keyword-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 8px;
+}
+.keyword-item {
+  font-size: 12px;
+  color: var(--text);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent-weak);
+  padding: 4px 10px;
+  line-height: 1.3;
+}
+
+/* ── Question echo card ── */
+.note-card .card-body {
+  padding: 14px 20px;
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+/* ── Details table (collapsible) ── */
+.details-table {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 8px 20px;
+  font-size: 13px;
+  padding: 4px 4px 8px;
+}
+.details-table dt {
+  color: var(--text2);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  padding-top: 2px;
+}
+.details-table dd {
+  margin: 0;
+  color: var(--text);
+  word-break: break-word;
+}
+.details-empty { color: var(--text3); font-style: italic; }
+
+/* ── Collapsible helpers ── */
+.collapsible-toggle {
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  border-top: 1px solid var(--border);
+  background: var(--surface2);
+  color: var(--text2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: background .15s, color .15s;
+}
+.collapsible-toggle:hover { background: rgba(255,255,255,.04); color: var(--text); }
+.collapsible-toggle .arrow {
+  display: inline-block;
+  width: 1em;
+  font-family: var(--mono);
+  font-weight: 700;
+}
+.collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .3s ease;
+  padding: 0 16px;
+}
+.collapsible-content.open {
+  max-height: 4000px;
+  padding: 14px 16px;
+  overflow: auto;
+}
+
 @media (max-width: 1200px) {
   .left-panel { flex: 0 0 40%; min-width: 260px; }
   .right-panel { flex: 1 1 60%; }
+  .class-grid { grid-template-columns: 1fr; }
+  .details-table { grid-template-columns: 120px 1fr; }
 }
 </style>
 </head>
@@ -513,6 +776,25 @@ body {
     </label>
   </div>
 </header>
+<!-- Composer -->
+<section class="composer" id="composer">
+  <div class="composer-inner">
+    <div class="composer-head">
+      <span class="composer-label" id="composerLabel">Question to the assistant<span class="req" id="composerReq">optional</span></span>
+      <span class="composer-hint" id="composerHint">Sent alongside the extracted problem statement.</span>
+    </div>
+    <textarea id="userQuery" maxlength="600" rows="2"
+              placeholder="Type here. For example: solve in decimal form, show each step on its own line, or answer in Portuguese."></textarea>
+    <div class="composer-meta">
+      <span id="composerHelper">Up to 600 characters. Leave empty to use the default system prompt.</span>
+      <span class="composer-count" id="userQueryCount">0 / 600</span>
+    </div>
+    <div class="composer-actions">
+      <span class="composer-status" id="composerStatus">Select a PDF to enable Solve.</span>
+      <button class="btn-solve" id="solveBtn" type="button" disabled>Solve</button>
+    </div>
+  </div>
+</section>
 <div class="loading-bar" id="loadingBar"></div>
 
 <!-- Main -->
@@ -555,13 +837,7 @@ body {
         <!-- Result cards (hidden until done) -->
         <div class="cards-section" id="cardsSection" style="display:none">
 
-          <!-- Profiling -->
-          <div class="card" id="profilingCard">
-            <div class="card-head">PDF profiling</div>
-            <div class="card-body" id="profilingBody"></div>
-          </div>
-
-          <!-- Solution -->
+          <!-- Answer (primary focus) -->
           <div class="card" id="solutionCard">
             <div class="card-head">Answer</div>
             <div class="answer-box" id="answerBox"></div>
@@ -573,10 +849,31 @@ body {
             <div class="solution-content" id="solutionContent"></div>
           </div>
 
-          <!-- Analysis -->
+          <!-- Classification (MathE style) -->
+          <div class="card class-card" id="classCard">
+            <div class="card-head">Classification</div>
+            <div class="card-body" id="classBody"></div>
+          </div>
+
+          <!-- Question echo (only when user provided one) -->
+          <div class="card note-card" id="noteCard" style="display:none">
+            <div class="card-head">Your question</div>
+            <div class="card-body" id="noteBody"></div>
+          </div>
+
+          <!-- Model summary -->
           <div class="card" id="analysisCard" style="display:none">
             <div class="card-head">Model summary</div>
             <div class="card-body" id="analysisBody"></div>
+          </div>
+
+          <!-- Technical details (collapsible) -->
+          <div class="card" id="detailsCard">
+            <div class="card-head">Pipeline details</div>
+            <button class="collapsible-toggle" id="detailsToggle" onclick="toggleDetails()">
+              <span class="arrow">+</span> Show pipeline details
+            </button>
+            <div class="collapsible-content" id="detailsContent"></div>
           </div>
         </div>
 
@@ -636,8 +933,39 @@ const fileInput = $('fileInput');
 const uploadZone = $('uploadZone');
 const pdfViewer = $('pdfViewer');
 const loadingBar = $('loadingBar');
+const userQuery = $('userQuery');
+const userQueryCount = $('userQueryCount');
+const solveBtn = $('solveBtn');
+const composerStatus = $('composerStatus');
+const composerLabel = $('composerLabel');
+const composerReq = $('composerReq');
+const composerHint = $('composerHint');
+const composerHelper = $('composerHelper');
 
-// ── Upload Handling ──
+let stagedFile = null;
+let solveRunning = false;
+// 'initial' -> waiting for a PDF, first Solve
+// 'chat'    -> a solve has completed; button asks follow-ups
+let composerMode = 'initial';
+let followupBusy = false;
+let lastFileName = '';
+
+// Keep the character counter in sync and refresh the Ask button state.
+if (userQuery && userQueryCount) {
+  const updateCount = () => {
+    const n = userQuery.value.length;
+    userQueryCount.textContent = `${n} / 600`;
+    userQueryCount.classList.toggle('warn', n >= 540);
+    setSolveReady();
+  };
+  userQuery.addEventListener('input', updateCount);
+  updateCount();
+}
+
+// Initialize composer copy to match the "auto-solve on upload" flow.
+setComposerMode('initial');
+
+// ── File selection (staging only; sending happens on Solve click) ──
 uploadZone.addEventListener('click', () => fileInput.click());
 
 uploadZone.addEventListener('dragover', e => {
@@ -648,42 +976,261 @@ uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag
 uploadZone.addEventListener('drop', e => {
   e.preventDefault();
   uploadZone.classList.remove('dragover');
-  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+  if (e.dataTransfer.files.length) stageFile(e.dataTransfer.files[0]);
 });
 
 fileInput.addEventListener('change', () => {
-  if (fileInput.files.length) handleFile(fileInput.files[0]);
+  if (fileInput.files.length) stageFile(fileInput.files[0]);
 });
 
-function handleFile(file) {
+function stageFile(file) {
   if (!file.name.toLowerCase().endsWith('.pdf')) {
     alert('Please choose a PDF file');
     return;
   }
 
-  // Show PDF locally first
+  stagedFile = file;
+  lastFileName = file.name;
+
+  // Local preview (replaced with server copy after Solve).
   const url = URL.createObjectURL(file);
   pdfViewer.src = url;
   pdfViewer.style.display = 'block';
   uploadZone.style.display = 'none';
   $('fileName').textContent = file.name;
 
+  // Reset any previous follow-up session and immediately start solving.
+  // The follow-up UI becomes active once the solve completes.
+  if (userQuery) userQuery.value = '';
+  if (userQueryCount) {
+    userQueryCount.textContent = '0 / 600';
+    userQueryCount.classList.remove('warn');
+  }
+  setComposerMode('initial');
+  setSolveReady();
+  submitSolve();
+}
+
+function setComposerMode(mode) {
+  composerMode = mode;
+  if (!composerLabel) return;
+  if (mode === 'chat') {
+    composerLabel.childNodes[0].nodeValue = 'Follow-up to the assistant';
+    if (composerReq) composerReq.textContent = '';
+    if (composerHint) {
+      composerHint.textContent = lastFileName
+        ? `Asking about ${lastFileName}.`
+        : 'Asking about the previous problem.';
+    }
+    if (composerHelper) composerHelper.textContent = 'Up to 600 characters. The model sees the original problem and the prior solution.';
+    if (userQuery) userQuery.placeholder = 'Example: explain the substitution in more detail, or give the numeric value.';
+  } else {
+    composerLabel.childNodes[0].nodeValue = 'Follow-up to the assistant';
+    if (composerReq) composerReq.textContent = 'available after solve';
+    if (composerHint) composerHint.textContent = 'Upload a PDF first. The solve starts automatically.';
+    if (composerHelper) composerHelper.textContent = 'You can ask up to 600 characters per follow-up once the solve finishes.';
+    if (userQuery) userQuery.placeholder = 'Follow-up chat becomes available after the solve completes.';
+  }
+  setSolveReady();
+}
+
+function setSolveReady() {
+  if (!solveBtn || !composerStatus) return;
+
+  const composer = document.getElementById('composer');
+  const chat = composerMode === 'chat';
+
+  if (chat) {
+    if (composer) composer.classList.remove('inactive');
+    if (userQuery) userQuery.disabled = false;
+    const queryLen = (userQuery && userQuery.value || '').trim().length;
+    solveBtn.disabled = followupBusy || queryLen === 0 || !currentTaskId;
+    solveBtn.textContent = followupBusy ? 'Asking...' : 'Ask';
+    if (followupBusy) {
+      composerStatus.textContent = 'Waiting for the assistant...';
+      composerStatus.classList.remove('ready');
+      composerStatus.classList.add('running');
+    } else if (currentTaskId) {
+      composerStatus.textContent = lastFileName
+        ? `Ready: ask a follow-up about ${lastFileName}.`
+        : 'Ready: ask a follow-up.';
+      composerStatus.classList.add('ready');
+      composerStatus.classList.remove('running');
+    } else {
+      composerStatus.textContent = 'No previous solve found.';
+      composerStatus.classList.remove('ready');
+      composerStatus.classList.remove('running');
+    }
+    return;
+  }
+
+  // Initial mode: composer is informational only. Solving starts automatically
+  // when the user uploads a PDF; follow-up chat unlocks after it finishes.
+  if (composer) composer.classList.add('inactive');
+  if (userQuery) userQuery.disabled = true;
+  solveBtn.disabled = true;
+  solveBtn.textContent = solveRunning ? 'Solving...' : 'Solve';
+  if (solveRunning) {
+    composerStatus.textContent = lastFileName
+      ? `Solving ${lastFileName}... follow-ups will unlock when it finishes.`
+      : 'Solving... follow-ups will unlock when it finishes.';
+    composerStatus.classList.remove('ready');
+    composerStatus.classList.add('running');
+  } else {
+    composerStatus.textContent = 'Upload a PDF to begin. The solver runs automatically.';
+    composerStatus.classList.remove('ready');
+    composerStatus.classList.remove('running');
+  }
+}
+
+function submitSolve() {
+  if (!stagedFile || solveRunning) return;
+  solveRunning = true;
+  setSolveReady();
+
   resetPipeline();
   loadingBar.classList.add('active');
   startTimer();
 
   const fd = new FormData();
-  fd.append('pdf', file);
+  fd.append('pdf', stagedFile);
+  const note = (userQuery && userQuery.value || '').trim();
+  if (note) fd.append('user_query', note);
 
   fetch('/upload', {method:'POST', body: fd})
     .then(r => r.json())
     .then(data => {
-      if (data.error) { addTerminal(data.error, 'error'); return; }
+      if (data.error) {
+        addTerminal(data.error, 'error');
+        solveRunning = false;
+        setSolveReady();
+        loadingBar.classList.remove('active');
+        stopTimer();
+        return;
+      }
       currentTaskId = data.task_id;
       pdfViewer.src = `/pdf/${encodeURIComponent(data.filename)}`;
       startStream(data.task_id);
     })
-    .catch(err => addTerminal('Upload error: ' + err.message, 'error'));
+    .catch(err => {
+      addTerminal('Upload error: ' + err.message, 'error');
+      solveRunning = false;
+      setSolveReady();
+      loadingBar.classList.remove('active');
+      stopTimer();
+    });
+}
+
+function handleComposerSubmit() {
+  if (composerMode === 'chat') {
+    submitFollowup();
+  } else {
+    submitSolve();
+  }
+}
+
+if (solveBtn) solveBtn.addEventListener('click', handleComposerSubmit);
+
+// Allow Ctrl/Cmd+Enter from the textarea to trigger the composer action.
+if (userQuery) {
+  userQuery.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+      e.preventDefault();
+      handleComposerSubmit();
+    }
+  });
+}
+
+function submitFollowup() {
+  if (!currentTaskId || followupBusy) return;
+  const note = (userQuery && userQuery.value || '').trim();
+  if (!note) return;
+  followupBusy = true;
+  setSolveReady();
+  loadingBar.classList.add('active');
+
+  fetch('/followup', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({task_id: currentTaskId, user_query: note}),
+  })
+    .then(async r => {
+      const text = await r.text();
+      let data;
+      try { data = JSON.parse(text); } catch (_) { data = {error: text}; }
+      if (!r.ok) {
+        appendFollowupError(note, data.error || `HTTP ${r.status}`);
+      } else {
+        appendFollowupCard(data);
+      }
+    })
+    .catch(err => appendFollowupError(note, err.message))
+    .finally(() => {
+      followupBusy = false;
+      loadingBar.classList.remove('active');
+      if (userQuery) userQuery.value = '';
+      if (userQueryCount) {
+        userQueryCount.textContent = '0 / 600';
+        userQueryCount.classList.remove('warn');
+      }
+      setSolveReady();
+    });
+}
+
+function appendFollowupCard(data) {
+  const container = $('cardsSection');
+  if (!container) return;
+  const card = document.createElement('div');
+  card.className = 'card followup-card';
+  const question = data.user_query || '';
+  const solution = data.solution || '';
+  const finalAnswer = data.final_answer || '';
+  const model = data.model_used || '';
+  const elapsed = data.elapsed_s;
+
+  const rendered = solution ? renderSolution(solution) : '';
+  const metaParts = [];
+  if (model) metaParts.push(esc(model));
+  if (typeof elapsed === 'number') metaParts.push(`${elapsed}s`);
+  const metaLine = metaParts.length ? `<div class="followup-meta">${metaParts.join(' · ')}</div>` : '';
+  const boxed = finalAnswer
+    ? `<p><strong>Answer:</strong> $\\displaystyle ${finalAnswer}$</p>`
+    : '';
+
+  card.innerHTML = `
+    <div class="card-head">Follow-up</div>
+    <div class="followup-question">
+      <span class="tag">Your question</span>
+      <div class="text">${esc(question)}</div>
+    </div>
+    <div class="followup-reply">
+      <span class="tag">Assistant</span>
+      ${boxed}
+      ${rendered}
+      ${metaLine}
+    </div>
+  `;
+  container.appendChild(card);
+
+  if (window.MathJax) MathJax.typesetPromise([card]);
+  card.scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+
+function appendFollowupError(question, message) {
+  const container = $('cardsSection');
+  if (!container) return;
+  const card = document.createElement('div');
+  card.className = 'card followup-card';
+  card.innerHTML = `
+    <div class="card-head">Follow-up</div>
+    <div class="followup-question">
+      <span class="tag">Your question</span>
+      <div class="text">${esc(question)}</div>
+    </div>
+    <div class="followup-error">Could not get a reply: ${esc(message)}</div>
+  `;
+  container.appendChild(card);
+  card.scrollIntoView({behavior: 'smooth', block: 'center'});
 }
 
 // ── Timer ──
@@ -734,7 +1281,15 @@ function startStream(taskId) {
     const msg = JSON.parse(e.data);
     handleEvent(msg);
   };
-  eventSource.onerror = () => eventSource.close();
+  eventSource.onerror = () => {
+    eventSource.close();
+    if (solveRunning) {
+      solveRunning = false;
+      setSolveReady();
+      loadingBar.classList.remove('active');
+      stopTimer();
+    }
+  };
 }
 
 function handleEvent(msg) {
@@ -764,6 +1319,13 @@ function handleEvent(msg) {
       loadingBar.classList.remove('active');
       stopTimer();
       showResult(msg.data);
+      solveRunning = false;
+      if (userQuery) userQuery.value = '';
+      if (userQueryCount) {
+        userQueryCount.textContent = '0 / 600';
+        userQueryCount.classList.remove('warn');
+      }
+      setComposerMode('chat');
       if (eventSource) eventSource.close();
       break;
     case 'ping':
@@ -823,6 +1385,15 @@ function toggleSolution() {
   }
 }
 
+function toggleDetails() {
+  const c = $('detailsContent');
+  const btn = $('detailsToggle');
+  c.classList.toggle('open');
+  btn.querySelector('.arrow').textContent = c.classList.contains('open') ? '−' : '+';
+  btn.childNodes[btn.childNodes.length - 1].textContent =
+    c.classList.contains('open') ? ' Hide pipeline details' : ' Show pipeline details';
+}
+
 // ── Show Result ──
 function showResult(data) {
   // Mark all steps done
@@ -833,38 +1404,7 @@ function showResult(data) {
 
   $('cardsSection').style.display = 'flex';
 
-  // ─ Profiling ─
-  const domain = data.domain === 'surface_integral' ? 'Surface integral' : 'General math';
-  const kws = Array.isArray(data.keywords) ? data.keywords.join(', ') : (data.keywords || '-');
-
-  let l5SystemRow = '';
-  const ls = data.l5_system;
-  if (ls && typeof ls === 'object') {
-    const base = ls.domain === 'surface_integral'
-      ? 'Surface specialist (full surface-integral instructions)'
-      : 'General math (broader calculus/algebra instructions)';
-    const sec = Array.isArray(ls.secondary_categories) && ls.secondary_categories.length
-      ? ' · appended hints: ' + ls.secondary_categories.join(', ')
-      : '';
-    l5SystemRow = `<div class="info-item full"><span class="info-label">LLM system</span><span class="info-value">${esc(base + sec)}</span></div>`;
-  }
-
-  $('profilingBody').innerHTML = `
-    <div class="info-grid">
-      <div class="info-item"><span class="info-label">File</span><span class="info-value">${esc(data.file || '?')}</span></div>
-      <div class="info-item"><span class="info-label">Pages</span><span class="info-value">${data.pages || '?'}</span></div>
-      <div class="info-item"><span class="info-label">Chars</span><span class="info-value">${data.chars || 0}</span></div>
-      <div class="info-item"><span class="info-label">Category</span><span class="info-value">${esc(data.category || 'unknown')}</span></div>
-      ${Array.isArray(data.secondary_categories) && data.secondary_categories.length ? `<div class="info-item full"><span class="info-label">Also signals</span><span class="info-value">${esc(data.secondary_categories.join(', '))}</span></div>` : ''}
-      <div class="info-item"><span class="info-label">Surface type</span><span class="info-value">${esc(data.surface_type || 'unknown')}</span></div>
-      <div class="info-item"><span class="info-label">Domain</span><span class="info-value">${domain}</span></div>
-      ${l5SystemRow}
-      <div class="info-item full"><span class="info-label">Keywords</span><span class="info-value">${esc(kws)}</span></div>
-      ${data.summary ? `<div class="info-item full"><span class="info-label">Summary</span><span class="info-value">${esc(data.summary)}</span></div>` : ''}
-    </div>
-  `;
-
-  // ─ Solution ─
+  // ─ Answer (primary focus) ─
   const answer = data.final_answer || '?';
   const consensus = data.consensus;
   const sympyVerified = !!data.sympy_definite_verified;
@@ -907,7 +1447,51 @@ function showResult(data) {
     $('solToggle').childNodes[$('solToggle').childNodes.length - 1].textContent = ' Hide full solution';
   }
 
-  // ─ Analysis ─
+  // ─ Classification (Topic / Subtopic / Keywords) ─
+  const tax = data.taxonomy || {};
+  const taxTopic = tax.topic || '';
+  const taxSub = tax.subtopic || '';
+  const taxKeywords = Array.isArray(tax.keywords) ? tax.keywords : [];
+  const topicCell = taxTopic
+    ? `<div class="class-field-value">${esc(taxTopic)}</div>`
+    : `<div class="class-field-value muted">Not determined</div>`;
+  const subCell = taxSub
+    ? `<div class="class-field-value">${esc(taxSub)}</div>`
+    : `<div class="class-field-value muted">Not determined</div>`;
+  const kwCell = taxKeywords.length
+    ? `<div class="class-field-value"><div class="keyword-list">${
+        taxKeywords.map(k => `<span class="keyword-item">${esc(k)}</span>`).join('')
+      }</div></div>`
+    : `<div class="class-field-value muted">No keyword matched the controlled vocabulary</div>`;
+
+  $('classBody').innerHTML = `
+    <div class="class-grid">
+      <div class="class-field">
+        <span class="class-field-label">Topic</span>
+        ${topicCell}
+      </div>
+      <div class="class-field">
+        <span class="class-field-label">Subtopic</span>
+        ${subCell}
+      </div>
+      <div class="class-field full">
+        <span class="class-field-label">Keywords</span>
+        ${kwCell}
+      </div>
+    </div>
+  `;
+
+  // ─ User question echo ─
+  const userNote = typeof data.user_query === 'string' ? data.user_query.trim() : '';
+  if (userNote) {
+    $('noteCard').style.display = 'block';
+    $('noteBody').textContent = userNote;
+  } else {
+    $('noteCard').style.display = 'none';
+    $('noteBody').textContent = '';
+  }
+
+  // ─ Model summary ─
   const llm = data.llm_summary;
   if (llm && Object.keys(llm).length) {
     $('analysisCard').style.display = 'block';
@@ -925,7 +1509,52 @@ function showResult(data) {
     }
     h += '</div>';
     $('analysisBody').innerHTML = h;
+  } else {
+    $('analysisCard').style.display = 'none';
+    $('analysisBody').innerHTML = '';
   }
+
+  // ─ Pipeline details (collapsed by default) ─
+  const ls = data.l5_system;
+  let l5SystemText = '';
+  if (ls && typeof ls === 'object') {
+    const base = ls.domain === 'surface_integral'
+      ? 'Surface specialist (full surface-integral instructions)'
+      : 'General math (broader calculus/algebra instructions)';
+    const sec = Array.isArray(ls.secondary_categories) && ls.secondary_categories.length
+      ? ' · appended hints: ' + ls.secondary_categories.join(', ')
+      : '';
+    l5SystemText = base + sec;
+  }
+  const domainLabel = data.domain === 'surface_integral' ? 'Surface integral' : 'General math';
+  const rawKws = Array.isArray(data.keywords) && data.keywords.length
+    ? data.keywords.join(', ')
+    : '';
+  const alsoSignals = Array.isArray(data.secondary_categories) && data.secondary_categories.length
+    ? data.secondary_categories.join(', ')
+    : '';
+
+  const rows = [
+    ['File', esc(data.file || '-')],
+    ['Pages', String(data.pages || '-')],
+    ['Extracted chars', String(data.chars || 0)],
+    ['Domain', esc(domainLabel)],
+    ['Heuristic category', esc(data.category || 'unknown')],
+    ['Also signals', alsoSignals ? esc(alsoSignals) : '<span class="details-empty">none</span>'],
+    ['Surface type', esc(data.surface_type || 'unknown')],
+    ['LLM system', l5SystemText ? esc(l5SystemText) : '<span class="details-empty">default</span>'],
+    ['Raw keywords', rawKws ? esc(rawKws) : '<span class="details-empty">none</span>'],
+    ['Source', esc(data.source || '-')],
+    ['Model used', esc(model)],
+    ['Elapsed', `${elapsed}s`],
+  ];
+  if (data.summary) rows.push(['Summary', esc(data.summary)]);
+
+  $('detailsContent').innerHTML = `
+    <dl class="details-table">
+      ${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}
+    </dl>
+  `;
 
   // Re-render math
   if (window.MathJax) MathJax.typesetPromise();
@@ -943,10 +1572,33 @@ function esc(s) {
 
 function renderSolution(text) {
   let work = text.split('SUMMARY:')[0];
+  work = stripTrailingBoxed(work);
+  work = wrapBareBoxed(work);
   work = esc(work);
   work = work.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   work = work.split(/\n\n+/).map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
   return work;
+}
+
+// Remove a terminal "\boxed{...}" line (with optional leading "Final answer:"
+// style prefixes): the boxed answer is already rendered prominently above.
+function stripTrailingBoxed(text) {
+  return text.replace(
+    /(?:^|\n)\s*(?:final\s+answer\s*[:\-]?\s*)?\\boxed\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}\s*\.?\s*$/i,
+    ''
+  ).trimEnd();
+}
+
+// Any remaining \boxed{...} that sits outside a math delimiter is wrapped in
+// $$...$$ so MathJax typesets it instead of showing raw LaTeX.
+function wrapBareBoxed(text) {
+  // Split around math segments so only text segments get processed.
+  const parts = text.split(/(\$\$[\s\S]*?\$\$|\$[^\n$]+\$|\\\([\s\S]*?\\\)|\\\[[\s\S]*?\\\])/);
+  const boxedRe = /\\boxed\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}/g;
+  return parts.map((seg, i) => {
+    if (i % 2 === 1) return seg; // math segment, leave untouched
+    return seg.replace(boxedRe, m => `$$${m}$$`);
+  }).join('');
 }
 </script>
 </body>
