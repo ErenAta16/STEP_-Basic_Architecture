@@ -16,10 +16,11 @@ WORK_DIR = BASE_DIR / "step_pipeline"
 PDF_DIR = BASE_DIR / "Surface_Integration"
 IMG_DIR = WORK_DIR / "images"
 NOUGAT_OUT = WORK_DIR / "nougat_output"
+VLM_OUT = WORK_DIR / "vlm_output"
 RESULTS_DIR = WORK_DIR / "results"
 
 # Folders created by ``ensure_dirs()`` (not at import time—keeps tests and tooling predictable).
-_PIPELINE_DIRS = (WORK_DIR, PDF_DIR, IMG_DIR, NOUGAT_OUT, RESULTS_DIR)
+_PIPELINE_DIRS = (WORK_DIR, PDF_DIR, IMG_DIR, NOUGAT_OUT, VLM_OUT, RESULTS_DIR)
 
 
 def ensure_dirs() -> None:
@@ -38,6 +39,11 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "")
 
 NOUGAT_MODEL = "nougat"
 NOUGAT_DPI = 400
+# When Nougat is disabled, VLM receives the raster directly and then normalizes
+# to a fixed long edge (see layer3_vlm.VLM_NORMALIZE_LONG_EDGE). In that mode
+# rasterizing at 400 DPI is pure overhead; a lower DPI keeps VLM quality while
+# cutting L0 time and disk IO substantially.
+VLM_ONLY_DPI = int(os.getenv("STEP_VLM_ONLY_DPI", "220"))
 
 TOGETHER_MODEL = os.getenv("TOGETHER_MODEL", "meta-llama/Llama-3.3-70B-Instruct-Turbo")
 TOGETHER_BASE_URL = "https://api.together.xyz/v1"
