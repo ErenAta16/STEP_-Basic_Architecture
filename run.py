@@ -13,9 +13,11 @@ Usage:
 """
 
 import argparse
+import hashlib
 import logging
 import re
 import sys
+import threading
 import time
 import platform
 from collections import OrderedDict
@@ -25,7 +27,8 @@ from pathlib import Path
 import torch
 import sympy as sp
 
-from config import (PDF_DIR, IMG_DIR, NOUGAT_OUT, RESULTS_DIR, NOUGAT_DPI,
+from config import (PDF_DIR, IMG_DIR, NOUGAT_OUT, VLM_OUT, RESULTS_DIR,
+                    NOUGAT_DPI, VLM_ONLY_DPI,
                     get_system_prompt, ensure_dirs)
 from parallel_ocr import run_parallel_nougat_vlm
 from step_logging import configure_logging
@@ -37,6 +40,7 @@ from layer4_synthesis import Layer4_Synthesis
 from layer5_llm_solver import Layer5_LLMSolver
 from layer6_verifier import Layer6_SymPyVerifier
 from pipeline_logger import PipelineLogger
+from taxonomy import classify_taxonomy, keywords_for_subtopic, merge_keywords
 
 _log = logging.getLogger(__name__)
 
@@ -58,33 +62,51 @@ class STEPSolver:
         self.use_vlm = use_vlm
         self._result_cache: OrderedDict[str, dict] = OrderedDict()
         self._result_cache_max = 32
+        # Protects ``_result_cache`` so the solver can be shared across
+        # concurrent solves (e.g. Flask workers) without races on the OrderedDict.
+        self._cache_lock = threading.Lock()
 
     @staticmethod
     def _pdf_hash(pdf_path: Path) -> str:
         import hashlib
         return hashlib.sha256(pdf_path.read_bytes()).hexdigest()
 
-    def solve(self, pdf_path: str | Path, verbose: bool = True) -> dict:
+    def solve(self, pdf_path: str | Path, verbose: bool = True,
+              user_query: str | None = None) -> dict:
         """Run all enabled stages on one PDF.
 
         On a cache miss, ensures directories exist and attaches logging to stdout.
         On success the dict includes timings, solution text, and ``final_answer``
         (display string). On failure look for an ``error`` key; partial timings
         may still be present.
+
+        ``user_query`` is an optional free-form instruction appended to the
+        Layer 4 prompt (e.g. "answer in decimal form", "explain in Portuguese").
+        It is part of the cache key so distinct notes yield distinct runs.
         """
         pdf_path = Path(pdf_path)
         if not pdf_path.exists():
             return {"error": f"File not found: {pdf_path}"}
 
+        note = (user_query or "").strip()
+        note_key = hashlib.sha1(note.encode("utf-8")).hexdigest()[:12] if note else "-"
+
         h = self._pdf_hash(pdf_path)
         path_key = str(pdf_path.resolve())
-        # Per resolved path + content hash + OCR flags (same bytes at two paths -> separate entries).
-        cache_key = f"{path_key}|{h}|nougat={int(self.use_nougat)}|vlm={int(self.use_vlm)}"
-        if cache_key in self._result_cache:
+        # Per resolved path + content hash + OCR flags + user note digest
+        # (same bytes at two paths -> separate entries; differing notes too).
+        cache_key = (
+            f"{path_key}|{h}|nougat={int(self.use_nougat)}|vlm={int(self.use_vlm)}"
+            f"|note={note_key}"
+        )
+        with self._cache_lock:
+            cached = self._result_cache.get(cache_key)
+            if cached is not None:
+                self._result_cache.move_to_end(cache_key)
+        if cached is not None:
             if verbose:
                 _log.info(f"  [CACHE] Returning previous result for {pdf_path.name}")
-            self._result_cache.move_to_end(cache_key)
-            return self._result_cache[cache_key]
+            return cached
 
         ensure_dirs()
         configure_logging()
@@ -96,11 +118,22 @@ class STEPSolver:
 
         # --- L0: PDF Ingestion ---
         t0 = time.time()
+        # Align DPI with the downstream consumer: Nougat needs high-DPI pages to
+        # read equations reliably; the VLM path downscales to a fixed long edge,
+        # so rasterizing at 400 DPI there is pure overhead. Saves wall time and
+        # disk on scanned/handwritten inputs (the common VLM case).
+        render_dpi = NOUGAT_DPI if self.use_nougat else VLM_ONLY_DPI
         metadata, raw_pages, _img_meta = self.l0.extract_metadata_text_and_images(
-            pdf_path, dpi=NOUGAT_DPI
+            pdf_path, dpi=render_dpi
         )
         raw_text = "\n".join(p["text"] for p in raw_pages).strip()
-        md_text = self.l0.extract_markdown(pdf_path, text_pages=raw_pages)
+        # PyMuPDF4LLM markdown is only useful when raw text is thin. Otherwise
+        # we pay an extra ``fitz.open`` pass for content L4 will prefer to
+        # ignore (it already takes ``base_text = max(len(md), len(raw))``).
+        if len(raw_text) < 800:
+            md_text = self.l0.extract_markdown(pdf_path, text_pages=raw_pages)
+        else:
+            md_text = raw_text
         text_quality = self.l0.analyze_text_quality(raw_pages)
         result["pages"] = metadata.get("pages", 0)
         result["chars"] = sum(len(p["text"]) for p in raw_pages)
@@ -178,6 +211,17 @@ class STEPSolver:
         result["summary"] = profile["summary"]
         result["secondary_categories"] = profile.get("secondary_categories", [])
 
+        # MathE-style taxonomy (Topic / Subtopic / Keywords). Classification uses
+        # every piece of text we have: native PyMuPDF, OCR/VLM, and the filename.
+        classify_text = " \n".join(t for t in (raw_text, vlm_latex, nougat_latex, fname) if t)
+        taxonomy = classify_taxonomy(classify_text)
+        result["taxonomy"] = taxonomy
+        if verbose and (taxonomy.get("topic") or taxonomy.get("keywords")):
+            topic = taxonomy.get("topic") or "?"
+            sub = taxonomy.get("subtopic") or "?"
+            kws = ", ".join(taxonomy.get("keywords", [])) or "-"
+            _log.info(f"  [L1b] Taxonomy: {topic} / {sub} | kw: {kws}")
+
         # --- L4: Synthesis ---
         t4 = time.time()
         synthesis = self.l4.synthesize(raw_text, nougat_latex, nougat_score,
@@ -185,6 +229,17 @@ class STEPSolver:
                                         md_text=md_text)
         prompt = synthesis["prompt"]
         domain = synthesis.get("domain", "general_math")
+
+        # Optional free-form instruction supplied by the user. Injected at the
+        # tail of the prompt so the solver still sees the extracted problem in
+        # full, but can honour language / formatting / focus requests.
+        if note:
+            prompt = (
+                prompt
+                + "\n\n--- USER INSTRUCTION (respect if compatible with the math) ---\n"
+                + note
+            )
+            result["user_query"] = note
         result["source"] = synthesis["source"]
         result["domain"] = domain
         result["nougat_score"] = nougat_score
@@ -230,6 +285,9 @@ class STEPSolver:
                 result["sympy_definite_verified"] = True
                 result["final_answer"] = fast_sympy
                 result["llm_summary"] = self._extract_llm_summary(result["solution"]) if result["solution"] else {}
+                # Follow-up context (server-side only; stripped by the web layer).
+                result["_prompt"] = prompt
+                result["_system_prompt"] = system_prompt
                 timings["l6_extract"] = 0.0
                 result["timings"] = timings
                 result["elapsed_s"] = round(time.time() - t_start, 1)
@@ -237,10 +295,11 @@ class STEPSolver:
                     _log.info("  [L5] [CHECK] One control pass completed (definite integral)")
                     _log.info("  [L6] [SYMPY] deterministic definite integral override")
                     _log.info("  [L6] [OK] extracted final line for display")
-                self._result_cache[cache_key] = result
-                self._result_cache.move_to_end(cache_key)
-                while len(self._result_cache) > self._result_cache_max:
-                    self._result_cache.popitem(last=False)
+                with self._cache_lock:
+                    self._result_cache[cache_key] = result
+                    self._result_cache.move_to_end(cache_key)
+                    while len(self._result_cache) > self._result_cache_max:
+                        self._result_cache.popitem(last=False)
                 return result
 
         # No readable input: avoid wasting LLM calls and returning misleading
@@ -271,8 +330,19 @@ class STEPSolver:
             sec = profile.get("secondary_categories") or []
             sec_part = f", signals={sec}" if sec else ""
             _log.info(f"  [L5] system={dom_tag}{sec_part}")
+        # Speed profile for Gemini Pro: keep strong first pass, but avoid stacking
+        # multiple long Pro calls in a row.
+        max_attempts = 2
+        primary_model = (self.l5_primary.model_name or "").lower()
+        if self.l5_primary.is_available and "gemini-2.5-pro" in primary_model:
+            max_attempts = 1
         t5 = time.time()
-        answers = self._solve_with_consensus(prompt, system_prompt, verbose=verbose)
+        answers = self._solve_with_consensus(
+            prompt,
+            system_prompt,
+            max_attempts=max_attempts,
+            verbose=verbose,
+        )
         timings["l5_llm"] = round(time.time() - t5, 2)
         result["attempts"] = len(answers)
 
@@ -316,18 +386,90 @@ class STEPSolver:
         # --- optional SUMMARY: block for the UI ---
         result["llm_summary"] = self._extract_llm_summary(best["solution"])
 
+        # Enrich taxonomy keywords with what the LLM itself used/named.
+        # Problem text from handwritten PDFs is often too sparse for regex
+        # heuristics (e.g. "Find ∫ 3x² - 4x + 2/x dx" has no keyword), but the
+        # solution and the model summary almost always spell out the technique.
+        tax = result.get("taxonomy") or {}
+        if tax.get("topic") and tax.get("subtopic"):
+            summary = result.get("llm_summary") or {}
+            summary_text = " \n".join(
+                str(v) for v in summary.values() if isinstance(v, str) and v
+            )
+            enrich_text = "\n".join(
+                t for t in (summary_text, best.get("solution", "")) if t
+            )
+            extra = keywords_for_subtopic(tax["topic"], tax["subtopic"], enrich_text)
+            if extra:
+                merged = merge_keywords(tax.get("keywords") or [], extra)
+                tax["keywords"] = merged[:5]
+                result["taxonomy"] = tax
+                if verbose:
+                    _log.info(f"  [L6] Taxonomy keywords: {', '.join(tax['keywords'])}")
+
         timings["l6_extract"] = round(time.time() - t6, 4)
         result["timings"] = timings
         result["elapsed_s"] = round(time.time() - t_start, 1)
+        # Follow-up context (server-side only; stripped by the web layer).
+        result["_prompt"] = prompt
+        result["_system_prompt"] = system_prompt
 
-        self._result_cache[cache_key] = result
-        self._result_cache.move_to_end(cache_key)
-        while len(self._result_cache) > self._result_cache_max:
-            self._result_cache.popitem(last=False)
+        with self._cache_lock:
+            self._result_cache[cache_key] = result
+            self._result_cache.move_to_end(cache_key)
+            while len(self._result_cache) > self._result_cache_max:
+                self._result_cache.popitem(last=False)
         return result
 
+    def ask_followup(self, *, prompt: str, prior_solution: str,
+                      system_prompt: str | None, user_query: str) -> dict:
+        """Answer a follow-up question against an already-solved problem.
+
+        Uses the primary LLM with a single pass (no consensus) for responsiveness
+        and feeds the original statement + prior solution as conversation context.
+        """
+        note = (user_query or "").strip()
+        if not note:
+            return {"error": "Empty follow-up query"}
+
+        if self.l5 is None or not getattr(self.l5, "is_available", False):
+            return {"error": "LLM solver is not available"}
+
+        follow_prompt = (
+            "A mathematics problem was previously solved in this conversation. "
+            "Use the original problem statement and the prior solution as context, "
+            "then answer the user's follow-up question concisely and precisely. "
+            "Do not restate the full solution unless the follow-up asks for it.\n\n"
+            "--- ORIGINAL PROBLEM ---\n"
+            + (prompt or "(unavailable)")
+            + "\n\n--- PRIOR SOLUTION ---\n"
+            + (prior_solution or "(unavailable)")
+            + "\n\n--- USER FOLLOW-UP ---\n"
+            + note
+        )
+        sys_prompt = system_prompt or None
+
+        t0 = time.time()
+        try:
+            text = self.l5.solve(follow_prompt, system_prompt=sys_prompt)
+        except Exception as e:
+            return {"error": str(e)[:200]}
+
+        final_answer = self.l6._extract_final_answer(text) or ""
+        elapsed_s = round(time.time() - t0, 1)
+        model_used = ""
+        if self.l5 is not None:
+            model_used = f"{self.l5.provider}/{self.l5.model_name}"
+        return {
+            "user_query": note,
+            "solution": text or "",
+            "final_answer": final_answer,
+            "elapsed_s": elapsed_s,
+            "model_used": model_used,
+        }
+
     def _solve_with_consensus(self, prompt: str, system_prompt: str,
-                               max_attempts: int = 3, verbose: bool = True,
+                               max_attempts: int = 2, verbose: bool = True,
                                allow_extra_provider_attempt: bool = True) -> list[dict]:
         """Up to ``max_attempts`` solves, rotating Gemini (primary) and Together (fallback).
 
@@ -336,8 +478,8 @@ class STEPSolver:
         """
         from latex_parser import parse_latex_to_value
 
-        INTER_ATTEMPT_DELAY = 3
-        RETRY_503_DELAY = 8
+        INTER_ATTEMPT_DELAY = 1
+        RETRY_503_DELAY = 5
 
         solvers = []
         if self.l5_primary.is_available:
@@ -517,7 +659,7 @@ class STEPSolver:
 
     def _refine_final_answer(self, prompt: str, candidate_solution: str, verbose: bool = True) -> str:
         """Ask one extra strict pass only when current final looks intermediate."""
-        refine_timeout_s = 35
+        refine_timeout_s = 18
         strict_system = (
             "Return ONLY the final mathematical result in closed form. "
             "Do not return intermediate identities or substitutions. "
