@@ -7,6 +7,7 @@ the first pass already achieves the maximum ``check_quality`` score (then pass 2
 is skipped).
 """
 
+import hashlib
 import logging
 import os
 import re
@@ -24,6 +25,7 @@ from config import (
     TOGETHER_VLM_MODEL,
     TOGETHER_VLM_FALLBACK_MODEL,
     VLM_PROVIDER,
+    VLM_OUT,
 )
 
 _log = logging.getLogger(__name__)
@@ -226,17 +228,28 @@ class Layer3_VLM:
         )
         return response.text or ""
 
-    def _extract_single_pass(self, img_paths: list[Path], verbose: bool = True) -> str:
-        """Run every page in order, concat with blank lines. Uses a small thread pool for I/O-bound APIs."""
+    def _extract_pages(self, img_paths: list[Path], indices: list[int] | None = None,
+                        verbose: bool = True) -> list[str]:
+        """Run the VLM on each ``img_paths[i]`` for ``i`` in ``indices``; return per-page LaTeX.
+
+        When ``indices`` is ``None``, every page runs (full pass). The returned
+        list is page-aligned with ``img_paths``; entries for pages outside
+        ``indices`` are left empty.
+        """
         n = len(img_paths)
+        parts = [""] * n
         if n == 0:
-            return ""
+            return parts
+
+        todo = list(range(n)) if indices is None else [i for i in indices if 0 <= i < n]
+        if not todo:
+            return parts
 
         try:
             w = int(os.environ.get("STEP_VLM_PAGE_WORKERS", str(VLM_PAGE_WORKERS_DEFAULT)))
         except ValueError:
             w = VLM_PAGE_WORKERS_DEFAULT
-        workers = max(1, min(w, n, 8))
+        workers = max(1, min(w, len(todo), 8))
 
         def one(idx: int) -> tuple[int, str]:
             try:
@@ -247,27 +260,70 @@ class Layer3_VLM:
                 return idx, ""
 
         if workers == 1:
-            parts = [""] * n
-            for i in range(n):
+            for i in todo:
                 _, latex = one(i)
                 parts[i] = latex
-            return "\n\n".join(parts)
+            return parts
 
-        parts = [""] * n
         with ThreadPoolExecutor(max_workers=workers) as pool:
-            futures = [pool.submit(one, i) for i in range(n)]
+            futures = [pool.submit(one, i) for i in todo]
             for fut in as_completed(futures):
                 i, latex = fut.result()
                 parts[i] = latex
-        return "\n\n".join(parts)
+        return parts
+
+    def _extract_single_pass(self, img_paths: list[Path], verbose: bool = True) -> str:
+        """Backward-compatible wrapper returning the concatenated text."""
+        return "\n\n".join(self._extract_pages(img_paths, verbose=verbose))
+
+    @staticmethod
+    def _page_is_weak(page_text: str) -> bool:
+        """True when a single-page pass1 output is short enough to warrant a retry."""
+        if not page_text:
+            return True
+        t = page_text.strip()
+        if len(t) < 25:
+            return True
+        # Almost no math content: no LaTeX commands, no digits → retry.
+        if "\\" not in t and not re.search(r"\d", t):
+            return True
+        return False
+
+    def _cache_paths(self, fname: str) -> tuple[Path, Path]:
+        """Return ``(vlm.mmd, vlm.sha256)`` under the per-PDF VLM cache directory."""
+        cache_dir = VLM_OUT / fname
+        cache_dir.mkdir(parents=True, exist_ok=True)
+        return cache_dir / f"{fname}.vlm.mmd", cache_dir / f"{fname}.vlm.sha256"
+
+    @staticmethod
+    def _fingerprint_pages(img_paths: list[Path]) -> str:
+        """Stable SHA-256 across all page PNGs (content + order).
+
+        The VLM output depends on the exact pixel input, so DPI and normalization
+        are implicitly included via the raw PNG bytes Layer 0 wrote.
+        """
+        h = hashlib.sha256()
+        for p in img_paths:
+            h.update(p.name.encode("utf-8"))
+            try:
+                h.update(p.read_bytes())
+            except OSError:
+                h.update(b"__missing__")
+        return h.hexdigest()
 
     def extract_from_pdf_images(self, img_dir: Path, fname: str,
                                 verbose: bool = True) -> dict:
-        """Run one or two VLM passes over page PNGs and pick the best LaTeX by quality score.
+        """Run a single full VLM pass, retry only weak pages, and cache the result.
 
-        Pass 2 is skipped when pass 1 already reaches ``max_score`` on
-        ``check_quality`` (saves latency and API cost). Otherwise both passes
-        run; the higher-scoring (or longer, on tie) cleaned string wins.
+        Optimizations vs. the previous "two full passes" approach:
+
+        * Pass 1 runs on every page.
+        * Pass 2 only re-runs pages whose individual output is empty/too short
+          (``_page_is_weak``) — the old code re-ran *all* pages on a low overall
+          quality score, which dominated total time on multi-page PDFs.
+        * A disk cache under ``VLM_OUT/<fname>/<fname>.vlm.mmd`` short-circuits
+          the entire VLM stage when the same pixel input is re-processed
+          (identified by a SHA-256 over every page PNG).
         """
         page_dir = img_dir / fname
         if not page_dir.exists():
@@ -277,65 +333,88 @@ class Layer3_VLM:
         if not img_paths:
             return {"file": fname, "vlm_latex": "", "char_count": 0, "pages": 0}
 
+        fingerprint = self._fingerprint_pages(img_paths)
+        mmd_path, sha_path = self._cache_paths(fname)
+        if mmd_path.exists() and sha_path.exists():
+            try:
+                cached_sha = sha_path.read_text(encoding="utf-8").strip()
+            except OSError:
+                cached_sha = ""
+            if cached_sha == fingerprint:
+                try:
+                    cached_text = mmd_path.read_text(encoding="utf-8")
+                except OSError:
+                    cached_text = ""
+                if cached_text.strip():
+                    if verbose:
+                        _log.info(
+                            f"  [L3] VLM cache hit ({len(cached_text)} chars, {len(img_paths)} page(s))"
+                        )
+                    return {
+                        "file": fname,
+                        "vlm_latex": cached_text,
+                        "char_count": len(cached_text),
+                        "raw_chars": [len(cached_text), 0],
+                        "clean_chars": [len(cached_text), 0],
+                        "pages": len(img_paths),
+                        "cached": True,
+                    }
+
         if verbose:
             _log.info("  [L3] VLM pass 1...")
-        raw1 = self._extract_single_pass(img_paths, verbose=False)
-        clean1 = self.clean_output(raw1)
-        q1 = self.check_quality(clean1)
-        if verbose:
-            _log.info(
-                f"  [L3]    pass 1: {len(clean1)} char (quality {q1['score']}/{q1['max_score']})"
-            )
+        pages1 = self._extract_pages(img_paths, verbose=False)
+        cleaned_pages = [self.clean_output(p) for p in pages1]
 
-        if q1["score"] == q1["max_score"] and clean1:
+        weak_idx = [i for i, p in enumerate(cleaned_pages) if self._page_is_weak(p)]
+        retry_n = 0
+        if weak_idx and len(weak_idx) < len(img_paths):
             if verbose:
-                _log.info(f"  [L3]    Using pass1 (max quality, {len(clean1)} chars)")
-            return {
-                "file": fname,
-                "vlm_latex": clean1,
-                "char_count": len(clean1),
-                "raw_chars": [len(raw1), 0],
-                "clean_chars": [len(clean1), 0],
-                "pages": len(img_paths),
-            }
+                _log.info(
+                    f"  [L3] VLM pass 2 (retry {len(weak_idx)}/{len(img_paths)} weak page(s))..."
+                )
+            pages2 = self._extract_pages(img_paths, indices=weak_idx, verbose=False)
+            for i in weak_idx:
+                candidate = self.clean_output(pages2[i])
+                if candidate and len(candidate) > len(cleaned_pages[i]):
+                    cleaned_pages[i] = candidate
+                    retry_n += 1
+        elif weak_idx and len(weak_idx) == len(img_paths):
+            # Every page looks weak — rerun all pages so the combined output still
+            # has a chance at yielding usable LaTeX.
+            if verbose:
+                _log.info("  [L3] VLM pass 2 (retry all weak pages)...")
+            pages2 = self._extract_pages(img_paths, verbose=False)
+            for i in range(len(img_paths)):
+                candidate = self.clean_output(pages2[i])
+                if candidate and len(candidate) > len(cleaned_pages[i]):
+                    cleaned_pages[i] = candidate
+                    retry_n += 1
 
+        full = "\n\n".join(p for p in cleaned_pages if p).strip()
+        quality = self.check_quality(full)
         if verbose:
-            _log.info("  [L3] VLM pass 2...")
-        raw2 = self._extract_single_pass(img_paths, verbose=False)
-        clean2 = self.clean_output(raw2)
-        if verbose:
-            q2p = self.check_quality(clean2)
             _log.info(
-                f"  [L3]    pass 2: {len(clean2)} char (quality {q2p['score']}/{q2p['max_score']})"
+                f"  [L3]    pages={len(img_paths)}, retries={retry_n}, "
+                f"chars={len(full)} (quality {quality['score']}/{quality['max_score']})"
             )
 
-        if not clean1 and not clean2:
-            full = ""
-        elif not clean1:
-            full = clean2
-        elif not clean2:
-            full = clean1
-        else:
-            s1 = q1["score"]
-            s2 = self.check_quality(clean2)["score"]
-            if s1 > s2:
-                full = clean1
-            elif s2 > s1:
-                full = clean2
-            else:
-                full = clean1 if len(clean1) >= len(clean2) else clean2
-
-        if verbose:
-            chosen = "pass1" if full == clean1 else "pass2"
-            _log.info(f"  [L3]    Using {chosen} ({len(full)} chars)")
+        if full:
+            try:
+                mmd_path.write_text(full, encoding="utf-8")
+                sha_path.write_text(fingerprint, encoding="utf-8")
+            except OSError as e:
+                if verbose:
+                    _log.info(f"  [L3] [WARN] cache write failed: {str(e)[:60]}")
 
         return {
             "file": fname,
             "vlm_latex": full,
             "char_count": len(full),
-            "raw_chars": [len(raw1), len(raw2)],
-            "clean_chars": [len(clean1), len(clean2)],
+            "raw_chars": [sum(len(p) for p in pages1), 0],
+            "clean_chars": [len(full), 0],
             "pages": len(img_paths),
+            "cached": False,
+            "retries": retry_n,
         }
 
     @staticmethod
