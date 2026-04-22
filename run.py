@@ -285,10 +285,17 @@ class STEPSolver:
                 result["sympy_definite_verified"] = True
                 result["final_answer"] = fast_sympy
                 result["llm_summary"] = self._extract_llm_summary(result["solution"]) if result["solution"] else {}
+                timings["l6_extract"] = 0.0
+                result["keyword_eval"] = self._run_keyword_eval(
+                    vlm_latex=vlm_latex,
+                    nougat_latex=nougat_latex,
+                    raw_text=raw_text,
+                    timings=timings,
+                    verbose=verbose,
+                )
                 # Follow-up context (server-side only; stripped by the web layer).
                 result["_prompt"] = prompt
                 result["_system_prompt"] = system_prompt
-                timings["l6_extract"] = 0.0
                 result["timings"] = timings
                 result["elapsed_s"] = round(time.time() - t_start, 1)
                 if verbose:
@@ -408,6 +415,16 @@ class STEPSolver:
                     _log.info(f"  [L6] Taxonomy keywords: {', '.join(tax['keywords'])}")
 
         timings["l6_extract"] = round(time.time() - t6, 4)
+
+        # --- L7: keyword evaluation (free-form + closed-pool) ---
+        result["keyword_eval"] = self._run_keyword_eval(
+            vlm_latex=vlm_latex,
+            nougat_latex=nougat_latex,
+            raw_text=raw_text,
+            timings=timings,
+            verbose=verbose,
+        )
+
         result["timings"] = timings
         result["elapsed_s"] = round(time.time() - t_start, 1)
         # Follow-up context (server-side only; stripped by the web layer).
@@ -420,6 +437,53 @@ class STEPSolver:
             while len(self._result_cache) > self._result_cache_max:
                 self._result_cache.popitem(last=False)
         return result
+
+    def _run_keyword_eval(self, *, vlm_latex: str, nougat_latex: str,
+                           raw_text: str, timings: dict,
+                           verbose: bool = True) -> dict:
+        """Run keyword evaluation in-line with the main solve.
+
+        Uses the VLM output as the primary problem source (falls back to Nougat
+        or raw text). Gemini 2.5 Pro is the default model; failures (rate limit,
+        missing key) are logged and return an error dict rather than breaking
+        the solve.
+        """
+        from keyword_eval import evaluate_keywords, DEFAULT_KEYWORD_POOL
+
+        problem = (vlm_latex or nougat_latex or raw_text or "").strip()
+        if not problem:
+            if verbose:
+                _log.info("  [L7] Keyword evaluation skipped (no problem text)")
+            timings["l7_keyword_eval"] = 0.0
+            return {"task1": [], "task2": [], "skipped": True}
+
+        t7 = time.time()
+        if verbose:
+            _log.info("  [L7] Keyword evaluation (gemini-2.5-pro)...")
+        try:
+            eval_result = evaluate_keywords(
+                problem,
+                pool=list(DEFAULT_KEYWORD_POOL),
+                model="gemini-2.5-pro",
+            )
+        except Exception as e:
+            elapsed = round(time.time() - t7, 1)
+            timings["l7_keyword_eval"] = elapsed
+            if verbose:
+                _log.info(f"  [L7] [FAIL] {str(e)[:80]} ({elapsed}s)")
+            return {"task1": [], "task2": [], "error": str(e)[:200]}
+
+        elapsed = round(time.time() - t7, 1)
+        timings["l7_keyword_eval"] = elapsed
+        if eval_result.get("error") and verbose:
+            _log.info(f"  [L7] [WARN] {str(eval_result['error'])[:80]}")
+        if verbose:
+            t1 = eval_result.get("task1") or []
+            t2 = eval_result.get("task2") or []
+            _log.info(
+                f"  [L7] [OK] {len(t1)} free + {len(t2)} pool keywords ({elapsed}s)"
+            )
+        return eval_result
 
     def ask_followup(self, *, prompt: str, prior_solution: str,
                       system_prompt: str | None, user_query: str) -> dict:
