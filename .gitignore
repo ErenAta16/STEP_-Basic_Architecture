@@ -15,8 +15,10 @@ venv/
 step_pipeline/images/
 step_pipeline/nougat_output/
 step_pipeline/vlm_output/
+step_pipeline/video_cache/
 step_pipeline/results/
 uploads/
+uploads_video/
 *.log
 
 # Dataset PDFs are not shipped in a minimal zip; add your own under Surface_Integration/
