@@ -508,6 +508,184 @@ body {
   0%, 100% { opacity: .35; }
   50% { opacity: 1; }
 }
+/* ── Video input (YouTube URL + local upload) ── */
+.video-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+  width: 100%;
+  max-width: 420px;
+}
+.video-input-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text2);
+  text-align: center;
+}
+.video-input-row {
+  display: flex;
+  gap: 6px;
+  align-items: stretch;
+  width: 100%;
+}
+.video-input-row input[type="text"] {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+  padding: 8px 10px;
+  outline: none;
+  border-radius: 0;
+  min-width: 0;
+}
+.video-input-row input[type="text"]:focus { border-color: var(--text3); }
+.btn-video {
+  padding: 8px 14px;
+  border: 1px solid var(--border-strong);
+  background: var(--surface2);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 0;
+  white-space: nowrap;
+  transition: border-color .12s, background .12s;
+}
+.btn-video:hover { border-color: var(--text3); background: #252b33; }
+.video-input .or {
+  text-align: center;
+  font-size: 11px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.btn-video-upload {
+  display: block;
+  text-align: center;
+  padding: 8px 14px;
+  border: 1px dashed var(--border);
+  color: var(--text2);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color .12s, color .12s;
+}
+.btn-video-upload:hover { border-color: var(--text3); color: var(--text); }
+.btn-video-upload input[type="file"] { display: none; }
+
+.video-mode-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--text2);
+}
+.video-mode-opt {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  user-select: none;
+}
+.video-mode-hint {
+  flex-basis: 100%;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.4;
+}
+
+/* ── Problems-detected card (Deep mode) ── */
+.problems-card .card-body { padding: 14px 20px 18px; }
+.problems-empty { color: var(--text3); font-style: italic; font-size: 12px; }
+.problem-item {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  margin-top: 12px;
+}
+.problem-item:first-child { border-top: none; padding-top: 0; margin-top: 0; }
+.problem-head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+.problem-ts {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  padding: 1px 6px;
+  border: 1px solid var(--border);
+}
+.problem-taxonomy {
+  font-size: 11px;
+  color: var(--text2);
+}
+.problem-text {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.6;
+  margin-bottom: 8px;
+  word-break: break-word;
+}
+.problem-kw-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 6px;
+}
+.problem-kw-chip {
+  font-size: 11px;
+  color: var(--text2);
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent-weak);
+  padding: 2px 8px;
+  line-height: 1.3;
+}
+
+#videoPlayer {
+  width: 100%;
+  height: 100%;
+  display: none;
+  background: #000;
+}
+
+/* ── Video summary card ── */
+.video-summary-card .card-body { padding: 14px 20px 18px; }
+.video-summary-card .video-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.video-summary-card .video-summary {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+.video-summary-card .video-link {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--text2);
+  text-decoration: none;
+  font-family: var(--mono);
+  border-bottom: 1px dashed var(--border);
+  word-break: break-all;
+}
+.video-summary-card .video-link:hover { color: var(--text); }
+
 /* ── Most relevant keywords card ── */
 .relevant-card .card-body { padding: 14px 20px 18px; }
 .relevant-hint {
@@ -984,10 +1162,10 @@ body {
 
 <!-- Main -->
 <main class="main">
-  <!-- Left: PDF Viewer -->
+  <!-- Left: PDF / Video Viewer -->
   <div class="panel left-panel">
     <div class="panel-head">
-      <span>PDF viewer</span>
+      <span id="viewerLabel">PDF viewer</span>
       <span id="fileName" style="color:var(--text);font-weight:400"></span>
     </div>
     <div class="panel-body">
@@ -995,8 +1173,25 @@ body {
         <div class="upload-icon">PDF</div>
         <p class="upload-title">Drag and drop a PDF here</p>
         <p class="sub">or use the upload button above</p>
+
+        <div class="video-input" onclick="event.stopPropagation()">
+          <div class="video-input-label">Or analyze a video</div>
+          <div class="video-input-row">
+            <input type="text" id="ytUrlInput" placeholder="Paste a YouTube URL..." />
+            <button class="btn-video" id="ytAnalyzeBtn" type="button">Analyze</button>
+          </div>
+          <div class="video-mode-row">
+            <label class="video-mode-opt"><input type="radio" name="videoMode" value="quick" checked> Quick</label>
+            <label class="video-mode-opt"><input type="radio" name="videoMode" value="deep"> Deep</label>
+            <span class="video-mode-hint">Deep mode samples frames and lists the individual problems shown on screen (longer run).</span>
+          </div>
+          <div class="or">or</div>
+          <label class="btn-video-upload" for="videoFileInput">Upload a video file</label>
+          <input type="file" id="videoFileInput" accept="video/*">
+        </div>
       </div>
       <iframe id="pdfViewer"></iframe>
+      <video id="videoPlayer" controls playsinline></video>
     </div>
   </div>
 
@@ -1037,6 +1232,22 @@ body {
               <span class="arrow">+</span> Show full solution
             </button>
             <div class="solution-content" id="solutionContent"></div>
+          </div>
+
+          <!-- Video summary (shown for video analysis) -->
+          <div class="card video-summary-card" id="videoCard" style="display:none">
+            <div class="card-head">Video summary</div>
+            <div class="card-body">
+              <div class="video-title" id="videoTitle"></div>
+              <div class="video-summary" id="videoSummary"></div>
+              <a class="video-link" id="videoLink" target="_blank" rel="noopener"></a>
+            </div>
+          </div>
+
+          <!-- Problems detected (Deep video mode) -->
+          <div class="card problems-card" id="problemsCard" style="display:none">
+            <div class="card-head">Problems detected</div>
+            <div class="card-body" id="problemsBody"></div>
           </div>
 
           <!-- Classification (MathE style) -->
@@ -1143,6 +1354,8 @@ const $ = id => document.getElementById(id);
 const fileInput = $('fileInput');
 const uploadZone = $('uploadZone');
 const pdfViewer = $('pdfViewer');
+const videoPlayer = $('videoPlayer');
+const viewerLabel = $('viewerLabel');
 const loadingBar = $('loadingBar');
 const userQuery = $('userQuery');
 const userQueryCount = $('userQueryCount');
@@ -1152,9 +1365,13 @@ const composerLabel = $('composerLabel');
 const composerReq = $('composerReq');
 const composerHint = $('composerHint');
 const composerHelper = $('composerHelper');
+const ytUrlInput = $('ytUrlInput');
+const ytAnalyzeBtn = $('ytAnalyzeBtn');
+const videoFileInput = $('videoFileInput');
 
 let stagedFile = null;
 let solveRunning = false;
+let currentMedia = 'pdf';  // 'pdf' | 'video'
 // 'initial' -> waiting for a PDF, first Solve
 // 'chat'    -> a solve has completed; button asks follow-ups
 let composerMode = 'initial';
@@ -1267,19 +1484,50 @@ fileInput.addEventListener('change', () => {
   if (fileInput.files.length) stageFile(fileInput.files[0]);
 });
 
+if (videoFileInput) {
+  videoFileInput.addEventListener('change', () => {
+    if (videoFileInput.files.length) stageVideoFile(videoFileInput.files[0]);
+  });
+}
+
+if (ytAnalyzeBtn && ytUrlInput) {
+  ytAnalyzeBtn.addEventListener('click', () => {
+    const u = (ytUrlInput.value || '').trim();
+    if (!u) { ytUrlInput.focus(); return; }
+    analyzeYoutube(u);
+  });
+  ytUrlInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      ytAnalyzeBtn.click();
+    }
+  });
+}
+
 function stageFile(file) {
-  if (!file.name.toLowerCase().endsWith('.pdf')) {
-    alert('Please choose a PDF file');
+  const name = (file.name || '').toLowerCase();
+  const isPdf = name.endsWith('.pdf') || file.type === 'application/pdf';
+  const isVideo = (file.type && file.type.startsWith('video/'))
+    || /\.(mp4|webm|mov|mkv|m4v|avi)$/i.test(name);
+  if (isVideo) {
+    stageVideoFile(file);
+    return;
+  }
+  if (!isPdf) {
+    alert('Please choose a PDF or video file');
     return;
   }
 
+  currentMedia = 'pdf';
   stagedFile = file;
   lastFileName = file.name;
+  if (viewerLabel) viewerLabel.textContent = 'PDF viewer';
 
   // Local preview (replaced with server copy after Solve).
   const url = URL.createObjectURL(file);
   pdfViewer.src = url;
   pdfViewer.style.display = 'block';
+  if (videoPlayer) videoPlayer.style.display = 'none';
   uploadZone.style.display = 'none';
   $('fileName').textContent = file.name;
 
@@ -1293,6 +1541,87 @@ function stageFile(file) {
   setComposerMode('initial');
   setSolveReady();
   submitSolve();
+}
+
+function stageVideoFile(file) {
+  currentMedia = 'video';
+  stagedFile = null;
+  lastFileName = file.name;
+  if (viewerLabel) viewerLabel.textContent = 'Video viewer';
+
+  const url = URL.createObjectURL(file);
+  if (videoPlayer) {
+    videoPlayer.src = url;
+    videoPlayer.style.display = 'block';
+  }
+  pdfViewer.style.display = 'none';
+  uploadZone.style.display = 'none';
+  $('fileName').textContent = file.name;
+
+  startVideoAnalysis({file});
+}
+
+function analyzeYoutube(url) {
+  currentMedia = 'video';
+  stagedFile = null;
+  lastFileName = url;
+  if (viewerLabel) viewerLabel.textContent = 'Video viewer';
+
+  // Simple embed for YouTube URLs (lets the user preview while analysis runs).
+  const m = url.match(/(?:v=|youtu\.be\/|\/shorts\/|\/embed\/)([A-Za-z0-9_-]{11})/);
+  const vid = m ? m[1] : null;
+  if (vid && pdfViewer) {
+    pdfViewer.src = `https://www.youtube.com/embed/${vid}`;
+    pdfViewer.style.display = 'block';
+  }
+  if (videoPlayer) {
+    videoPlayer.removeAttribute('src');
+    videoPlayer.style.display = 'none';
+  }
+  uploadZone.style.display = 'none';
+  $('fileName').textContent = url;
+
+  startVideoAnalysis({url});
+}
+
+function startVideoAnalysis({file, url}) {
+  resetPipeline();
+  loadingBar.classList.add('active');
+  startTimer();
+
+  const fd = new FormData();
+  if (url) fd.append('youtube_url', url);
+  if (file) fd.append('video', file);
+  const modeEl = document.querySelector('input[name="videoMode"]:checked');
+  const mode = modeEl ? modeEl.value : 'quick';
+  fd.append('mode', mode);
+
+  // Show only the stages that actually run for video analysis.
+  const stepsWrap = $('stepsWrap');
+  if (stepsWrap) stepsWrap.classList.add('collapsed');
+  const stepsToggle = $('stepsToggle');
+  if (stepsToggle) stepsToggle.textContent = 'show';
+
+  fetch('/analyze-video', {method: 'POST', body: fd})
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        addTerminal(data.error, 'error');
+        loadingBar.classList.remove('active');
+        stopTimer();
+        return;
+      }
+      currentTaskId = data.task_id;
+      if (data.source === 'upload' && data.filename && videoPlayer) {
+        videoPlayer.src = `/video/${encodeURIComponent(data.filename)}`;
+      }
+      startStream(data.task_id);
+    })
+    .catch(err => {
+      addTerminal('Video upload error: ' + err.message, 'error');
+      loadingBar.classList.remove('active');
+      stopTimer();
+    });
 }
 
 function setComposerMode(mode) {
@@ -1614,7 +1943,9 @@ function handleEvent(msg) {
         userQueryCount.textContent = '0 / 600';
         userQueryCount.classList.remove('warn');
       }
-      setComposerMode('chat');
+      if (!msg.data || msg.data.media !== 'video') {
+        setComposerMode('chat');
+      }
       // Auto-collapse the pipeline stages so the answer leads the page.
       {
         const stepsWrap = $('stepsWrap');
@@ -1708,6 +2039,17 @@ function showResult(data) {
   });
 
   $('cardsSection').style.display = 'flex';
+
+  // Video analysis has a different shape: no answer, no solution.
+  if (data && data.media === 'video') {
+    showVideoResult(data);
+    return;
+  }
+  // PDF flow: make sure video-only cards are hidden.
+  const videoCard = $('videoCard');
+  if (videoCard) videoCard.style.display = 'none';
+  const solutionCard = $('solutionCard');
+  if (solutionCard) solutionCard.style.display = '';
 
   // ─ Answer (primary focus) ─
   const answer = data.final_answer || '?';
@@ -1887,6 +2229,172 @@ function showResult(data) {
 
   // Scroll to answer
   $('answerBox').scrollIntoView({behavior: 'smooth', block: 'center'});
+}
+
+// ── Video result rendering ──
+function showVideoResult(data) {
+  // Hide PDF-only cards that do not apply.
+  const solutionCard = $('solutionCard');
+  if (solutionCard) solutionCard.style.display = 'none';
+  const analysisCard = $('analysisCard');
+  if (analysisCard) analysisCard.style.display = 'none';
+  const noteCard = $('noteCard');
+  if (noteCard) noteCard.style.display = 'none';
+  const kevalCard = $('kevalCard');
+  if (kevalCard) kevalCard.style.display = 'none';
+  const classCard = $('classCard');
+  if (classCard) classCard.style.display = '';
+
+  // Video summary card
+  const videoCard = $('videoCard');
+  if (videoCard) videoCard.style.display = 'block';
+  const title = $('videoTitle');
+  const summary = $('videoSummary');
+  const link = $('videoLink');
+  if (title) title.textContent = data.title || (data.file || data.url || 'Video');
+  if (summary) summary.textContent = data.summary || '';
+  if (link) {
+    if (data.url) {
+      link.href = data.url;
+      link.textContent = data.url;
+      link.style.display = 'inline-block';
+    } else if (data.file) {
+      link.href = `/video/${encodeURIComponent(data.file)}`;
+      link.textContent = data.file;
+      link.style.display = 'inline-block';
+    } else {
+      link.style.display = 'none';
+    }
+  }
+
+  // Classification (topic / subtopic from taxonomy)
+  const tax = data.taxonomy || {};
+  const taxTopic = tax.topic || '';
+  const taxSub = tax.subtopic || '';
+  const topicCell = taxTopic
+    ? `<div class="class-field-value">${esc(taxTopic)}</div>`
+    : `<div class="class-field-value muted">Not determined</div>`;
+  const subCell = taxSub
+    ? `<div class="class-field-value">${esc(taxSub)}</div>`
+    : `<div class="class-field-value muted">Not determined</div>`;
+  $('classBody').innerHTML = `
+    <div class="class-grid">
+      <div class="class-field">
+        <span class="class-field-label">Topic</span>${topicCell}
+      </div>
+      <div class="class-field">
+        <span class="class-field-label">Subtopic</span>${subCell}
+      </div>
+    </div>
+  `;
+
+  // Most relevant keywords (top 5 from the closed pool, ordered)
+  const keywords = Array.isArray(data.keywords) ? data.keywords : [];
+  const topKwCard = $('topKwCard');
+  const topKwList = $('topKwList');
+  if (topKwCard && topKwList) {
+    if (keywords.length) {
+      topKwCard.style.display = 'block';
+      topKwList.innerHTML = keywords
+        .map((k, i) => `<span class="relevant-chip" data-index="${i + 1}.">${esc(k)}</span>`)
+        .join('');
+    } else {
+      topKwCard.style.display = 'block';
+      topKwList.innerHTML = `<div class="relevant-empty">No keyword matched the closed pool.</div>`;
+    }
+  }
+
+  // Problems detected (Deep mode only)
+  const problemsCard = $('problemsCard');
+  const problemsBody = $('problemsBody');
+  const problems = Array.isArray(data.problems) ? data.problems : [];
+  if (problemsCard && problemsBody) {
+    const deepRequested = (data.mode || '').toLowerCase() === 'deep';
+    if (deepRequested) {
+      problemsCard.style.display = 'block';
+      if (data.deep_error) {
+        problemsBody.innerHTML = `<div class="problems-empty">Deep analysis failed: ${esc(data.deep_error)}</div>`;
+      } else if (!problems.length) {
+        problemsBody.innerHTML = `<div class="problems-empty">No distinct on-screen problems were detected in the sampled frames.</div>`;
+      } else {
+        problemsBody.innerHTML = problems.map(renderProblem).join('');
+      }
+    } else {
+      problemsCard.style.display = 'none';
+      problemsBody.innerHTML = '';
+    }
+  }
+
+  // Pipeline details table (condensed for video)
+  const rows = [
+    ['Source', esc(data.source || '-')],
+    ['Mode', esc(data.mode || 'quick')],
+  ];
+  if (data.url) rows.push(['URL', esc(data.url)]);
+  if (data.file) rows.push(['File', esc(data.file)]);
+  if (data.video_id) rows.push(['Video id', esc(data.video_id)]);
+  rows.push(['Model used', esc(data.model_used || '-')]);
+  if (typeof data.elapsed_s === 'number') rows.push(['Elapsed (quick)', `${data.elapsed_s}s`]);
+  if (typeof data.deep_elapsed_s === 'number') rows.push(['Elapsed (deep)', `${data.deep_elapsed_s}s`]);
+  if (typeof data.deep_frame_count === 'number') rows.push(['Frames sampled', String(data.deep_frame_count)]);
+  if (data.cached) rows.push(['Cache', 'hit']);
+
+  $('detailsContent').innerHTML = `
+    <dl class="details-table">
+      ${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}
+    </dl>
+  `;
+
+  // Compose mode: hide follow-up composer for video flow (no prior solution to chat about).
+  setComposerMode('initial');
+
+  // Re-render math inside the newly inserted problem cards.
+  if (window.MathJax && problems.length) {
+    MathJax.typesetPromise([problemsBody]).catch(() => {});
+  }
+
+  // Scroll to the video card so the user sees the summary first.
+  if (videoCard) videoCard.scrollIntoView({behavior: 'smooth', block: 'start'});
+}
+
+function renderProblem(p) {
+  const ts = typeof p.earliest_t === 'number' ? formatTimestamp(p.earliest_t) : '';
+  const tax = p.taxonomy || {};
+  const taxParts = [];
+  if (tax.topic) taxParts.push(esc(tax.topic));
+  if (tax.subtopic) taxParts.push(esc(tax.subtopic));
+  const taxTag = taxParts.length
+    ? `<span class="problem-taxonomy">${taxParts.join(' / ')}</span>`
+    : '';
+
+  const kws = Array.isArray(p.keywords) ? p.keywords : [];
+  const kwBody = kws.length
+    ? `<div class="problem-kw-list">${kws
+        .map((k, i) => `<span class="problem-kw-chip">${i + 1}. ${esc(k)}</span>`)
+        .join('')}</div>`
+    : '';
+
+  const text = p.text || '';
+  // Render LaTeX via MathJax display blocks; problems are a single expression.
+  const mathBody = `<div class="problem-text">$$\\displaystyle ${text}$$</div>`;
+
+  return `
+    <div class="problem-item">
+      <div class="problem-head">
+        ${ts ? `<span class="problem-ts">${esc(ts)}</span>` : ''}
+        ${taxTag}
+      </div>
+      ${mathBody}
+      ${kwBody}
+    </div>
+  `;
+}
+
+function formatTimestamp(seconds) {
+  const s = Math.max(0, Math.round(seconds));
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return `${m}:${r.toString().padStart(2, '0')}`;
 }
 
 // ── Helpers ──
