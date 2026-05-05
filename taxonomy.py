@@ -503,3 +503,34 @@ def merge_keywords(*lists: list[str]) -> list[str]:
             seen.add(name)
             out.append(name)
     return out
+
+
+def topic_from_keywords(keywords: list[str]) -> tuple[str, str] | None:
+    """Infer ``(topic, subtopic)`` from a list of already-chosen keyword names.
+
+    Finds the subtopic whose keyword pool best matches the given list (by
+    count of matches). Useful as a fallback for sources whose text does not
+    trigger the regex-based classifier — e.g. an English video summary that
+    never uses the ``\\int`` LaTeX macro. Returns ``None`` when nothing matches.
+    """
+    if not keywords:
+        return None
+
+    wanted = {k.strip().lower() for k in keywords if k and k.strip()}
+    if not wanted:
+        return None
+
+    best: tuple[int, TopicRule, SubtopicRule] | None = None
+    for topic in TAXONOMY:
+        for sub in topic.subtopics:
+            pool_lower = {r.name.lower() for r in sub.keywords}
+            hits = len(wanted & pool_lower)
+            if hits == 0:
+                continue
+            if best is None or hits > best[0]:
+                best = (hits, topic, sub)
+
+    if best is None:
+        return None
+    _, topic, sub = best
+    return (topic.name, sub.name)
