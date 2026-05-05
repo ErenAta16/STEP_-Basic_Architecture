@@ -18,9 +18,21 @@ IMG_DIR = WORK_DIR / "images"
 NOUGAT_OUT = WORK_DIR / "nougat_output"
 VLM_OUT = WORK_DIR / "vlm_output"
 RESULTS_DIR = WORK_DIR / "results"
+# Local video uploads (analysed via Gemini Files API) and YouTube analysis cache.
+VIDEO_UPLOADS_DIR = BASE_DIR / "uploads_video"
+VIDEO_CACHE_DIR = WORK_DIR / "video_cache"
 
 # Folders created by ``ensure_dirs()`` (not at import time—keeps tests and tooling predictable).
-_PIPELINE_DIRS = (WORK_DIR, PDF_DIR, IMG_DIR, NOUGAT_OUT, VLM_OUT, RESULTS_DIR)
+_PIPELINE_DIRS = (
+    WORK_DIR,
+    PDF_DIR,
+    IMG_DIR,
+    NOUGAT_OUT,
+    VLM_OUT,
+    RESULTS_DIR,
+    VIDEO_UPLOADS_DIR,
+    VIDEO_CACHE_DIR,
+)
 
 
 def ensure_dirs() -> None:
@@ -54,6 +66,7 @@ CLAUDE_MODEL = "claude-sonnet-4-20250514"
 GPT_MODEL = "gpt-4o"
 GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
 GEMINI_FALLBACK_MODEL = os.getenv("GEMINI_FALLBACK_MODEL", "gemini-2.5-flash")
+GEMINI_VIDEO_MODEL = os.getenv("GEMINI_VIDEO_MODEL", "gemini-2.5-pro")
 VLM_MODEL = "meta-llama/llama-4-scout-17b-16e-instruct"
 LLM_MAX_TOKENS = 8192
 LLM_TEMPERATURE = 0.0
