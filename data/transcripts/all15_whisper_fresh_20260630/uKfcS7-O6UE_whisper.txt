@@ -1,0 +1,20 @@
+video_id: uKfcS7-O6UE
+url: https://www.youtube.com/watch?v=uKfcS7-O6UE
+method: faster_whisper
+model: distil-large-v3
+device: cuda
+compute_type: float16
+beam_size: 5
+prompt_version: mathe-transcribe-v4-readable
+media_file: uKfcS7-O6UE.mp4
+media_bytes: 5200469
+duration_s: 251.98
+elapsed_s: 9.0
+real_time_factor: 0.036
+segment_count: 18
+words_per_minute: 120.5
+word_count: 506
+char_count: 2347
+========================================================================
+
+Hi, I'm Ashling Lynch, I'm a lecturer in Limerick Institute of Technology, and as part of the Math E project, I'm going to be recording a video today talking about the quotient rule. The quotient rule then is used to differentiate a function that consists of two functions, one divided by another. So, for example, if we have y is equal to 2x plus 1 over 3x minus 4, we can't use the general rule here, we must use, use a special rule called the quotient rule. So the quotient rule tells us that if y is equal to u over v, in other words, one function divided by another function, then the derivative of y, d y, d x, is equal to v multiplied by d u d x, minus u multiplied by d u d x, all over v. squared. So what we have here is v, the lower function, multiplied by the derivative of u minus u, the upper function, multiplied by the derivative of u minus u, the upper function, multiplied by the derivative of v, all over v squared. squared. So let's start then with, if we write that out again, y is equal to 2x plus 1 over 3x minus 4. So the first thing we need to do then is let u equals 2x plus 1, and we'll let v equals 3x minus 4. So that's u over v. We'll differentiate u, do u d x is equal to 2. We'll differentiate v, d, d, d, x is equal to 2. We'll differentiate v, d, d, d, d, d, is equal to 3. all of the elements that we need to put back into the rule. We have u, we have v, we have d u, and we have d u, and we have d v, so we put it all back into the rule now. Okay, so, d y, d x, then, is equal to v, which is 3x minus 4, by du d u d x, which is 2, which is 2, minus 4, by du, du, which is 2, minus minus u, which is 2x plus 1, multiplied by dvdx, which is 3. And we're going to put that all over b squared, which is 3x, excuse me, 3x minus 4 squared. So, now we can simplify the top line by multiplying out the brackets, and we leave the bottom line as it is, we can simplify it any further, and we can't simplify it any further, and we can't. cancel for example. All right. So that will give us 6x minus 8, minus 6x minus 3, all over 3x minus 4 squared. And now we can just simplify the top line a little further. We can cancel the 6x with the minus 6x, and we can add minus 8 and minus 3 to give us minus 11. So we have minus 11 over 3x minus 4 squared. And so that is the derivative of y is equal to 2x plus 1 over 3x minus 4.

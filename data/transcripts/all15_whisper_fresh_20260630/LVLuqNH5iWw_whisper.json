@@ -1,0 +1,191 @@
+{
+  "video_id": "LVLuqNH5iWw",
+  "url": "https://www.youtube.com/watch?v=LVLuqNH5iWw",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\LVLuqNH5iWw_whisper.txt",
+  "media_file": "LVLuqNH5iWw.mp4",
+  "media_bytes": 11049539,
+  "transcript": "Find the local extrema of the function, f from r2 into r real function, f depending by two variables, x and y, which will be x to the power of four, plus y to the power of four, minus x squared, minus y squared, plus three. So first of all, we have to find the critical points, yeah? the critical points are the solutions of the system consisting of the partial derivatives of f with respect to x and y. But this is equivalent to, in our case, 4x cube minus 2x equals to 0, and 4 y cube minus to y equals to 0, or equivalently 2x multiplied by 2x multiplied by 2x, squared minus 1 equals to 0 and 2 y squared minus 1 equals to 0 so in this case we have the following solutions x1 equals to 0 x1 1 over radical of 2 and x2 equals minus 1 over radical of 2 y 1 equals to 0 y 2 1 over radical of 2 y 2 1 over radical of 2 y 3 minus 1 over radical of 2. So totally we have nine points. So we have nine critical points, which are, let's say, MIJ of X, I, Y, J, J, where I, and J runs over 1, 2, 3. So the points are M11 is 0, M1, and 1 over radical of 2. M-13 is 0 and minus 1 over radical of 2. M-21 is 1 over radical of 2 and 0, M-2 2, 1 over radical of 2, M-2, 1 over radical of 2, 1 over radical of 2, M-2 3, it is 1 over radical of 2 and minus 1 over radical of 2, M-3 1-1 is minus 1 over radical of 2, M-31 is minus 1 over radical of 2, M-1 is minus 1 over radical of 2, and 0, m32, minus 1 over radical of 2 and 1 over radical of 2, and 1 over radical of 2, and finally m33, which is minus minus 1 over radical of 2, minus 1 over radical of 2. In order to decide which of these points are local extrema for our function, will calculate the second differential of the function F. So the second differential of the function F in a point M will be, 2F, dx2, dx squared, plus 2 times d2f, dx, d2, d2, d2, dx multiplied y, plus d2, d2, dy squared. So in order to do this, we need the second partial derivatives of the function F. The first partial derivative will be 12x squared minus 2, then with respect to y is same, metric is 12 y squared minus 2 and of course the second partial derivative with the mixed derivative is 0 so consequently we have that d2 f in m1-1 when x and y are 0 will be 12 it is 12 multiply 0 minus 2 so this is minus 2 so this is minus 2 dx squared minus 2, DY squared, and as we can see, this is negatively defined, and consequently M11, the point M11 by 00 is local maximum point. Similarly, D2F in the points, M12, and D2F in the point M113, will be minus, 2 Dx squared plus 4 DY squared and also for D2F in M2 1 and M31 will have 4 DX squared minus 2 DY squared and in all cases these points will be subtle points and finally for the points without 0 0,000. In other words, M2, M2, M2, M3, M32, and M33, we have 4 DX squared plus 4, DY square, and this is positively define it, and consequently all these points will be minimum, local minimum points. So M2, M2, M2, M2, 3, M3, M3. and M33 are local minimum points. And that's all.",
+  "segments": [
+    {
+      "start_s": 3.18,
+      "end_s": 47.54,
+      "text": "Find the local extrema of the function, f from r2 into r real function, f depending by two variables, x and y, which will be x to the power of four, plus y to the power of four, minus x squared, minus y squared, plus three."
+    },
+    {
+      "start_s": 47.54,
+      "end_s": 51.6,
+      "text": "So first of all, we have to find the critical points, yeah?"
+    },
+    {
+      "start_s": 52.32,
+      "end_s": 65.96,
+      "text": "the critical points are the solutions of the system consisting of the partial derivatives of f with"
+    },
+    {
+      "start_s": 65.96,
+      "end_s": 78.26,
+      "text": "respect to x and y. But this is equivalent to, in our case, 4x cube minus 2x equals to 0, and 4 y"
+    },
+    {
+      "start_s": 78.26,
+      "end_s": 89.02,
+      "text": "cube minus to y equals to 0, or equivalently 2x multiplied by 2x multiplied by 2x,"
+    },
+    {
+      "start_s": 89.04,
+      "end_s": 110.52,
+      "text": "squared minus 1 equals to 0 and 2 y squared minus 1 equals to 0 so in this case we have the following solutions x1 equals to 0 x1 1 over radical of 2 and x2 equals minus 1 over radical of 2"
+    },
+    {
+      "start_s": 110.52,
+      "end_s": 119.12,
+      "text": "y 1 equals to 0 y 2 1 over radical of 2 y 2 1 over radical of 2 y 3 minus 1"
+    },
+    {
+      "start_s": 119.14,
+      "end_s": 128.72,
+      "text": "over radical of 2. So totally we have nine points. So we have nine critical points,"
+    },
+    {
+      "start_s": 128.72,
+      "end_s": 147.19,
+      "text": "which are, let's say, MIJ of X, I, Y, J, J, where I, and J runs over 1, 2, 3."
+    },
+    {
+      "start_s": 147.43,
+      "end_s": 158.33,
+      "text": "So the points are M11 is 0, M1, and 1 over radical of 2."
+    },
+    {
+      "start_s": 158.83,
+      "end_s": 164.39,
+      "text": "M-13 is 0 and minus 1 over radical of 2."
+    },
+    {
+      "start_s": 165.03,
+      "end_s": 177.28,
+      "text": "M-21 is 1 over radical of 2 and 0, M-2 2, 1 over radical of 2, M-2, 1 over radical of 2, 1 over radical of 2,"
+    },
+    {
+      "start_s": 177.84,
+      "end_s": 191.44,
+      "text": "M-2 3, it is 1 over radical of 2 and minus 1 over radical of 2, M-3 1-1 is minus 1 over radical of 2, M-31 is minus 1 over radical of 2, M-1 is minus 1 over radical of 2,"
+    },
+    {
+      "start_s": 191.84,
+      "end_s": 198.54,
+      "text": "and 0, m32, minus 1 over radical of 2 and 1 over radical of 2,"
+    },
+    {
+      "start_s": 198.54,
+      "end_s": 206.5,
+      "text": "and 1 over radical of 2, and finally m33, which is minus minus 1 over radical of 2, minus 1 over radical of 2."
+    },
+    {
+      "start_s": 206.8,
+      "end_s": 212.52,
+      "text": "In order to decide which of these points are local extrema for our function,"
+    },
+    {
+      "start_s": 212.68,
+      "end_s": 216.62,
+      "text": "will calculate the second differential of the function F."
+    },
+    {
+      "start_s": 216.62,
+      "end_s": 220.96,
+      "text": "So the second differential of the function F in a point M will be,"
+    },
+    {
+      "start_s": 221.87,
+      "end_s": 242.05,
+      "text": "2F, dx2, dx squared, plus 2 times d2f, dx, d2, d2, d2, dx multiplied y, plus d2, d2, dy squared."
+    },
+    {
+      "start_s": 242.59,
+      "end_s": 247.61,
+      "text": "So in order to do this, we need the second partial derivatives of the function F."
+    },
+    {
+      "start_s": 247.61,
+      "end_s": 255.79,
+      "text": "The first partial derivative will be 12x squared minus 2, then with respect to y is same,"
+    },
+    {
+      "start_s": 255.81,
+      "end_s": 262.93,
+      "text": "metric is 12 y squared minus 2 and of course the second partial derivative with"
+    },
+    {
+      "start_s": 262.93,
+      "end_s": 275.25,
+      "text": "the mixed derivative is 0 so consequently we have that d2 f in m1-1 when x and y"
+    },
+    {
+      "start_s": 275.25,
+      "end_s": 285.79,
+      "text": "are 0 will be 12 it is 12 multiply 0 minus 2 so this is minus 2 so this is minus 2"
+    },
+    {
+      "start_s": 285.79,
+      "end_s": 301.88,
+      "text": "dx squared minus 2, DY squared, and as we can see, this is negatively defined, and consequently"
+    },
+    {
+      "start_s": 301.88,
+      "end_s": 310.4,
+      "text": "M11, the point M11 by 00 is local maximum point."
+    },
+    {
+      "start_s": 317.86,
+      "end_s": 329.69,
+      "text": "Similarly, D2F in the points, M12, and D2F in the point M113, will be minus,"
+    },
+    {
+      "start_s": 329.71,
+      "end_s": 350.07,
+      "text": "2 Dx squared plus 4 DY squared and also for D2F in M2 1 and M31 will have 4 DX squared"
+    },
+    {
+      "start_s": 350.07,
+      "end_s": 366.68,
+      "text": "minus 2 DY squared and in all cases these points will be subtle points and finally for the"
+    },
+    {
+      "start_s": 366.68,
+      "end_s": 368.94,
+      "text": "points without 0 0,000."
+    },
+    {
+      "start_s": 368.96,
+      "end_s": 397.03,
+      "text": "In other words, M2, M2, M2, M3, M32, and M33, we have 4 DX squared plus 4, DY square,"
+    },
+    {
+      "start_s": 397.67,
+      "end_s": 411.88,
+      "text": "and this is positively define it, and consequently all these points will be minimum, local minimum points."
+    },
+    {
+      "start_s": 411.88,
+      "end_s": 416.7,
+      "text": "So M2, M2, M2, M2, 3, M3, M3."
+    },
+    {
+      "start_s": 416.72,
+      "end_s": 429.86,
+      "text": "and M33 are local minimum points. And that's all."
+    }
+  ],
+  "words_per_minute": 85.5,
+  "language": "en",
+  "duration_s": 441.85,
+  "elapsed_s": 17.3,
+  "real_time_factor": 0.039,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 34
+}

@@ -1,0 +1,1076 @@
+{
+  "video_id": "kpywdu1afas",
+  "url": "https://www.youtube.com/watch?v=kpywdu1afas",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\kpywdu1afas_whisper.txt",
+  "media_file": "kpywdu1afas.mp4",
+  "media_bytes": 8867531,
+  "transcript": "We learned in the imaginary numbers, a video that hopefully you've watched, that every now and then, in certain equations, you end up with a square root of a negative number. You end up with square root of negative 1 or square root of negative 9. And since any real number, when you squared, is either 0 or positive, this was undefined for us. And then, in order to make it defined in that video, people came up with this thing called I. And you could call that the imaginary unit, or just the number I. And you define I as saying, well, if I squared, we'll just make a definition. This thing called I, when you square it, it equals negative 1. And then that simplifies the idea of taking a negative square root. Because then you could say, oh, well, the square root of negative 9 is the same thing as I times the square root of 9, which equals 3i. And how can we say that? Well, what happens when you square this thing? So what's 3i squared? 3 i squared is equal to 3 squared times i squared. This is just exponent properties. And that equals 9 times negative 1, which equals negative 9. So 3i squared is equal to negative 9. And then if we are kind of extending the definition of square roots to negative numbers, then we can go the other way around. And we could say 3 i. 3i is equal to the square root of negative 9. And 3i, we can call an imaginary number. And the word is imaginary, but it's as real as anything. I mean, to some degree, do negative numbers even exist? They're just kind of a way of us, you know, when we put this sign in front of things, it just tells us something about how it relates to this magnitude. Anyway, I don't want to confuse you. But imaginary numbers tend to get a bad rap, because they're called imaginary numbers. So some people think that they exist less than other things. But with that said, any number times this imaginary unit I is an imaginary number. When you do the quadratic equation, you realize that sometimes you add up with the number that has a little bit of both. It has a real part and an imaginary part. So let me give you an example of that. Let's say I had the number 5 plus 2i. That number, you might say, oh, well, maybe I can simplify, but you really can't. You can't add a real number plus an imaginary number. You can almost kind of imagine them, I don't want to use the word imagine too much, as in different dimensions. And so a number that has a real part, like the 5, and an imaginary part, like the 2i, this is called a complex number. Complex number. And you could, if you want, you could even graph a complex number. number. Let me see. You could make the vertical axis. You could call it the imaginary axis. And you could make the horizontal axis the real axis. This is a symbol for the set of real numbers. And 5 plus 2i, well its real part is 5. So 1, 2, 2, 3, 4, 5. That's 5. And its imaginary part is 2i. part is 2i. So you go along the imaginary axis, or the i-axis, you could even say 2. And then you would have this number here called 5 plus 2i. In future videos, I'll actually do examples where we'll make more use of imaginary and of complex numbers. But now that we've defined what a complex number is, let's see how we can operate with it. So what happens when we add two complex numbers? Image, clear image. So let's say we have a number. two complex numbers. One is A plus B.I. So the real part is A. The imaginary part is B.I. And let's say that I have another complex number, call a C plus D.I. And in general, the symbol that people tend to use, you always use x for when you're dealing with equations, right? Like x could be any general real number when you're doing the equation. In complex numbers, the convention is to use Z, the letter Z. So for example, we could call this the complex number Z1. And it could have been any, I mean, this choice of Z is arbitrary. We could call this the concept. This is an I right here. This could be Z2. So what is the complex number Z1 plus Z2? Well, that equals this A plus B, I, plus this is Z2 right here, C plus D.I. Let me switch colors. It's getting monotonous. So when you're you're just, you add two complex numbers, all you do is you add the real parts to each other and you add the complex parts to each other. So that equals A plus B. Oh, sorry, no. The real part. So it's A and C. Those are the real part. So that equals A plus C plus. And then you add the imaginary parts. B plus D. So you have B-I's and D-I's. So when you add them together, you have B plus D-I's. B plus D. in the imaginary direction. You can almost imagine. I'm using the word imagine too much. So it's pretty easy. You just add the real and you add the imaginary parts. So what happens if you multiply to two complex numbers? And actually, let's just go in order. What happens when you subtract them? What's the same thing? Nothing fancy here. Z1 minus Z2. That's just going to be equal to you subtract the real parts. A minus C, and that's the new real part. And then you subtract the imaginary parts. parts. B minus D-I. And this will be the new imaginary part. So this will be the new complex number. What happens when I multiply the two numbers? So what is Z1 times Z2? Well, that equals A plus B-I times C plus D-I. And you might have, we essentially can just foil it out. I don't know if you've learned foil in eighth grade algebra or ninth grade algebra. I don't like it. I actually just think of it as the distributive property twice. of property twice. So what we can do is we can take the C plus D.I and distribute it on each of these terms. Right? So this should be equal to A times C plus D.I. Right. Plus B.I. Times C plus D.I. All I did is I took the C plus D.I. And I multiplied it by this to get this. And I multiply it by this to get this. And then we distribute again. We get A.C. plus A-D-I. This isn't I. I know my eyes aren't looking good. A-D-I. Plus. Now what's B-I times C? Well, that's C-B-I. And then we have B-I times D-I. So you get B-D, which is B-D. And then what's I times I? It's I squared or negative 1, times negative 1. So what does this simplify to? Well, this simplifies to. I'm going to go back here. So let's see what the real parts are. We have this term, A times C, that's real. So A-C. And then this last term, which was B-I times D-I, because we're multiplying I times I, we get a negative 1, but it becomes real again, right? So we get negative B-D minus B-D. So that's our new real part. So that was this term and that term. And that term are real. And now what's our new imaginary part? Well, it's going to be these two terms added together. So it's, I'm running out of space again. A, D plus C, B, all of that times I. It's a little easier with real numbers, and maybe in the next video I'll use real numbers. But the important thing to realize is essentially you just use the distributive property and realize that you can only add real terms to each other. You can't add a real to an imaginary. imaginary, and you can only add imaginary terms to each other. And just remember, when you have two imaginary numbers times each other, the I's multiply times each other, and you get negative 1. Now the last operation when you divide complex numbers, this gets a little bit interesting, and maybe a little unintuitive. So what happens if I divide Z1 by Z2? So once again, that equals A plus B, I, divided by C plus D.I. How do I divide this? Well, we're going to use a property that hopefully you learned in algebra, that if I multiply, I'll do, let me do this in this corner. A plus B times A minus B. What does that equal? That equals A squared minus B squared. And so if I multiply a complex number, let's say in theory I multiply a complex number, C plus D. times C minus D.I. What do I get? I get C squared minus D.I squared. And what's D.I squared going to be? It's D squared times negative 1. So it becomes C squared. Oh, I'm out of time. Actually, let me continue the division in the next video because it can get involved. See you soon.",
+  "segments": [
+    {
+      "start_s": 0.53,
+      "end_s": 5.69,
+      "text": "We learned in the imaginary numbers, a video that hopefully you've watched,"
+    },
+    {
+      "start_s": 5.69,
+      "end_s": 11.53,
+      "text": "that every now and then, in certain equations, you end up with a square root of a negative number."
+    },
+    {
+      "start_s": 11.53,
+      "end_s": 16.53,
+      "text": "You end up with square root of negative 1 or square root of negative 9."
+    },
+    {
+      "start_s": 16.53,
+      "end_s": 20.53,
+      "text": "And since any real number, when you squared, is either 0 or positive,"
+    },
+    {
+      "start_s": 20.53,
+      "end_s": 22.53,
+      "text": "this was undefined for us."
+    },
+    {
+      "start_s": 22.53,
+      "end_s": 27.53,
+      "text": "And then, in order to make it defined in that video, people came up with this thing called I."
+    },
+    {
+      "start_s": 27.53,
+      "end_s": 32.13,
+      "text": "And you could call that the imaginary unit, or just the number I."
+    },
+    {
+      "start_s": 32.13,
+      "end_s": 37.35,
+      "text": "And you define I as saying, well, if I squared, we'll just make a definition."
+    },
+    {
+      "start_s": 37.35,
+      "end_s": 41.71,
+      "text": "This thing called I, when you square it, it equals negative 1."
+    },
+    {
+      "start_s": 41.71,
+      "end_s": 46.19,
+      "text": "And then that simplifies the idea of taking a negative square root."
+    },
+    {
+      "start_s": 46.19,
+      "end_s": 49.77,
+      "text": "Because then you could say, oh, well, the square root of negative 9"
+    },
+    {
+      "start_s": 49.77,
+      "end_s": 56.37,
+      "text": "is the same thing as I times the square root of 9, which equals 3i."
+    },
+    {
+      "start_s": 56.37,
+      "end_s": 57.37,
+      "text": "And how can we say that?"
+    },
+    {
+      "start_s": 57.37,
+      "end_s": 60.37,
+      "text": "Well, what happens when you square this thing?"
+    },
+    {
+      "start_s": 60.37,
+      "end_s": 62.59,
+      "text": "So what's 3i squared?"
+    },
+    {
+      "start_s": 62.59,
+      "end_s": 70.71,
+      "text": "3 i squared is equal to 3 squared times i squared."
+    },
+    {
+      "start_s": 70.71,
+      "end_s": 72.71,
+      "text": "This is just exponent properties."
+    },
+    {
+      "start_s": 72.71,
+      "end_s": 76.74,
+      "text": "And that equals 9 times negative 1, which equals negative 9."
+    },
+    {
+      "start_s": 76.74,
+      "end_s": 82.54,
+      "text": "So 3i squared is equal to negative 9."
+    },
+    {
+      "start_s": 82.54,
+      "end_s": 86.54,
+      "text": "And then if we are kind of extending the definition of square roots to negative numbers,"
+    },
+    {
+      "start_s": 86.54,
+      "end_s": 87.54,
+      "text": "then we can go the other way around."
+    },
+    {
+      "start_s": 87.54,
+      "end_s": 88.54,
+      "text": "And we could say 3 i."
+    },
+    {
+      "start_s": 88.54,
+      "end_s": 92.54,
+      "text": "3i is equal to the square root of negative 9."
+    },
+    {
+      "start_s": 92.54,
+      "end_s": 96.83,
+      "text": "And 3i, we can call an imaginary number."
+    },
+    {
+      "start_s": 96.83,
+      "end_s": 99.83,
+      "text": "And the word is imaginary, but it's as real as anything."
+    },
+    {
+      "start_s": 99.83,
+      "end_s": 102.83,
+      "text": "I mean, to some degree, do negative numbers even exist?"
+    },
+    {
+      "start_s": 102.83,
+      "end_s": 105.83,
+      "text": "They're just kind of a way of us, you know,"
+    },
+    {
+      "start_s": 105.83,
+      "end_s": 108.83,
+      "text": "when we put this sign in front of things,"
+    },
+    {
+      "start_s": 108.83,
+      "end_s": 112.83,
+      "text": "it just tells us something about how it relates to this magnitude."
+    },
+    {
+      "start_s": 112.83,
+      "end_s": 114.83,
+      "text": "Anyway, I don't want to confuse you."
+    },
+    {
+      "start_s": 114.83,
+      "end_s": 116.83,
+      "text": "But imaginary numbers tend to get a bad rap,"
+    },
+    {
+      "start_s": 116.83,
+      "end_s": 117.83,
+      "text": "because they're called imaginary numbers."
+    },
+    {
+      "start_s": 117.83,
+      "end_s": 121.83,
+      "text": "So some people think that they exist less than other things."
+    },
+    {
+      "start_s": 121.83,
+      "end_s": 126.83,
+      "text": "But with that said, any number times this imaginary unit I"
+    },
+    {
+      "start_s": 126.83,
+      "end_s": 128.83,
+      "text": "is an imaginary number."
+    },
+    {
+      "start_s": 128.83,
+      "end_s": 132.63,
+      "text": "When you do the quadratic equation, you realize that"
+    },
+    {
+      "start_s": 132.63,
+      "end_s": 136.63,
+      "text": "sometimes you add up with the number that has a little bit of both."
+    },
+    {
+      "start_s": 136.63,
+      "end_s": 139.63,
+      "text": "It has a real part and an imaginary part."
+    },
+    {
+      "start_s": 139.63,
+      "end_s": 141.7,
+      "text": "So let me give you an example of that."
+    },
+    {
+      "start_s": 141.7,
+      "end_s": 149.14,
+      "text": "Let's say I had the number 5 plus 2i."
+    },
+    {
+      "start_s": 149.14,
+      "end_s": 153.0,
+      "text": "That number, you might say, oh, well, maybe I can simplify,"
+    },
+    {
+      "start_s": 153.0,
+      "end_s": 154.0,
+      "text": "but you really can't."
+    },
+    {
+      "start_s": 154.0,
+      "end_s": 157.0,
+      "text": "You can't add a real number plus an imaginary number."
+    },
+    {
+      "start_s": 157.0,
+      "end_s": 159.0,
+      "text": "You can almost kind of imagine them,"
+    },
+    {
+      "start_s": 159.0,
+      "end_s": 161.0,
+      "text": "I don't want to use the word imagine too much,"
+    },
+    {
+      "start_s": 161.0,
+      "end_s": 164.0,
+      "text": "as in different dimensions."
+    },
+    {
+      "start_s": 164.0,
+      "end_s": 168.0,
+      "text": "And so a number that has a real part, like the 5,"
+    },
+    {
+      "start_s": 168.0,
+      "end_s": 171.0,
+      "text": "and an imaginary part, like the 2i,"
+    },
+    {
+      "start_s": 171.0,
+      "end_s": 176.06,
+      "text": "this is called a complex number."
+    },
+    {
+      "start_s": 176.06,
+      "end_s": 177.06,
+      "text": "Complex number."
+    },
+    {
+      "start_s": 177.06,
+      "end_s": 182.74,
+      "text": "And you could, if you want, you could even graph a complex number."
+    },
+    {
+      "start_s": 182.74,
+      "end_s": 183.84,
+      "text": "number."
+    },
+    {
+      "start_s": 183.84,
+      "end_s": 184.84,
+      "text": "Let me see."
+    },
+    {
+      "start_s": 184.84,
+      "end_s": 189.35,
+      "text": "You could make the vertical axis."
+    },
+    {
+      "start_s": 189.35,
+      "end_s": 192.38,
+      "text": "You could call it the imaginary axis."
+    },
+    {
+      "start_s": 192.38,
+      "end_s": 200.5,
+      "text": "And you could make the horizontal axis the real axis."
+    },
+    {
+      "start_s": 200.5,
+      "end_s": 204.75,
+      "text": "This is a symbol for the set of real numbers."
+    },
+    {
+      "start_s": 204.75,
+      "end_s": 207.75,
+      "text": "And 5 plus 2i, well its real part is 5."
+    },
+    {
+      "start_s": 207.75,
+      "end_s": 212.75,
+      "text": "So 1, 2, 2, 3, 4, 5."
+    },
+    {
+      "start_s": 212.75,
+      "end_s": 213.75,
+      "text": "That's 5."
+    },
+    {
+      "start_s": 213.75,
+      "end_s": 214.75,
+      "text": "And its imaginary part is 2i."
+    },
+    {
+      "start_s": 214.75,
+      "end_s": 215.75,
+      "text": "part is 2i."
+    },
+    {
+      "start_s": 215.75,
+      "end_s": 218.75,
+      "text": "So you go along the imaginary axis, or the i-axis,"
+    },
+    {
+      "start_s": 218.75,
+      "end_s": 220.75,
+      "text": "you could even say 2."
+    },
+    {
+      "start_s": 220.75,
+      "end_s": 225.85,
+      "text": "And then you would have this number here called 5 plus 2i."
+    },
+    {
+      "start_s": 225.85,
+      "end_s": 228.98,
+      "text": "In future videos, I'll actually do examples where"
+    },
+    {
+      "start_s": 228.98,
+      "end_s": 232.98,
+      "text": "we'll make more use of imaginary and of complex numbers."
+    },
+    {
+      "start_s": 232.98,
+      "end_s": 235.98,
+      "text": "But now that we've defined what a complex number is,"
+    },
+    {
+      "start_s": 235.98,
+      "end_s": 238.98,
+      "text": "let's see how we can operate with it."
+    },
+    {
+      "start_s": 238.98,
+      "end_s": 241.98,
+      "text": "So what happens when we add two complex numbers?"
+    },
+    {
+      "start_s": 241.98,
+      "end_s": 245.99,
+      "text": "Image, clear image."
+    },
+    {
+      "start_s": 245.99,
+      "end_s": 247.76,
+      "text": "So let's say we have a number."
+    },
+    {
+      "start_s": 247.76,
+      "end_s": 248.82,
+      "text": "two complex numbers."
+    },
+    {
+      "start_s": 248.82,
+      "end_s": 252.2,
+      "text": "One is A plus B.I."
+    },
+    {
+      "start_s": 252.2,
+      "end_s": 253.82,
+      "text": "So the real part is A."
+    },
+    {
+      "start_s": 253.82,
+      "end_s": 256.9,
+      "text": "The imaginary part is B.I."
+    },
+    {
+      "start_s": 256.9,
+      "end_s": 259.38,
+      "text": "And let's say that I have another complex number,"
+    },
+    {
+      "start_s": 259.38,
+      "end_s": 266.56,
+      "text": "call a C plus D.I."
+    },
+    {
+      "start_s": 266.56,
+      "end_s": 269.2,
+      "text": "And in general, the symbol that people tend to use,"
+    },
+    {
+      "start_s": 269.2,
+      "end_s": 272.66,
+      "text": "you always use x for when you're dealing with equations, right?"
+    },
+    {
+      "start_s": 272.66,
+      "end_s": 274.98,
+      "text": "Like x could be any general real number"
+    },
+    {
+      "start_s": 274.98,
+      "end_s": 276.02,
+      "text": "when you're doing the equation."
+    },
+    {
+      "start_s": 276.02,
+      "end_s": 279.08,
+      "text": "In complex numbers, the convention is to use"
+    },
+    {
+      "start_s": 279.1,
+      "end_s": 281.1,
+      "text": "Z, the letter Z."
+    },
+    {
+      "start_s": 281.1,
+      "end_s": 284.1,
+      "text": "So for example, we could call this the complex number"
+    },
+    {
+      "start_s": 284.1,
+      "end_s": 285.1,
+      "text": "Z1."
+    },
+    {
+      "start_s": 285.1,
+      "end_s": 287.1,
+      "text": "And it could have been any, I mean, this choice of Z is arbitrary."
+    },
+    {
+      "start_s": 287.1,
+      "end_s": 288.1,
+      "text": "We could call this the concept."
+    },
+    {
+      "start_s": 288.1,
+      "end_s": 289.1,
+      "text": "This is an I right here."
+    },
+    {
+      "start_s": 289.1,
+      "end_s": 292.2,
+      "text": "This could be Z2."
+    },
+    {
+      "start_s": 292.2,
+      "end_s": 296.2,
+      "text": "So what is the complex number Z1 plus Z2?"
+    },
+    {
+      "start_s": 296.2,
+      "end_s": 299.84,
+      "text": "Well, that equals this"
+    },
+    {
+      "start_s": 299.84,
+      "end_s": 301.84,
+      "text": "A plus B,"
+    },
+    {
+      "start_s": 301.84,
+      "end_s": 305.0,
+      "text": "I, plus this is Z2 right here,"
+    },
+    {
+      "start_s": 305.0,
+      "end_s": 307.0,
+      "text": "C plus D.I."
+    },
+    {
+      "start_s": 307.0,
+      "end_s": 308.0,
+      "text": "Let me switch colors."
+    },
+    {
+      "start_s": 308.0,
+      "end_s": 309.0,
+      "text": "It's getting monotonous."
+    },
+    {
+      "start_s": 309.0,
+      "end_s": 310.83,
+      "text": "So when you're you're just,"
+    },
+    {
+      "start_s": 310.83,
+      "end_s": 312.83,
+      "text": "you add two complex numbers, all you do is"
+    },
+    {
+      "start_s": 312.83,
+      "end_s": 314.83,
+      "text": "you add the real parts to each other"
+    },
+    {
+      "start_s": 314.83,
+      "end_s": 316.83,
+      "text": "and you add the complex parts to each other."
+    },
+    {
+      "start_s": 316.83,
+      "end_s": 321.27,
+      "text": "So that equals A plus B."
+    },
+    {
+      "start_s": 321.27,
+      "end_s": 323.59,
+      "text": "Oh, sorry, no."
+    },
+    {
+      "start_s": 323.59,
+      "end_s": 324.59,
+      "text": "The real part."
+    },
+    {
+      "start_s": 324.59,
+      "end_s": 325.59,
+      "text": "So it's A and C."
+    },
+    {
+      "start_s": 325.59,
+      "end_s": 326.59,
+      "text": "Those are the real part."
+    },
+    {
+      "start_s": 326.59,
+      "end_s": 329.85,
+      "text": "So that equals A plus C plus."
+    },
+    {
+      "start_s": 329.85,
+      "end_s": 332.85,
+      "text": "And then you add the imaginary parts."
+    },
+    {
+      "start_s": 332.85,
+      "end_s": 334.85,
+      "text": "B plus D."
+    },
+    {
+      "start_s": 334.85,
+      "end_s": 337.85,
+      "text": "So you have B-I's and D-I's."
+    },
+    {
+      "start_s": 337.85,
+      "end_s": 342.26,
+      "text": "So when you add them together, you have B plus D-I's."
+    },
+    {
+      "start_s": 342.26,
+      "end_s": 343.26,
+      "text": "B plus D."
+    },
+    {
+      "start_s": 343.26,
+      "end_s": 345.58,
+      "text": "in the imaginary direction."
+    },
+    {
+      "start_s": 345.58,
+      "end_s": 347.58,
+      "text": "You can almost imagine."
+    },
+    {
+      "start_s": 347.58,
+      "end_s": 349.58,
+      "text": "I'm using the word imagine too much."
+    },
+    {
+      "start_s": 349.58,
+      "end_s": 350.58,
+      "text": "So it's pretty easy."
+    },
+    {
+      "start_s": 350.58,
+      "end_s": 352.58,
+      "text": "You just add the real and you add the imaginary parts."
+    },
+    {
+      "start_s": 352.58,
+      "end_s": 356.61,
+      "text": "So what happens if you multiply to two complex numbers?"
+    },
+    {
+      "start_s": 356.61,
+      "end_s": 358.61,
+      "text": "And actually, let's just go in order."
+    },
+    {
+      "start_s": 358.61,
+      "end_s": 360.61,
+      "text": "What happens when you subtract them?"
+    },
+    {
+      "start_s": 360.61,
+      "end_s": 361.61,
+      "text": "What's the same thing?"
+    },
+    {
+      "start_s": 361.61,
+      "end_s": 363.61,
+      "text": "Nothing fancy here. Z1 minus Z2."
+    },
+    {
+      "start_s": 363.61,
+      "end_s": 365.61,
+      "text": "That's just going to be equal to"
+    },
+    {
+      "start_s": 365.61,
+      "end_s": 367.64,
+      "text": "you subtract the real parts."
+    },
+    {
+      "start_s": 367.64,
+      "end_s": 370.64,
+      "text": "A minus C, and that's the new real part."
+    },
+    {
+      "start_s": 370.64,
+      "end_s": 372.64,
+      "text": "And then you subtract the imaginary parts."
+    },
+    {
+      "start_s": 372.64,
+      "end_s": 373.64,
+      "text": "parts."
+    },
+    {
+      "start_s": 373.64,
+      "end_s": 375.64,
+      "text": "B minus D-I."
+    },
+    {
+      "start_s": 375.64,
+      "end_s": 377.64,
+      "text": "And this will be the new imaginary part."
+    },
+    {
+      "start_s": 377.64,
+      "end_s": 379.64,
+      "text": "So this will be the new complex number."
+    },
+    {
+      "start_s": 379.64,
+      "end_s": 381.64,
+      "text": "What happens when I multiply the two numbers?"
+    },
+    {
+      "start_s": 381.64,
+      "end_s": 386.64,
+      "text": "So what is Z1 times Z2?"
+    },
+    {
+      "start_s": 386.64,
+      "end_s": 392.86,
+      "text": "Well, that equals A plus B-I times C plus D-I."
+    },
+    {
+      "start_s": 392.86,
+      "end_s": 396.96,
+      "text": "And you might have, we essentially can just foil it out."
+    },
+    {
+      "start_s": 396.96,
+      "end_s": 399.96,
+      "text": "I don't know if you've learned foil in eighth grade algebra or ninth grade algebra."
+    },
+    {
+      "start_s": 399.96,
+      "end_s": 400.96,
+      "text": "I don't like it."
+    },
+    {
+      "start_s": 400.96,
+      "end_s": 401.96,
+      "text": "I actually just think of it as the distributive property twice."
+    },
+    {
+      "start_s": 401.96,
+      "end_s": 402.96,
+      "text": "of property twice."
+    },
+    {
+      "start_s": 402.96,
+      "end_s": 408.96,
+      "text": "So what we can do is we can take the C plus D.I and distribute it on each of these terms."
+    },
+    {
+      "start_s": 408.96,
+      "end_s": 415.57,
+      "text": "Right? So this should be equal to A times C plus D.I."
+    },
+    {
+      "start_s": 415.57,
+      "end_s": 416.66,
+      "text": "Right."
+    },
+    {
+      "start_s": 416.66,
+      "end_s": 418.66,
+      "text": "Plus B.I."
+    },
+    {
+      "start_s": 418.66,
+      "end_s": 421.66,
+      "text": "Times C plus D.I."
+    },
+    {
+      "start_s": 421.66,
+      "end_s": 423.66,
+      "text": "All I did is I took the C plus D.I."
+    },
+    {
+      "start_s": 423.66,
+      "end_s": 426.66,
+      "text": "And I multiplied it by this to get this."
+    },
+    {
+      "start_s": 426.66,
+      "end_s": 428.66,
+      "text": "And I multiply it by this to get this."
+    },
+    {
+      "start_s": 428.66,
+      "end_s": 430.66,
+      "text": "And then we distribute again."
+    },
+    {
+      "start_s": 430.66,
+      "end_s": 431.66,
+      "text": "We get A.C."
+    },
+    {
+      "start_s": 431.66,
+      "end_s": 435.89,
+      "text": "plus A-D-I. This isn't I."
+    },
+    {
+      "start_s": 435.89,
+      "end_s": 437.89,
+      "text": "I know my eyes aren't looking good."
+    },
+    {
+      "start_s": 437.89,
+      "end_s": 440.89,
+      "text": "A-D-I."
+    },
+    {
+      "start_s": 440.89,
+      "end_s": 442.66,
+      "text": "Plus."
+    },
+    {
+      "start_s": 442.66,
+      "end_s": 445.66,
+      "text": "Now what's B-I times C?"
+    },
+    {
+      "start_s": 445.66,
+      "end_s": 448.66,
+      "text": "Well, that's C-B-I."
+    },
+    {
+      "start_s": 448.66,
+      "end_s": 453.74,
+      "text": "And then we have B-I times D-I."
+    },
+    {
+      "start_s": 453.74,
+      "end_s": 458.22,
+      "text": "So you get B-D, which is B-D."
+    },
+    {
+      "start_s": 458.22,
+      "end_s": 460.61,
+      "text": "And then what's I times I?"
+    },
+    {
+      "start_s": 460.61,
+      "end_s": 462.61,
+      "text": "It's I squared or negative 1,"
+    },
+    {
+      "start_s": 462.61,
+      "end_s": 463.61,
+      "text": "times negative 1."
+    },
+    {
+      "start_s": 463.61,
+      "end_s": 467.15,
+      "text": "So what does this simplify to?"
+    },
+    {
+      "start_s": 467.15,
+      "end_s": 468.15,
+      "text": "Well, this simplifies to."
+    },
+    {
+      "start_s": 468.15,
+      "end_s": 470.15,
+      "text": "I'm going to go back here."
+    },
+    {
+      "start_s": 470.15,
+      "end_s": 473.43,
+      "text": "So let's see what the real parts are."
+    },
+    {
+      "start_s": 473.43,
+      "end_s": 477.43,
+      "text": "We have this term, A times C, that's real."
+    },
+    {
+      "start_s": 477.43,
+      "end_s": 479.66,
+      "text": "So A-C."
+    },
+    {
+      "start_s": 479.66,
+      "end_s": 482.75,
+      "text": "And then this last term, which was B-I times D-I,"
+    },
+    {
+      "start_s": 482.75,
+      "end_s": 484.75,
+      "text": "because we're multiplying I times I, we get a negative 1,"
+    },
+    {
+      "start_s": 484.75,
+      "end_s": 487.82,
+      "text": "but it becomes real again, right?"
+    },
+    {
+      "start_s": 487.82,
+      "end_s": 491.82,
+      "text": "So we get negative B-D minus B-D."
+    },
+    {
+      "start_s": 491.82,
+      "end_s": 493.82,
+      "text": "So that's our new real part."
+    },
+    {
+      "start_s": 493.82,
+      "end_s": 494.82,
+      "text": "So that was this term and that term."
+    },
+    {
+      "start_s": 494.82,
+      "end_s": 496.82,
+      "text": "And that term are real."
+    },
+    {
+      "start_s": 496.82,
+      "end_s": 499.33,
+      "text": "And now what's our new imaginary part?"
+    },
+    {
+      "start_s": 499.33,
+      "end_s": 501.33,
+      "text": "Well, it's going to be these two terms added together."
+    },
+    {
+      "start_s": 501.33,
+      "end_s": 504.33,
+      "text": "So it's, I'm running out of space again."
+    },
+    {
+      "start_s": 504.33,
+      "end_s": 510.33,
+      "text": "A, D plus C, B, all of that times I."
+    },
+    {
+      "start_s": 510.33,
+      "end_s": 512.33,
+      "text": "It's a little easier with real numbers,"
+    },
+    {
+      "start_s": 512.33,
+      "end_s": 514.33,
+      "text": "and maybe in the next video I'll use real numbers."
+    },
+    {
+      "start_s": 514.33,
+      "end_s": 516.33,
+      "text": "But the important thing to realize is"
+    },
+    {
+      "start_s": 516.33,
+      "end_s": 519.33,
+      "text": "essentially you just use the distributive property"
+    },
+    {
+      "start_s": 519.33,
+      "end_s": 522.33,
+      "text": "and realize that you can only add real terms to each other."
+    },
+    {
+      "start_s": 522.33,
+      "end_s": 524.33,
+      "text": "You can't add a real to an imaginary."
+    },
+    {
+      "start_s": 524.33,
+      "end_s": 527.33,
+      "text": "imaginary, and you can only add imaginary terms to each other."
+    },
+    {
+      "start_s": 527.33,
+      "end_s": 529.33,
+      "text": "And just remember, when you have two imaginary numbers"
+    },
+    {
+      "start_s": 529.33,
+      "end_s": 532.33,
+      "text": "times each other, the I's multiply times each other,"
+    },
+    {
+      "start_s": 532.33,
+      "end_s": 534.81,
+      "text": "and you get negative 1."
+    },
+    {
+      "start_s": 534.81,
+      "end_s": 537.81,
+      "text": "Now the last operation when you divide complex numbers,"
+    },
+    {
+      "start_s": 537.81,
+      "end_s": 539.81,
+      "text": "this gets a little bit interesting,"
+    },
+    {
+      "start_s": 539.81,
+      "end_s": 542.81,
+      "text": "and maybe a little unintuitive."
+    },
+    {
+      "start_s": 542.81,
+      "end_s": 548.13,
+      "text": "So what happens if I divide Z1 by Z2?"
+    },
+    {
+      "start_s": 548.13,
+      "end_s": 552.13,
+      "text": "So once again, that equals A plus B, I,"
+    },
+    {
+      "start_s": 552.13,
+      "end_s": 555.13,
+      "text": "divided by C plus"
+    },
+    {
+      "start_s": 555.13,
+      "end_s": 559.16,
+      "text": "D.I. How do I divide this?"
+    },
+    {
+      "start_s": 559.16,
+      "end_s": 563.16,
+      "text": "Well, we're going to use a property that hopefully you"
+    },
+    {
+      "start_s": 563.16,
+      "end_s": 566.16,
+      "text": "learned in algebra, that if I multiply,"
+    },
+    {
+      "start_s": 566.16,
+      "end_s": 569.35,
+      "text": "I'll do, let me do this in this corner."
+    },
+    {
+      "start_s": 569.35,
+      "end_s": 572.35,
+      "text": "A plus B times A minus B."
+    },
+    {
+      "start_s": 572.35,
+      "end_s": 575.18,
+      "text": "What does that equal?"
+    },
+    {
+      "start_s": 575.18,
+      "end_s": 579.18,
+      "text": "That equals A squared minus B squared."
+    },
+    {
+      "start_s": 579.18,
+      "end_s": 582.18,
+      "text": "And so if I multiply a complex number,"
+    },
+    {
+      "start_s": 582.18,
+      "end_s": 585.34,
+      "text": "let's say in theory I multiply a complex number,"
+    },
+    {
+      "start_s": 585.34,
+      "end_s": 586.34,
+      "text": "C plus D."
+    },
+    {
+      "start_s": 586.34,
+      "end_s": 590.47,
+      "text": "times C minus D.I. What do I get?"
+    },
+    {
+      "start_s": 590.47,
+      "end_s": 596.02,
+      "text": "I get C squared minus D.I squared."
+    },
+    {
+      "start_s": 596.02,
+      "end_s": 599.43,
+      "text": "And what's D.I squared going to be?"
+    },
+    {
+      "start_s": 599.43,
+      "end_s": 602.43,
+      "text": "It's D squared times negative 1."
+    },
+    {
+      "start_s": 602.43,
+      "end_s": 603.43,
+      "text": "So it becomes C squared."
+    },
+    {
+      "start_s": 603.43,
+      "end_s": 604.43,
+      "text": "Oh, I'm out of time."
+    },
+    {
+      "start_s": 604.43,
+      "end_s": 607.43,
+      "text": "Actually, let me continue the division in the next video"
+    },
+    {
+      "start_s": 607.43,
+      "end_s": 608.43,
+      "text": "because it can get involved."
+    },
+    {
+      "start_s": 608.43,
+      "end_s": 609.43,
+      "text": "See you soon."
+    }
+  ],
+  "words_per_minute": 154.6,
+  "language": "en",
+  "duration_s": 609.71,
+  "elapsed_s": 28.3,
+  "real_time_factor": 0.046,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 211
+}

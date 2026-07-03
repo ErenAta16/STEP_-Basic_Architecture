@@ -1,0 +1,316 @@
+{
+  "video_id": "QhB481jPAa4",
+  "url": "https://www.youtube.com/watch?v=QhB481jPAa4",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\QhB481jPAa4_whisper.txt",
+  "media_file": "QhB481jPAa4.mp4",
+  "media_bytes": 8936353,
+  "transcript": "Welcome to Proudan tutorials. Please kindly subscribe. Thank you. Hi, everyone. In this lesson, we'll be looking at the differentiation of this type of function. And we'll look at examples that applies our shane rule and product rule. Okay, so if we have a y equals, course a x where a is a constant remember in our last video on differentiating a cosine function we did say that when you differentiate a cosign function for example cost x you will get negative of sine x so what about if it is in this form y equals cost a x in this case In this case, we're going to apply what we call the Shane rule or the function of a function. And how does that works? Now you look at this a x, you make it as a representation. So we can say, let you be equal to a x. Then a y becomes cost of u. Remember, according to shane rule, you have to different. this u which respect to x that is the u d x which will give you a in this case and you also have to differentiate your y with respect to you in this case function y which respect to you and when you differentiate a cosy cosine function it gives you minus sign of that function which is u And according to Shane rule, you have to multiply these two together, that is your DU, the x, multiply the y, the u, which in turn gives you, if you look at this, which in turn gives you, if you look at this, which in terms gives you or leaves you with the y, the x, and that's all we are looking for. So I have my DU, the x, which is a, multiplying the y, the u, which is negative, sine. And finally, you can have a, we can bring the negative to the front, sign u, replace it with what it is what it is, which is a x. So you have this. Okay, we're going to look at some typical examples. Okay, as a quick one, let's say you have y equals cost 6. 6x. So how do you do this? In the case of objective, for example, all you do is look at the function, yeah, which is 6x. Differentiate 6x. When you differentiate 6x with respect to x, you will be left with 6. Okay? And when you differentiate a cosine function, remember, you get negative. So if I put that here, negative sign, we write this, you have 6x. That is it. Your A in this case is in place in place of 6. I will look at another example, a very good example this time around. Let's see something like this, something that is more advanced. Y equals x-rays to power of 4, cause 6x, for example. Okay, this is a little bit complex, but it's very simple. Check our previous video on 3.0 rule in applying product rule. In that case, what are we going to do here? We can see two different terms they have been multiplied together, so we can make a representation. Let you, for example, be equals to the first term, S-resupert of 4, and let V be equals to the next one, which is called C. X. So the next thing here is to differentiate. Remember, we need to know what the differentiation of you with respect to X we give us. And that is going to give you, remember how to differentiate using the general rule, which we have done in one of our videos. 4 is the power you drop the power 4. We write the old term x-risk to power 4, subtracting 1 from the power, which leaves you with 3. The same thing, you need to differentiate your V. which we expect to X. This time around, I'm going to do it straightway. As we have done before, look at the 6x. When I differentiate 6S, I get 6. When I differentiate cost, I get minus sine. Then I rewrite 6S as easy as that. So next is apply your product rule, which says the Y-D-X is equal to the 1-D-X is equal to the first variable that we have differentiation of the second variable plus the second variable differentiation of the first. So which is this. And if we apply that, we have a U, which is S power 4, the V, the X, we got minus 6, sine 6x, 6x plus, plus V, which is, which is, cost 6x and that multiplies the u the x which we got as 4 x power 3 so this is it is it you can factorize further or simplify as the case may be looking at the first time and the second time we can see something is common and that's going to be x is x power 3 x power 4 so x power 3 is common so x power 3 is common and this is 6 and this is 4. So I can say 2 is common. So if we bring that out, we will be left with minus 3x, sine of 6x from the first one plus 2 out of 4, yeah, it will be left with 2. S-cubb has already taken care of the S-cube. And so we are left with cost of 6x. And that's it. All right, guys. try to lay your hands on more examples for better understanding and become a mathematics giant. See you and see you in our next video where we'll be talking of how to differentiate a targent function. Bye bye.",
+  "segments": [
+    {
+      "start_s": 0.0,
+      "end_s": 2.0,
+      "text": "Welcome to Proudan tutorials."
+    },
+    {
+      "start_s": 6.27,
+      "end_s": 11.48,
+      "text": "Please kindly subscribe. Thank you."
+    },
+    {
+      "start_s": 11.48,
+      "end_s": 24.02,
+      "text": "Hi, everyone. In this lesson, we'll be looking at the differentiation of this type of function."
+    },
+    {
+      "start_s": 24.02,
+      "end_s": 34.02,
+      "text": "And we'll look at examples that applies our shane rule and product rule."
+    },
+    {
+      "start_s": 34.02,
+      "end_s": 38.02,
+      "text": "Okay, so if we have a y equals,"
+    },
+    {
+      "start_s": 38.02,
+      "end_s": 51.82,
+      "text": "course a x where a is a constant remember in our last video on differentiating a cosine function"
+    },
+    {
+      "start_s": 51.82,
+      "end_s": 58.82,
+      "text": "we did say that when you differentiate a cosign function for example cost x you"
+    },
+    {
+      "start_s": 58.82,
+      "end_s": 67.82,
+      "text": "will get negative of sine x so what about if it is in this form y equals cost a x in this case"
+    },
+    {
+      "start_s": 67.82,
+      "end_s": 74.82,
+      "text": "In this case, we're going to apply what we call the Shane rule or the function of a function."
+    },
+    {
+      "start_s": 74.82,
+      "end_s": 76.82,
+      "text": "And how does that works?"
+    },
+    {
+      "start_s": 76.82,
+      "end_s": 80.82,
+      "text": "Now you look at this a x, you make it as a representation."
+    },
+    {
+      "start_s": 80.82,
+      "end_s": 87.82,
+      "text": "So we can say, let you be equal to a x."
+    },
+    {
+      "start_s": 87.82,
+      "end_s": 95.26,
+      "text": "Then a y becomes cost of u."
+    },
+    {
+      "start_s": 95.26,
+      "end_s": 98.62,
+      "text": "Remember, according to shane rule, you have to different."
+    },
+    {
+      "start_s": 98.62,
+      "end_s": 108.62,
+      "text": "this u which respect to x that is the u d x which will give you a in this case"
+    },
+    {
+      "start_s": 108.62,
+      "end_s": 117.62,
+      "text": "and you also have to differentiate your y with respect to you in this case function y which respect to you"
+    },
+    {
+      "start_s": 117.62,
+      "end_s": 126.62,
+      "text": "and when you differentiate a cosy cosine function it gives you minus sign of that function which is u"
+    },
+    {
+      "start_s": 126.62,
+      "end_s": 148.08,
+      "text": "And according to Shane rule, you have to multiply these two together, that is your DU, the x, multiply the y, the u, which in turn gives you, if you look at this, which in turn gives you, if you look at this, which in terms gives you or leaves you with the y, the x, and that's all we are looking for."
+    },
+    {
+      "start_s": 148.08,
+      "end_s": 156.28,
+      "text": "So I have my DU, the x, which is a, multiplying the y, the u, which is negative, sine."
+    },
+    {
+      "start_s": 156.68,
+      "end_s": 171.22,
+      "text": "And finally, you can have a, we can bring the negative to the front, sign u, replace it with what it is what it is, which is a x."
+    },
+    {
+      "start_s": 171.22,
+      "end_s": 173.22,
+      "text": "So you have this."
+    },
+    {
+      "start_s": 173.22,
+      "end_s": 178.42,
+      "text": "Okay, we're going to look at some typical examples."
+    },
+    {
+      "start_s": 178.42,
+      "end_s": 186.42,
+      "text": "Okay, as a quick one, let's say you have y equals cost 6."
+    },
+    {
+      "start_s": 186.42,
+      "end_s": 207.42,
+      "text": "6x. So how do you do this? In the case of objective, for example, all you do is look at the function, yeah, which is 6x. Differentiate 6x. When you differentiate 6x with respect to x, you will be left with 6."
+    },
+    {
+      "start_s": 207.42,
+      "end_s": 218.71,
+      "text": "Okay? And when you differentiate a cosine function, remember, you get negative."
+    },
+    {
+      "start_s": 219.71,
+      "end_s": 227.71,
+      "text": "So if I put that here, negative sign, we write this, you have 6x. That is it."
+    },
+    {
+      "start_s": 227.71,
+      "end_s": 234.7,
+      "text": "Your A in this case is in place in place of 6."
+    },
+    {
+      "start_s": 234.7,
+      "end_s": 238.7,
+      "text": "I will look at another example, a very good example this time around."
+    },
+    {
+      "start_s": 238.7,
+      "end_s": 242.7,
+      "text": "Let's see something like this, something that is more advanced."
+    },
+    {
+      "start_s": 242.7,
+      "end_s": 251.05,
+      "text": "Y equals x-rays to power of 4, cause 6x, for example."
+    },
+    {
+      "start_s": 251.05,
+      "end_s": 254.55,
+      "text": "Okay, this is a little bit complex, but it's very simple."
+    },
+    {
+      "start_s": 255.09,
+      "end_s": 260.71,
+      "text": "Check our previous video on 3.0 rule in applying product rule."
+    },
+    {
+      "start_s": 260.83,
+      "end_s": 263.25,
+      "text": "In that case, what are we going to do here?"
+    },
+    {
+      "start_s": 263.71,
+      "end_s": 269.37,
+      "text": "We can see two different terms they have been multiplied together, so we can make a representation."
+    },
+    {
+      "start_s": 270.17,
+      "end_s": 280.57,
+      "text": "Let you, for example, be equals to the first term, S-resupert of 4, and let V be equals to the next one, which is called C."
+    },
+    {
+      "start_s": 281.05,
+      "end_s": 291.05,
+      "text": "X. So the next thing here is to differentiate. Remember, we need to know what the differentiation of you with respect to X we give us."
+    },
+    {
+      "start_s": 291.05,
+      "end_s": 298.05,
+      "text": "And that is going to give you, remember how to differentiate using the general rule, which we have done in one of our videos."
+    },
+    {
+      "start_s": 298.05,
+      "end_s": 308.05,
+      "text": "4 is the power you drop the power 4. We write the old term x-risk to power 4, subtracting 1 from the power, which leaves you with 3."
+    },
+    {
+      "start_s": 308.05,
+      "end_s": 311.03,
+      "text": "The same thing, you need to differentiate your V."
+    },
+    {
+      "start_s": 311.05,
+      "end_s": 312.35,
+      "text": "which we expect to X."
+    },
+    {
+      "start_s": 312.75,
+      "end_s": 314.95,
+      "text": "This time around, I'm going to do it straightway."
+    },
+    {
+      "start_s": 314.95,
+      "end_s": 320.41,
+      "text": "As we have done before, look at the 6x."
+    },
+    {
+      "start_s": 320.49,
+      "end_s": 323.43,
+      "text": "When I differentiate 6S, I get 6."
+    },
+    {
+      "start_s": 323.91,
+      "end_s": 327.59,
+      "text": "When I differentiate cost, I get minus sine."
+    },
+    {
+      "start_s": 328.03,
+      "end_s": 330.95,
+      "text": "Then I rewrite 6S as easy as that."
+    },
+    {
+      "start_s": 332.03,
+      "end_s": 341.27,
+      "text": "So next is apply your product rule, which says the Y-D-X is equal to the 1-D-X is equal to the first"
+    },
+    {
+      "start_s": 341.27,
+      "end_s": 350.35,
+      "text": "variable that we have differentiation of the second variable plus the second variable differentiation"
+    },
+    {
+      "start_s": 350.35,
+      "end_s": 361.37,
+      "text": "of the first. So which is this. And if we apply that, we have a U, which is S power 4,"
+    },
+    {
+      "start_s": 362.24,
+      "end_s": 371.32,
+      "text": "the V, the X, we got minus 6, sine 6x, 6x plus, plus V, which is, which is,"
+    },
+    {
+      "start_s": 371.34,
+      "end_s": 385.98,
+      "text": "cost 6x and that multiplies the u the x which we got as 4 x power 3 so this is it"
+    },
+    {
+      "start_s": 385.98,
+      "end_s": 391.74,
+      "text": "is it you can factorize further or simplify as the case may be looking at the"
+    },
+    {
+      "start_s": 391.74,
+      "end_s": 397.12,
+      "text": "first time and the second time we can see something is common and that's going to"
+    },
+    {
+      "start_s": 397.12,
+      "end_s": 403.02,
+      "text": "be x is x power 3 x power 4 so x power 3 is common so x power 3 is common"
+    },
+    {
+      "start_s": 403.02,
+      "end_s": 414.54,
+      "text": "and this is 6 and this is 4. So I can say 2 is common. So if we bring that out, we will be left with minus 3x,"
+    },
+    {
+      "start_s": 415.18,
+      "end_s": 427.02,
+      "text": "sine of 6x from the first one plus 2 out of 4, yeah, it will be left with 2. S-cubb has already taken care of the S-cube."
+    },
+    {
+      "start_s": 427.02,
+      "end_s": 433.0,
+      "text": "And so we are left with cost of 6x. And that's it. All right, guys."
+    },
+    {
+      "start_s": 433.02,
+      "end_s": 440.02,
+      "text": "try to lay your hands on more examples for better understanding and become a mathematics giant."
+    },
+    {
+      "start_s": 440.02,
+      "end_s": 447.02,
+      "text": "See you and see you in our next video where we'll be talking of how to differentiate a targent function."
+    },
+    {
+      "start_s": 447.02,
+      "end_s": 449.02,
+      "text": "Bye bye."
+    }
+  ],
+  "words_per_minute": 121.8,
+  "language": "en",
+  "duration_s": 464.98,
+  "elapsed_s": 16.4,
+  "real_time_factor": 0.035,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 59
+}

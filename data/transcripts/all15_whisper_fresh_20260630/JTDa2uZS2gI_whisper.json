@@ -1,0 +1,286 @@
+{
+  "video_id": "JTDa2uZS2gI",
+  "url": "https://www.youtube.com/watch?v=JTDa2uZS2gI",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\JTDa2uZS2gI_whisper.txt",
+  "media_file": "JTDa2uZS2gI.mp4",
+  "media_bytes": 7629626,
+  "transcript": "The aim of this video is to discuss partial differentiation, and what I've done here is I've taken a function F of two variables, X and Y, and the partial derivative of it with respect to one of the variables, and I've here randomly chosen X, is given by this. It is the limit, as delta goes to zero, of F of X plus delta, and of Y, minus F of X of X and X, and Y, and this difference. is divided by delta. And this is extremely reminiscent of the normal definition of differentiation, and in fact, if we were to write ordinary Ds here rather than partial derivative signs, and we're not to write the comma and the y at all, we would have the definition of a derivative with respect to x, of a function of one variable. The point that I want to really get across from looking at this definition is that when When we carry out a partial differentiation with respect to a variable, then the other variable is unchanged and may effectively, for the partial differentiation, be treated as though it were a constant. So, for example, if I was to calculate the derivative of, let us say, with respect to x, of let us say the sign of x squared y, or let us say the sign of x squared y, Then the y here may be viewed as a constant because we are differentiating with respect to x. So what we have is the sine function of x squared multiplied by something, and we know how to differentiate this using the chain rule. The derivative of the sine function is the cosine function of x squared y. And then we multiply this by the derivative of what was in the argument here, and the derivative of what was in the argument here. this with respect to x, the partial derivative is I bring the two down, I have 2x times y. So I'll just say here 2x y. So I can write a little bit more usefully perhaps, or a little bit more clearly, 2xY, putting the simpler terms in front, times the cosine of x squared y. And this is my answer for this derivative. this derivative. So I can make a little bit more room and then think about what the result would be if we were to differentiate the same function, but let's say with respect to y. So, as I said, let's differentiate with respect to y, the sign of x squared y. And again, we view this as a function of y alone and x may be treated as a constant. So what we can do, is we say that the derivative of sign is cosine, so we're going to get the cosine of x squared y multiplied from the chain rule by the derivative of what's in the argument of the function here. And the partial derivative of this with respect to y, x as a constant, is just x squared because the derivative of y with respect to y is 1. So we're going to get an x squared factor, and I think it's more helpful to write this as x squared times the cosine of x squared. So what I'm going to do now is open another sheet, write out a couple of examples, and I'd recommend that you try the examples, and then I will give you the answers. So here I've written out three exercises for you to attempt. This one, this one, and this one, using the rules of partial differentiation. And I'd recommend that you now pause the video, attempt questions and then I will give you the answers. So in the first example here, we want to differentiate x cube y with respect to x, y may be viewed as a constant, and what we're going to get is 3 x squared y. Y is just multiplying this factor here, or this function here, and it does not in any way alter this, except to multiply it as a constant. In the second example, we notice that this function here does not depend upon y, and therefore its partial derivative with respect to y is 0. And if you substitute this back into the definition for the partial derivative that we had on the previous page, but then write it out with respect to y rather than with respect to x, you should see this result. This vanishes extremely directly. The third case is a derivative with respect to a variable p of the logarithm of a function of p and another variable Q perhaps. And the partial derivative here with respect to p, this logarithm cannot be simplified. The rules for logarithms do not simplify it in any way. So therefore, we have to use the chain rule, and we say that the derivative of a logarithm is 1 over the and the argument is q p squared plus one and this is then multiplied by the derivative of the argument q p squared plus one with respect to p q is a constant for this partial derivative with respect to p so therefore we are going to get two from the p here two is brought down so we have two q times p to the one two minus 1. So we have 2 q p and of course the derivative of the 1 here is 0. So those are the answers to those exercises and we'll stop this video here here.",
+  "segments": [
+    {
+      "start_s": 1.17,
+      "end_s": 19.59,
+      "text": "The aim of this video is to discuss partial differentiation, and what I've done here is I've taken a function F of two variables, X and Y, and the partial derivative of it with respect to one of the variables, and I've here randomly chosen X, is given by this."
+    },
+    {
+      "start_s": 19.59,
+      "end_s": 31.15,
+      "text": "It is the limit, as delta goes to zero, of F of X plus delta, and of Y, minus F of X of X and X, and Y, and this difference."
+    },
+    {
+      "start_s": 31.17,
+      "end_s": 38.55,
+      "text": "is divided by delta. And this is extremely reminiscent of the normal definition of"
+    },
+    {
+      "start_s": 38.55,
+      "end_s": 44.73,
+      "text": "differentiation, and in fact, if we were to write ordinary Ds here rather than partial"
+    },
+    {
+      "start_s": 44.73,
+      "end_s": 50.29,
+      "text": "derivative signs, and we're not to write the comma and the y at all, we would have"
+    },
+    {
+      "start_s": 50.29,
+      "end_s": 55.65,
+      "text": "the definition of a derivative with respect to x, of a function of one variable."
+    },
+    {
+      "start_s": 55.65,
+      "end_s": 62.43,
+      "text": "The point that I want to really get across from looking at this definition is that when"
+    },
+    {
+      "start_s": 62.45,
+      "end_s": 67.83,
+      "text": "When we carry out a partial differentiation with respect to a variable, then the other"
+    },
+    {
+      "start_s": 67.83,
+      "end_s": 74.33,
+      "text": "variable is unchanged and may effectively, for the partial differentiation, be treated as though"
+    },
+    {
+      "start_s": 74.33,
+      "end_s": 85.31,
+      "text": "it were a constant. So, for example, if I was to calculate the derivative of, let us say,"
+    },
+    {
+      "start_s": 85.31,
+      "end_s": 93.1,
+      "text": "with respect to x, of let us say the sign of x squared y, or let us say the sign of x squared y,"
+    },
+    {
+      "start_s": 94.72,
+      "end_s": 101.22,
+      "text": "Then the y here may be viewed as a constant because we are differentiating with respect to x."
+    },
+    {
+      "start_s": 101.88,
+      "end_s": 106.48,
+      "text": "So what we have is the sine function of x squared multiplied by something,"
+    },
+    {
+      "start_s": 106.96,
+      "end_s": 111.34,
+      "text": "and we know how to differentiate this using the chain rule."
+    },
+    {
+      "start_s": 111.34,
+      "end_s": 118.04,
+      "text": "The derivative of the sine function is the cosine function of x squared y."
+    },
+    {
+      "start_s": 118.88,
+      "end_s": 123.44,
+      "text": "And then we multiply this by the derivative of what was in the argument here,"
+    },
+    {
+      "start_s": 123.86,
+      "end_s": 123.96,
+      "text": "and the derivative of what was in the argument here."
+    },
+    {
+      "start_s": 124.72,
+      "end_s": 131.72,
+      "text": "this with respect to x, the partial derivative is I bring the two down, I have 2x times y."
+    },
+    {
+      "start_s": 131.72,
+      "end_s": 135.72,
+      "text": "So I'll just say here 2x y."
+    },
+    {
+      "start_s": 135.72,
+      "end_s": 143.91,
+      "text": "So I can write a little bit more usefully perhaps, or a little bit more clearly, 2xY,"
+    },
+    {
+      "start_s": 143.91,
+      "end_s": 151.94,
+      "text": "putting the simpler terms in front, times the cosine of x squared y."
+    },
+    {
+      "start_s": 151.94,
+      "end_s": 153.94,
+      "text": "And this is my answer for this derivative."
+    },
+    {
+      "start_s": 153.94,
+      "end_s": 158.58,
+      "text": "this derivative. So I can make a little bit more room and then think about what the result"
+    },
+    {
+      "start_s": 158.58,
+      "end_s": 164.12,
+      "text": "would be if we were to differentiate the same function, but let's say with respect to y."
+    },
+    {
+      "start_s": 165.4,
+      "end_s": 176.77,
+      "text": "So, as I said, let's differentiate with respect to y, the sign of x squared y. And again,"
+    },
+    {
+      "start_s": 176.77,
+      "end_s": 185.41,
+      "text": "we view this as a function of y alone and x may be treated as a constant. So what we can do,"
+    },
+    {
+      "start_s": 185.61,
+      "end_s": 199.37,
+      "text": "is we say that the derivative of sign is cosine, so we're going to get the cosine of x squared y multiplied from the chain rule by the derivative of what's in the argument of the function here."
+    },
+    {
+      "start_s": 199.37,
+      "end_s": 208.61,
+      "text": "And the partial derivative of this with respect to y, x as a constant, is just x squared because the derivative of y with respect to y is 1."
+    },
+    {
+      "start_s": 208.61,
+      "end_s": 215.59,
+      "text": "So we're going to get an x squared factor, and I think it's more helpful to write this as x squared"
+    },
+    {
+      "start_s": 215.61,
+      "end_s": 221.98,
+      "text": "times the cosine of x squared."
+    },
+    {
+      "start_s": 221.98,
+      "end_s": 226.78,
+      "text": "So what I'm going to do now is open another sheet,"
+    },
+    {
+      "start_s": 226.78,
+      "end_s": 231.68,
+      "text": "write out a couple of examples, and I'd recommend that you try the examples,"
+    },
+    {
+      "start_s": 231.68,
+      "end_s": 236.51,
+      "text": "and then I will give you the answers."
+    },
+    {
+      "start_s": 236.51,
+      "end_s": 240.81,
+      "text": "So here I've written out three exercises for you to attempt."
+    },
+    {
+      "start_s": 240.81,
+      "end_s": 246.73,
+      "text": "This one, this one, and this one, using the rules of partial differentiation."
+    },
+    {
+      "start_s": 246.73,
+      "end_s": 249.43,
+      "text": "And I'd recommend that you now pause the video, attempt"
+    },
+    {
+      "start_s": 249.45,
+      "end_s": 255.84,
+      "text": "questions and then I will give you the answers. So in the first example here,"
+    },
+    {
+      "start_s": 255.84,
+      "end_s": 262.27,
+      "text": "we want to differentiate x cube y with respect to x, y may be viewed as a constant,"
+    },
+    {
+      "start_s": 262.27,
+      "end_s": 272.78,
+      "text": "and what we're going to get is 3 x squared y. Y is just multiplying this factor here,"
+    },
+    {
+      "start_s": 272.78,
+      "end_s": 280.78,
+      "text": "or this function here, and it does not in any way alter this, except to multiply it as a constant."
+    },
+    {
+      "start_s": 280.78,
+      "end_s": 295.55,
+      "text": "In the second example, we notice that this function here does not depend upon y, and therefore its partial derivative with respect to y is 0."
+    },
+    {
+      "start_s": 295.55,
+      "end_s": 302.55,
+      "text": "And if you substitute this back into the definition for the partial derivative that we had on the previous page,"
+    },
+    {
+      "start_s": 302.55,
+      "end_s": 307.55,
+      "text": "but then write it out with respect to y rather than with respect to x, you should see this result."
+    },
+    {
+      "start_s": 307.55,
+      "end_s": 310.55,
+      "text": "This vanishes extremely directly."
+    },
+    {
+      "start_s": 313.06,
+      "end_s": 323.96,
+      "text": "The third case is a derivative with respect to a variable p of the logarithm of a function of p and another variable Q perhaps."
+    },
+    {
+      "start_s": 325.05,
+      "end_s": 331.51,
+      "text": "And the partial derivative here with respect to p, this logarithm cannot be simplified."
+    },
+    {
+      "start_s": 332.55,
+      "end_s": 335.55,
+      "text": "The rules for logarithms do not simplify it in any way."
+    },
+    {
+      "start_s": 336.35,
+      "end_s": 343.61,
+      "text": "So therefore, we have to use the chain rule, and we say that the derivative of a logarithm is 1 over the"
+    },
+    {
+      "start_s": 343.63,
+      "end_s": 358.02,
+      "text": "and the argument is q p squared plus one and this is then multiplied by the derivative of the argument q p squared plus one with respect to p"
+    },
+    {
+      "start_s": 358.02,
+      "end_s": 366.52,
+      "text": "q is a constant for this partial derivative with respect to p so therefore we are going to get two"
+    },
+    {
+      "start_s": 366.52,
+      "end_s": 374.19,
+      "text": "from the p here two is brought down so we have two q times p to the one two minus"
+    },
+    {
+      "start_s": 374.21,
+      "end_s": 383.27,
+      "text": "1. So we have 2 q p and of course the derivative of the 1 here is 0."
+    },
+    {
+      "start_s": 383.27,
+      "end_s": 388.27,
+      "text": "So those are the answers to those exercises and we'll stop this video here here."
+    }
+  ],
+  "words_per_minute": 143.2,
+  "language": "en",
+  "duration_s": 388.52,
+  "elapsed_s": 15.9,
+  "real_time_factor": 0.041,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 53
+}

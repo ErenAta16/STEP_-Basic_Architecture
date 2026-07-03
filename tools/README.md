@@ -48,6 +48,8 @@ Outputs go to `reports/figures/`.
 | `build_transcript_comparison.py` | Build a Markdown side-by-side comparison of Whisper, YouTube captions, and VLM summaries. |
 | `build_transcript_report.py` | Build CSV/JSON/Markdown metrics report for pilot videos. |
 | `build_transcript_word_report.py` | Build Word comparison report with full Gemini transcripts. |
+| `build_beatriz_transcript_delivery.py` | Build the clean three-video pilot transcript Word delivery. |
+| `build_beatriz_all15_transcripts.py` | Build the complete 15-video Word and plain-text transcript delivery. |
 | `export_beatriz_pilot.py` | Package Gemini primary + baseline transcripts for Beatriz delivery. |
 | `run_pilot_transcripts.py` | Run all three transcription methods and regenerate reports. |
 
@@ -107,4 +109,6 @@ python tools/transcribe_youtube_whisper.py --urls-file data/transcripts/pilot_3_
 python tools/transcribe_youtube_gemini.py --urls-file data/transcripts/pilot_3_urls.txt --mode upload --prompt-profile readable
 python tools/export_beatriz_pilot.py
 python tools/build_transcript_word_report.py
+python tools/transcribe_youtube_whisper.py --urls-file data/transcripts/all_15_urls.txt --out-dir data/transcripts/all15_whisper_fresh_20260630 --audio-dir data/transcripts/audio_all15_whisper_fresh_20260630 --model distil-large-v3
+python tools/build_beatriz_all15_transcripts.py
 ```

@@ -1,0 +1,526 @@
+{
+  "video_id": "kv8pMEALdWo",
+  "url": "https://www.youtube.com/watch?v=kv8pMEALdWo",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\kv8pMEALdWo_whisper.txt",
+  "media_file": "kv8pMEALdWo.mp4",
+  "media_bytes": 13587000,
+  "transcript": "Hi guys, welcome back to a case of econ struggles. Welcome to another micro struggle. Today, I'm going to talk about coon-tucker conditions. Specifically, I'm going to talk about what they are and how they help you, as well as some different ways to write coon-tucker conditions. The basic reason that coon-tugger conditions are useful is we're trying to sort of figure out what the optimal solution is to a constrained optimization problem. And all that really means is we're trying to find out, is our solution like an endpoint or a corner solution, or do we have an interior solution? And when we get there, I'll try to talk more about what specific problems or types of problems are conducive to one type of coon tugger conditions or another. But first, I want us to really understand coon tugger conditions. They can be sort of confusing. And I think if you understand what coon tugger conditions are and what they're trying to do, to be much easier both to remember what they are and how to write them down, what they mean, and how to interpret them. So timestamps are below, but let's go ahead and jump right into it. I want to start off with a motivating example. So here is this motivating example. wanted to sort of do something related to econ, but also not necessarily related to econ. So here's Bill. And in this example, Bill is going to be a hiker. Bill's starting at the base of this mountain. I'm going to call it Mount Optimization. And Bill is choosing how high he wants to climb up the mountain before he turns back. So you can see that there are several natural stopping points on this mountain. There's point A, which is Bill doesn't climb the mountain at all, really. He just stays at the base camp and looks up at this giant peak ahead of him. there's point B where he sort of goes about halfway up. There's a natural mini peak and then he could climb back down. Or he could keep going past that little peak and go all the way up to the top of the mountain and all the way back down. And that's the furthest that Bill can climb. So you can see that this is constrained optimization. It's constrained because maybe Bill would like to just keep climbing after point C. Maybe he would like to climb like all the way up here to the top of this page. He can't climb all the way to the top of this page because point C is the highest that he can climb and he can't go underground. We're going to say that there are no caves in Bill's world. There are definitely no caves near Mount optimization. So the lowest that he can possibly climb is A or not at all. If this was not a constraint optimization problem, we would have no need for Coon Tanger conditions because we would have no constraints on how high or low bill can climb. So let's keep going. As you might imagine, we can say that Bill has a utility function and we're going to say that utility function is just some function of how high bill climbs. The constraint on Bill's optimization problem is that he must choose a point between A and C. He can choose a and he can choose C or he can choose any point in between, but he can't choose a point that's lower than A or a point that's higher than C. Again, constrained climbing, constrained optimization. So in what world does Bill choose A? Well, Bill chooses A if Bill really doesn't like hiking, then Bill would prefer not to hike at all. Maybe he would prefer even to be underground, but that's not an option, given the constraint that he has to stay at or above zero feet above sea level. we would say that for all heights, his marginal utility is negative. He gets grumpier the more he hikes. Therefore, his optimal point is zero. Now, if he chooses to go to point B, maybe Bill likes hiking, but Bill has diminishing margin utility of hiking. So by the time Bill gets to point B, he looks up at C and goes, that is way too far for me. I would be very happy. I would actually be happiest if I just climbed up to B and turned around and went back down. So we would say that maybe even if it's not, point B, there's some point between A and C that is Bill's optimal height to climb up this mountain. And I'm calling it B, just to make it easier. It could really be any point between A and C, but let's just pretend it's B. So his H-star's optimal height in this example would be B. Now, if Bill loves hiking, Bill wants to climb as high as possible, he always has positive margin utility. He He always gets happier and happier the higher he climbs. Well, he can only get to C because that's as high as the mountain goes, and this is the only mountain available for Bail to climb. So we would say that the optimal solution for Bill is C, and that would mean that the margin utility of height is always positive for all H. So what this shows is that if Bill's margin utility is negative, he chooses zero. If his margin utility is diminishing, then there's a point at which his margin utility hits zero, and that's what his optimal height is. And if his margin utility is always positive, he's going to choose the highest point or the maximum available, where H-star is equal to C. And that is exactly what the Coom Tucker conditions would say. They would say that, well, if my margin utility, if my first order of condition is negative, I choose zero. My first order of condition or my margin utility hit zero at some point. I choose a point in the middle or in the interior. And if my first order condition or here, my margin utility is always greater than zero, then I choose the maximum possible. So let's formalize this a little bit more. So here's that same example. I've just sort of shrunk it. So you can see that if we're maximizing my utility of height, here is my first order condition right here, where my margin utility is less than I choose A. It's equal to zero if I choose a point in the middle, A or C, in this case, I said B. And the first order condition or the margin utility is always greater than zero, then I choose the maximum point available. And these are the Coon Tucker conditions. So these things in brackets right here are the KT or the Coon tucking conditions. But hopefully, this sort of motive and example has made easier to understand what exactly those Coon Tucker conditions are saying. Now that we understand what they mean, let's talk about some different ways to write the coon tucking conditions, as well as some type of of problems where it might be more helpful to write the two in targeting conditions one way versus another. So the way we just saw, and again, I'm going to be super general here, is for like that utility maximization problem, we wrote it like this. So let's consider just a utility maximization problem, which looks something like this, where you've got your utility of a vector of X's, where the money you spend just has to be less than or equal to the money in your pocket. So the first way you can write it is the way we just did it, where you can see your first order condition that you do this bracket, where for each good, and I'm just going to call XL one good of this vector of X's, where this first order condition is less than zero. If you choose zero for that specific good, it's equal to zero if you have an interior solution. And if it's greater than zero, if the first order condition is greater than zero, then your optimal amount of that good is infinity. The other way you can write it, where your first order condition minus lambda must be less than or equal to zero. And the amount you buy XL star times the Agrongian minus the derivative of the constraint with respect to that good equals zero, which would say that either your XL is equal to zero and Lambda 1 minus PXL is not equal to zero or this is not equal to zero and this guy is equal to zero. Now why is this formulation sometimes more helpful? This is useful if you've got a lot of constraints. So maybe you're doing an adverse selection problem or a moral hazard problem and you've got a ton of goods, you've got a ton of different constraints like the ICC and the IR constraint, which I talk about in a different video. It's not important. What is important is if you have a lot of constraints, sometimes this way can be a lot easier than this way. Because if you do it this way, say you assume that one constraint binds or it doesn't bind. It's a lot harder to interpret what happens in these equations. If you write it like this, then if you write it this way and you can say, oh, let's assume that XL equals. zero. Okay, well, if this equals zero, this is not equal to zero. But if you assume that XL is not equal to zero, then here, Lambda 1 equals PXL, which is really useful. And again, if you have more constraints, I would go more towards this number two formulation. If you've got a straightforward problem, like a profit maximization problem, a cost minimization problem, or a utility maximization problem, I would say it's probably easiest just to go with this formulation here. Because most of the time, you can look at the utility function. You can sort of see, well, it's a Cobb Douglas utility function or it's not. So I sort of have an idea of exactly whether or not it's less than zero equal to zero grade than zero. So for example, Cobb Douglas, you know it's a convex combination. So you can pretty safely assume that it's equal to zero for the first order conditions and just use that. Whereas again, you're doing a more complicated problem. You might not want to assume that directly. And it's easier if you just use this formulation here. So hopefully this helps you understand Kuntucker conditions a little better. If this was helpful, like and subscribe. If you're still confused, leave a question in the comments below, and we will see you next time for another case of econ struggles.",
+  "segments": [
+    {
+      "start_s": 0.0,
+      "end_s": 3.76,
+      "text": "Hi guys, welcome back to a case of econ struggles. Welcome to another micro struggle."
+    },
+    {
+      "start_s": 4.24,
+      "end_s": 13.16,
+      "text": "Today, I'm going to talk about coon-tucker conditions. Specifically, I'm going to talk about what they are and how they help you, as well as some different ways to write coon-tucker conditions."
+    },
+    {
+      "start_s": 13.88,
+      "end_s": 22.0,
+      "text": "The basic reason that coon-tugger conditions are useful is we're trying to sort of figure out what the optimal solution is to a constrained optimization problem."
+    },
+    {
+      "start_s": 22.54,
+      "end_s": 29.56,
+      "text": "And all that really means is we're trying to find out, is our solution like an endpoint or a corner solution, or do we have an interior solution?"
+    },
+    {
+      "start_s": 30.0,
+      "end_s": 37.48,
+      "text": "And when we get there, I'll try to talk more about what specific problems or types of problems are conducive to one type of coon tugger conditions or another."
+    },
+    {
+      "start_s": 38.12,
+      "end_s": 41.1,
+      "text": "But first, I want us to really understand coon tugger conditions."
+    },
+    {
+      "start_s": 41.22,
+      "end_s": 42.24,
+      "text": "They can be sort of confusing."
+    },
+    {
+      "start_s": 42.9,
+      "end_s": 46.42,
+      "text": "And I think if you understand what coon tugger conditions are and what they're trying to do,"
+    },
+    {
+      "start_s": 46.42,
+      "end_s": 51.64,
+      "text": "to be much easier both to remember what they are and how to write them down, what they mean, and how to interpret them."
+    },
+    {
+      "start_s": 52.12,
+      "end_s": 55.3,
+      "text": "So timestamps are below, but let's go ahead and jump right into it."
+    },
+    {
+      "start_s": 55.36,
+      "end_s": 57.22,
+      "text": "I want to start off with a motivating example."
+    },
+    {
+      "start_s": 57.54,
+      "end_s": 59.4,
+      "text": "So here is this motivating example."
+    },
+    {
+      "start_s": 60.0,
+      "end_s": 63.68,
+      "text": "wanted to sort of do something related to econ, but also not necessarily related to econ."
+    },
+    {
+      "start_s": 64.18,
+      "end_s": 68.64,
+      "text": "So here's Bill. And in this example, Bill is going to be a hiker. Bill's starting at the base of"
+    },
+    {
+      "start_s": 68.64,
+      "end_s": 73.38,
+      "text": "this mountain. I'm going to call it Mount Optimization. And Bill is choosing how high he wants to"
+    },
+    {
+      "start_s": 73.38,
+      "end_s": 78.1,
+      "text": "climb up the mountain before he turns back. So you can see that there are several natural"
+    },
+    {
+      "start_s": 78.1,
+      "end_s": 82.82,
+      "text": "stopping points on this mountain. There's point A, which is Bill doesn't climb the mountain at all,"
+    },
+    {
+      "start_s": 82.82,
+      "end_s": 86.36,
+      "text": "really. He just stays at the base camp and looks up at this giant peak ahead of him."
+    },
+    {
+      "start_s": 86.36,
+      "end_s": 89.32,
+      "text": "there's point B where he sort of goes about halfway up."
+    },
+    {
+      "start_s": 89.64,
+      "end_s": 92.26,
+      "text": "There's a natural mini peak and then he could climb back down."
+    },
+    {
+      "start_s": 92.66,
+      "end_s": 97.72,
+      "text": "Or he could keep going past that little peak and go all the way up to the top of the mountain and all the way back down."
+    },
+    {
+      "start_s": 98.22,
+      "end_s": 100.3,
+      "text": "And that's the furthest that Bill can climb."
+    },
+    {
+      "start_s": 100.72,
+      "end_s": 102.76,
+      "text": "So you can see that this is constrained optimization."
+    },
+    {
+      "start_s": 103.56,
+      "end_s": 108.08,
+      "text": "It's constrained because maybe Bill would like to just keep climbing after point C."
+    },
+    {
+      "start_s": 108.5,
+      "end_s": 111.88,
+      "text": "Maybe he would like to climb like all the way up here to the top of this page."
+    },
+    {
+      "start_s": 112.26,
+      "end_s": 116.24,
+      "text": "He can't climb all the way to the top of this page because point C is the highest that he can"
+    },
+    {
+      "start_s": 116.24,
+      "end_s": 120.86,
+      "text": "climb and he can't go underground. We're going to say that there are no caves in Bill's world."
+    },
+    {
+      "start_s": 121.28,
+      "end_s": 125.44,
+      "text": "There are definitely no caves near Mount optimization. So the lowest that he can possibly"
+    },
+    {
+      "start_s": 125.44,
+      "end_s": 130.58,
+      "text": "climb is A or not at all. If this was not a constraint optimization problem, we would have no need"
+    },
+    {
+      "start_s": 130.58,
+      "end_s": 134.98,
+      "text": "for Coon Tanger conditions because we would have no constraints on how high or low bill can climb."
+    },
+    {
+      "start_s": 135.38,
+      "end_s": 140.46,
+      "text": "So let's keep going. As you might imagine, we can say that Bill has a utility function and we're going"
+    },
+    {
+      "start_s": 140.46,
+      "end_s": 145.52,
+      "text": "to say that utility function is just some function of how high bill climbs. The constraint on Bill's"
+    },
+    {
+      "start_s": 145.52,
+      "end_s": 149.94,
+      "text": "optimization problem is that he must choose a point between A and C. He can choose"
+    },
+    {
+      "start_s": 149.94,
+      "end_s": 154.9,
+      "text": "a and he can choose C or he can choose any point in between, but he can't choose a point that's lower"
+    },
+    {
+      "start_s": 154.9,
+      "end_s": 159.4,
+      "text": "than A or a point that's higher than C. Again, constrained climbing, constrained optimization."
+    },
+    {
+      "start_s": 160.18,
+      "end_s": 165.5,
+      "text": "So in what world does Bill choose A? Well, Bill chooses A if Bill really doesn't like hiking,"
+    },
+    {
+      "start_s": 165.66,
+      "end_s": 170.06,
+      "text": "then Bill would prefer not to hike at all. Maybe he would prefer even to be underground, but that's not"
+    },
+    {
+      "start_s": 170.06,
+      "end_s": 174.82,
+      "text": "an option, given the constraint that he has to stay at or above zero feet above sea level."
+    },
+    {
+      "start_s": 174.82,
+      "end_s": 180.76,
+      "text": "we would say that for all heights, his marginal utility is negative. He gets grumpier"
+    },
+    {
+      "start_s": 180.76,
+      "end_s": 186.48,
+      "text": "the more he hikes. Therefore, his optimal point is zero. Now, if he chooses to go to point B,"
+    },
+    {
+      "start_s": 186.86,
+      "end_s": 192.22,
+      "text": "maybe Bill likes hiking, but Bill has diminishing margin utility of hiking. So by the time Bill gets to"
+    },
+    {
+      "start_s": 192.22,
+      "end_s": 197.96,
+      "text": "point B, he looks up at C and goes, that is way too far for me. I would be very happy. I would"
+    },
+    {
+      "start_s": 197.96,
+      "end_s": 201.88,
+      "text": "actually be happiest if I just climbed up to B and turned around and went back down."
+    },
+    {
+      "start_s": 202.46,
+      "end_s": 204.8,
+      "text": "So we would say that maybe even if it's not,"
+    },
+    {
+      "start_s": 204.82,
+      "end_s": 209.98,
+      "text": "point B, there's some point between A and C that is Bill's optimal height to climb up this"
+    },
+    {
+      "start_s": 209.98,
+      "end_s": 214.88,
+      "text": "mountain. And I'm calling it B, just to make it easier. It could really be any point between A and C,"
+    },
+    {
+      "start_s": 214.96,
+      "end_s": 220.8,
+      "text": "but let's just pretend it's B. So his H-star's optimal height in this example would be B. Now, if Bill"
+    },
+    {
+      "start_s": 220.8,
+      "end_s": 226.38,
+      "text": "loves hiking, Bill wants to climb as high as possible, he always has positive margin utility. He"
+    },
+    {
+      "start_s": 226.38,
+      "end_s": 230.66,
+      "text": "He always gets happier and happier the higher he climbs. Well, he can only get to C because"
+    },
+    {
+      "start_s": 230.66,
+      "end_s": 234.4,
+      "text": "that's as high as the mountain goes, and this is the only mountain available for Bail to climb."
+    },
+    {
+      "start_s": 234.82,
+      "end_s": 239.88,
+      "text": "So we would say that the optimal solution for Bill is C, and that would mean that the margin"
+    },
+    {
+      "start_s": 239.88,
+      "end_s": 245.18,
+      "text": "utility of height is always positive for all H. So what this shows is that if Bill's margin"
+    },
+    {
+      "start_s": 245.18,
+      "end_s": 251.44,
+      "text": "utility is negative, he chooses zero. If his margin utility is diminishing, then there's a point"
+    },
+    {
+      "start_s": 251.44,
+      "end_s": 256.06,
+      "text": "at which his margin utility hits zero, and that's what his optimal height is. And if his margin"
+    },
+    {
+      "start_s": 256.06,
+      "end_s": 260.22,
+      "text": "utility is always positive, he's going to choose the highest point or the maximum available,"
+    },
+    {
+      "start_s": 260.62,
+      "end_s": 264.8,
+      "text": "where H-star is equal to C. And that is exactly what the Coom Tucker conditions would say."
+    },
+    {
+      "start_s": 264.82,
+      "end_s": 270.06,
+      "text": "They would say that, well, if my margin utility, if my first order of condition is negative, I choose zero."
+    },
+    {
+      "start_s": 270.64,
+      "end_s": 275.78,
+      "text": "My first order of condition or my margin utility hit zero at some point. I choose a point in the middle or in the"
+    },
+    {
+      "start_s": 275.78,
+      "end_s": 281.54,
+      "text": "interior. And if my first order condition or here, my margin utility is always greater than zero, then I choose the"
+    },
+    {
+      "start_s": 281.54,
+      "end_s": 287.34,
+      "text": "maximum possible. So let's formalize this a little bit more. So here's that same example. I've just sort of shrunk it."
+    },
+    {
+      "start_s": 287.42,
+      "end_s": 294.72,
+      "text": "So you can see that if we're maximizing my utility of height, here is my first order condition right here, where my margin utility is less than"
+    },
+    {
+      "start_s": 294.82,
+      "end_s": 300.64,
+      "text": "I choose A. It's equal to zero if I choose a point in the middle, A or C, in this case, I said B."
+    },
+    {
+      "start_s": 300.74,
+      "end_s": 305.08,
+      "text": "And the first order condition or the margin utility is always greater than zero, then I choose the"
+    },
+    {
+      "start_s": 305.08,
+      "end_s": 309.74,
+      "text": "maximum point available. And these are the Coon Tucker conditions. So these things in brackets right"
+    },
+    {
+      "start_s": 309.74,
+      "end_s": 314.9,
+      "text": "here are the KT or the Coon tucking conditions. But hopefully, this sort of motive and example has made"
+    },
+    {
+      "start_s": 314.9,
+      "end_s": 320.4,
+      "text": "easier to understand what exactly those Coon Tucker conditions are saying. Now that we understand what they"
+    },
+    {
+      "start_s": 320.4,
+      "end_s": 324.8,
+      "text": "mean, let's talk about some different ways to write the coon tucking conditions, as well as some type of"
+    },
+    {
+      "start_s": 324.82,
+      "end_s": 328.82,
+      "text": "of problems where it might be more helpful to write the two in targeting conditions one way versus another."
+    },
+    {
+      "start_s": 329.26,
+      "end_s": 333.88,
+      "text": "So the way we just saw, and again, I'm going to be super general here, is for like that utility"
+    },
+    {
+      "start_s": 333.88,
+      "end_s": 338.86,
+      "text": "maximization problem, we wrote it like this. So let's consider just a utility maximization problem,"
+    },
+    {
+      "start_s": 339.02,
+      "end_s": 344.82,
+      "text": "which looks something like this, where you've got your utility of a vector of X's, where the money you spend"
+    },
+    {
+      "start_s": 344.82,
+      "end_s": 349.34,
+      "text": "just has to be less than or equal to the money in your pocket. So the first way you can write it is the way we"
+    },
+    {
+      "start_s": 349.34,
+      "end_s": 354.02,
+      "text": "just did it, where you can see your first order condition that you do this bracket, where for each good,"
+    },
+    {
+      "start_s": 354.02,
+      "end_s": 359.3,
+      "text": "and I'm just going to call XL one good of this vector of X's, where this first order condition"
+    },
+    {
+      "start_s": 359.3,
+      "end_s": 364.54,
+      "text": "is less than zero. If you choose zero for that specific good, it's equal to zero if you have an"
+    },
+    {
+      "start_s": 364.54,
+      "end_s": 368.26,
+      "text": "interior solution. And if it's greater than zero, if the first order condition is greater than"
+    },
+    {
+      "start_s": 368.26,
+      "end_s": 374.76,
+      "text": "zero, then your optimal amount of that good is infinity. The other way you can write it, where your first"
+    },
+    {
+      "start_s": 374.76,
+      "end_s": 381.18,
+      "text": "order condition minus lambda must be less than or equal to zero. And the amount you buy XL star"
+    },
+    {
+      "start_s": 381.18,
+      "end_s": 386.14,
+      "text": "times the Agrongian minus the derivative of the constraint with respect to that good equals"
+    },
+    {
+      "start_s": 386.14,
+      "end_s": 394.26,
+      "text": "zero, which would say that either your XL is equal to zero and Lambda 1 minus PXL is not equal to zero"
+    },
+    {
+      "start_s": 394.26,
+      "end_s": 402.42,
+      "text": "or this is not equal to zero and this guy is equal to zero. Now why is this formulation sometimes more"
+    },
+    {
+      "start_s": 402.42,
+      "end_s": 408.06,
+      "text": "helpful? This is useful if you've got a lot of constraints. So maybe you're doing an adverse selection"
+    },
+    {
+      "start_s": 408.06,
+      "end_s": 412.62,
+      "text": "problem or a moral hazard problem and you've got a ton of goods, you've got a ton of different"
+    },
+    {
+      "start_s": 412.62,
+      "end_s": 417.84,
+      "text": "constraints like the ICC and the IR constraint, which I talk about in a different video. It's not"
+    },
+    {
+      "start_s": 417.84,
+      "end_s": 422.62,
+      "text": "important. What is important is if you have a lot of constraints, sometimes this way can be a lot"
+    },
+    {
+      "start_s": 422.62,
+      "end_s": 428.98,
+      "text": "easier than this way. Because if you do it this way, say you assume that one constraint binds or it doesn't"
+    },
+    {
+      "start_s": 428.98,
+      "end_s": 434.36,
+      "text": "bind. It's a lot harder to interpret what happens in these equations. If you write it like this,"
+    },
+    {
+      "start_s": 434.6,
+      "end_s": 438.04,
+      "text": "then if you write it this way and you can say, oh, let's assume that XL equals."
+    },
+    {
+      "start_s": 438.06,
+      "end_s": 444.16,
+      "text": "zero. Okay, well, if this equals zero, this is not equal to zero. But if you assume that XL is not equal to zero,"
+    },
+    {
+      "start_s": 444.34,
+      "end_s": 450.48,
+      "text": "then here, Lambda 1 equals PXL, which is really useful. And again, if you have more constraints,"
+    },
+    {
+      "start_s": 450.58,
+      "end_s": 454.96,
+      "text": "I would go more towards this number two formulation. If you've got a straightforward problem,"
+    },
+    {
+      "start_s": 454.96,
+      "end_s": 459.46,
+      "text": "like a profit maximization problem, a cost minimization problem, or a utility maximization problem,"
+    },
+    {
+      "start_s": 459.74,
+      "end_s": 464.68,
+      "text": "I would say it's probably easiest just to go with this formulation here. Because most of the time,"
+    },
+    {
+      "start_s": 464.68,
+      "end_s": 468.04,
+      "text": "you can look at the utility function. You can sort of see, well,"
+    },
+    {
+      "start_s": 468.06,
+      "end_s": 473.58,
+      "text": "it's a Cobb Douglas utility function or it's not. So I sort of have an idea of exactly whether"
+    },
+    {
+      "start_s": 473.58,
+      "end_s": 478.22,
+      "text": "or not it's less than zero equal to zero grade than zero. So for example, Cobb Douglas, you know it's a"
+    },
+    {
+      "start_s": 478.22,
+      "end_s": 483.56,
+      "text": "convex combination. So you can pretty safely assume that it's equal to zero for the first order conditions"
+    },
+    {
+      "start_s": 483.56,
+      "end_s": 488.64,
+      "text": "and just use that. Whereas again, you're doing a more complicated problem. You might not want to assume that"
+    },
+    {
+      "start_s": 488.64,
+      "end_s": 494.52,
+      "text": "directly. And it's easier if you just use this formulation here. So hopefully this helps you understand"
+    },
+    {
+      "start_s": 494.52,
+      "end_s": 498.04,
+      "text": "Kuntucker conditions a little better. If this was helpful, like and subscribe."
+    },
+    {
+      "start_s": 498.06,
+      "end_s": 504.06,
+      "text": "If you're still confused, leave a question in the comments below, and we will see you next time for another case of econ struggles."
+    }
+  ],
+  "words_per_minute": 218.4,
+  "language": "en",
+  "duration_s": 504.36,
+  "elapsed_s": 23.9,
+  "real_time_factor": 0.047,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 101
+}

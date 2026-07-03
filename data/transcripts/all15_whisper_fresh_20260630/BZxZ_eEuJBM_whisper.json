@@ -1,0 +1,786 @@
+{
+  "video_id": "BZxZ_eEuJBM",
+  "url": "https://www.youtube.com/watch?v=BZxZ_eEuJBM",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\BZxZ_eEuJBM_whisper.txt",
+  "media_file": "BZxZ_eEuJBM.mp4",
+  "media_bytes": 6129118,
+  "transcript": "I want to make a quick clarification and then add more tools in our complex number toolkit. In the first video, I said that if I had a complex number Z and it's equal to A plus B-I, I used a word, and I have to be careful about that word, because I used it in kind of the everyday sense, but it also has a formal reality to it. So clearly the real part of this complex number is A. Clearly that is the real part. And clearly, this complex number is made up of a real number plus an imaginary number. So I, just kind of talking in everyday terms, I called this the imaginary part. I called this imaginary number, this imaginary number, the imaginary part. But I want to just be careful there. I mean, I did make it clear that if you were to see the function, the real part of Z, this would spit out the A. And the function, the imaginary part, of Z, this would spit out, and we talked about this in the first video, it would spit out the number that's scaling the I. So it would spit out the B. So if someone is talking in the formal sense about the imaginary part, they're really talking about the number that is scaling the I. But in my brain, when I think of a complex number, I think of it having a real number and an imaginary number. And if someone would say, well, what part of that is the imaginary number, I would have given this whole thing. But if someone says, just what's the imaginary part? Or they give you this function. just give them the B. Hopefully that clarifies things. Frankly, I think the word imaginary part is badly named, because clearly this whole thing is an imaginary number. This right here is not an imaginary number. It's just a real number. It's the real number scaling the I. So they should call this the number scaling the imaginary part of Z. Anyway, with that said, what I want to introduce you to is the idea of a complex numbers conjugate. So if this is z, the conjugate of the conjugate of z, the conjugate of z, it'd be denoted with z with a bar over it. Sometimes it's z with a little asterix right over there. That would just be equal to a minus bi. So let's look how, let's see how they look on an argon diagram. So that's my real axis, my real axis, and then that is my imaginary axis. And then if I have z, this is z over here, this height over here is is B, this base or this length right here is A. That's Z. The conjugate of Z is A minus BI. So it comes out A on the real axis, but it has minus B as its imaginary part. So just like this. So just like this. So this is the conjugate of Z. So just to visualize it, it really is. The conjugate of a complex number is really that the mirror image of that complex number reflected over the x-axis. You can imagine. if this was a pool of water, we're seeing its reflection over here. And so we can actually look at this to visually add the number, to add the complex number and its conjugate. So we said these are just like position vectors. So if we were to add Z and its conjugate, we could essentially just take this vector, shift it up here, do heads to tails. Shift it up here, do heads to tails. So this right here, we are adding Z to its conjugate. And so this point right here, this point right here, or the vector that specifies that point, is Z plus Z's conjugate. And you can see right here, just visually, this is going to be 2A. This is going to be 2A. And we could do that algebraically. If we were to add Z, if we were to add Z, that's A plus BI, and add that to its conjugate, so plus A minus BI, what are we going to get? These two guys cancel out. We're just going to have 2A. Or another way to think about it, and really we're just playing around with math. If I take any complex number, if I take any complex number, and to it I add its conjugate, I am going to get two times the real part of the complex number. And this is also going to be two times the real part of the conjugate, because they have the exact same real part. Now, with that said, let's think about where the conjugate could be useful, where it could be useful. So let's say I had something like 1 plus, 1 plus, 1 plus 2i divided by 4 minus 5i. So it's no real obvious way to simplify this expression. Maybe I don't like having this I in the denominator. Maybe I just want to write this as one complex number. If I divide one complex number by another, I should get another complex numbers. But how do I do that? Well, one thing to do is to multiply the numerator in the denominator by the conjugate of the denominator. So 4 plus 5i over. over 4 plus 5i. And clearly I'm just multiplying by 1, because this is the same number over the same number. But the reason why this is valuable is if I multiply a number times its conjugate, I'm going to get a real number. So let me just show you that here. So let me just multiply this out. So we're going to get 1 times 4 plus 5i is 4 plus 5i. And then 2 i times 4 is plus 5i. is plus 8i, and then 2i times 5i. That would be 10 i squared or negative 10. And then that will be over. Now this has the form a minus b times a plus b So that's the product of, well, A plus b times a minus b is A squared minus v squared so it's going to be equal to 4 squared, which is 16 minus 4 squared. Oh, I did have 4 plus 4i here. This would be 4 plus 5i. 5i. What am I doing? 4 plus 5i. The same number over the same number. This was a 10 right over there. This is the conjugate. I don't know. My brain must have been thinking in 4. So obviously I don't want to change the number 4 plus 5i over 4 plus 5i. So let's multiply. This is a minus b times a plus b. So 4 times 4. So it's going to be 4 squared minus 5 i squared. 4 squared minus 5 i squared. squared. And so this is going to be equal to 4 minus 10. Let's add the real parts. 4 minus 10 is negative 6. 5 i plus 8 i is 13 i. Add the imaginary parts. And then you have 16 minus 5 i squared. Well 5 i squared is negative 1. 5 squared. So it's going to be negative 25. The negative and the negative cancel out. So you have 16 plus 25. So that is 41. So we can write this. this is a complex number. This is negative 6 over 41 plus 13 over 41I. We were able to divide these two complex numbers. So the useful thing here is the property that if I take any if I take any complex number and I multiply it, any complex number and I multiply it by its conjugate. And obviously the conjugate of the conjugate is the number is the original number. But I would take any complex number and I multiply it by its conjugate. So this would be a plus 3. plus b i times a minus b i i'm going to get a real number it's going to be a squared a squared minus b i squared difference of squares which is equal to a squared now this is going to be negative b squared but we have a negative sign out here so they cancel out a squared plus b squared and just out of curiosity this is the same thing as the magnitude of our complex number squared so this is the neat property this is what makes conjugates really useful especially when you want to simplify division of complex numbers. Anyway, hopefully you found that useful.",
+  "segments": [
+    {
+      "start_s": 0.14,
+      "end_s": 5.14,
+      "text": "I want to make a quick clarification and then add more tools in our complex number toolkit."
+    },
+    {
+      "start_s": 5.14,
+      "end_s": 12.14,
+      "text": "In the first video, I said that if I had a complex number Z and it's equal to A plus B-I,"
+    },
+    {
+      "start_s": 12.14,
+      "end_s": 18.64,
+      "text": "I used a word, and I have to be careful about that word, because I used it in kind of the everyday sense,"
+    },
+    {
+      "start_s": 18.64,
+      "end_s": 21.14,
+      "text": "but it also has a formal reality to it."
+    },
+    {
+      "start_s": 21.14,
+      "end_s": 26.14,
+      "text": "So clearly the real part of this complex number is A."
+    },
+    {
+      "start_s": 26.14,
+      "end_s": 29.14,
+      "text": "Clearly that is the real part."
+    },
+    {
+      "start_s": 29.14,
+      "end_s": 35.38,
+      "text": "And clearly, this complex number is made up of a real number plus an imaginary number."
+    },
+    {
+      "start_s": 35.38,
+      "end_s": 41.44,
+      "text": "So I, just kind of talking in everyday terms, I called this the imaginary part."
+    },
+    {
+      "start_s": 41.44,
+      "end_s": 47.64,
+      "text": "I called this imaginary number, this imaginary number, the imaginary part."
+    },
+    {
+      "start_s": 47.64,
+      "end_s": 49.64,
+      "text": "But I want to just be careful there."
+    },
+    {
+      "start_s": 49.64,
+      "end_s": 54.64,
+      "text": "I mean, I did make it clear that if you were to see the function, the real part of Z,"
+    },
+    {
+      "start_s": 54.64,
+      "end_s": 56.64,
+      "text": "this would spit out the A."
+    },
+    {
+      "start_s": 56.64,
+      "end_s": 59.04,
+      "text": "And the function, the imaginary part,"
+    },
+    {
+      "start_s": 59.14,
+      "end_s": 62.64,
+      "text": "of Z, this would spit out, and we talked about this in the first video,"
+    },
+    {
+      "start_s": 62.64,
+      "end_s": 65.54,
+      "text": "it would spit out the number that's scaling the I."
+    },
+    {
+      "start_s": 65.54,
+      "end_s": 67.48,
+      "text": "So it would spit out the B."
+    },
+    {
+      "start_s": 67.48,
+      "end_s": 71.74,
+      "text": "So if someone is talking in the formal sense about the imaginary part,"
+    },
+    {
+      "start_s": 71.74,
+      "end_s": 75.64,
+      "text": "they're really talking about the number that is scaling the I."
+    },
+    {
+      "start_s": 75.64,
+      "end_s": 78.5,
+      "text": "But in my brain, when I think of a complex number,"
+    },
+    {
+      "start_s": 78.5,
+      "end_s": 81.28,
+      "text": "I think of it having a real number and an imaginary number."
+    },
+    {
+      "start_s": 81.28,
+      "end_s": 84.28,
+      "text": "And if someone would say, well, what part of that is the imaginary"
+    },
+    {
+      "start_s": 84.28,
+      "end_s": 85.64,
+      "text": "number, I would have given this whole thing."
+    },
+    {
+      "start_s": 85.64,
+      "end_s": 87.94,
+      "text": "But if someone says, just what's the imaginary part?"
+    },
+    {
+      "start_s": 87.94,
+      "end_s": 89.12,
+      "text": "Or they give you this function."
+    },
+    {
+      "start_s": 89.14,
+      "end_s": 91.14,
+      "text": "just give them the B."
+    },
+    {
+      "start_s": 91.14,
+      "end_s": 93.14,
+      "text": "Hopefully that clarifies things."
+    },
+    {
+      "start_s": 93.14,
+      "end_s": 96.14,
+      "text": "Frankly, I think the word imaginary part is badly named,"
+    },
+    {
+      "start_s": 96.14,
+      "end_s": 99.14,
+      "text": "because clearly this whole thing is an imaginary number."
+    },
+    {
+      "start_s": 99.14,
+      "end_s": 101.14,
+      "text": "This right here is not an imaginary number."
+    },
+    {
+      "start_s": 101.14,
+      "end_s": 103.14,
+      "text": "It's just a real number."
+    },
+    {
+      "start_s": 103.14,
+      "end_s": 106.14,
+      "text": "It's the real number scaling the I."
+    },
+    {
+      "start_s": 106.14,
+      "end_s": 110.14,
+      "text": "So they should call this the number scaling the imaginary part of Z."
+    },
+    {
+      "start_s": 110.14,
+      "end_s": 113.14,
+      "text": "Anyway, with that said, what I want to introduce you to"
+    },
+    {
+      "start_s": 113.14,
+      "end_s": 116.14,
+      "text": "is the idea of a complex numbers conjugate."
+    },
+    {
+      "start_s": 116.14,
+      "end_s": 118.14,
+      "text": "So if this is z, the conjugate of the conjugate of z,"
+    },
+    {
+      "start_s": 118.14,
+      "end_s": 123.48,
+      "text": "the conjugate of z, it'd be denoted with z with a bar over it."
+    },
+    {
+      "start_s": 123.48,
+      "end_s": 126.98,
+      "text": "Sometimes it's z with a little asterix right over there."
+    },
+    {
+      "start_s": 126.98,
+      "end_s": 131.94,
+      "text": "That would just be equal to a minus bi."
+    },
+    {
+      "start_s": 131.94,
+      "end_s": 135.52,
+      "text": "So let's look how, let's see how they look on an argon diagram."
+    },
+    {
+      "start_s": 135.52,
+      "end_s": 143.14,
+      "text": "So that's my real axis, my real axis, and then that is my imaginary axis."
+    },
+    {
+      "start_s": 143.14,
+      "end_s": 148.12,
+      "text": "And then if I have z, this is z over here, this height over here is"
+    },
+    {
+      "start_s": 148.14,
+      "end_s": 152.44,
+      "text": "is B, this base or this length right here is A."
+    },
+    {
+      "start_s": 152.44,
+      "end_s": 153.84,
+      "text": "That's Z."
+    },
+    {
+      "start_s": 153.84,
+      "end_s": 156.84,
+      "text": "The conjugate of Z is A minus BI."
+    },
+    {
+      "start_s": 156.84,
+      "end_s": 160.14,
+      "text": "So it comes out A on the real axis, but it has minus B"
+    },
+    {
+      "start_s": 160.14,
+      "end_s": 162.28,
+      "text": "as its imaginary part."
+    },
+    {
+      "start_s": 162.28,
+      "end_s": 165.4,
+      "text": "So just like this."
+    },
+    {
+      "start_s": 165.4,
+      "end_s": 166.5,
+      "text": "So just like this."
+    },
+    {
+      "start_s": 166.5,
+      "end_s": 168.3,
+      "text": "So this is the conjugate of Z."
+    },
+    {
+      "start_s": 168.3,
+      "end_s": 170.8,
+      "text": "So just to visualize it, it really is."
+    },
+    {
+      "start_s": 170.8,
+      "end_s": 173.7,
+      "text": "The conjugate of a complex number is really that the mirror image"
+    },
+    {
+      "start_s": 173.7,
+      "end_s": 177.9,
+      "text": "of that complex number reflected over the x-axis."
+    },
+    {
+      "start_s": 177.9,
+      "end_s": 178.38,
+      "text": "You can imagine."
+    },
+    {
+      "start_s": 178.4,
+      "end_s": 181.7,
+      "text": "if this was a pool of water, we're seeing its reflection over here."
+    },
+    {
+      "start_s": 181.7,
+      "end_s": 186.7,
+      "text": "And so we can actually look at this to visually add the number,"
+    },
+    {
+      "start_s": 186.7,
+      "end_s": 189.4,
+      "text": "to add the complex number and its conjugate."
+    },
+    {
+      "start_s": 189.4,
+      "end_s": 191.1,
+      "text": "So we said these are just like position vectors."
+    },
+    {
+      "start_s": 191.1,
+      "end_s": 193.8,
+      "text": "So if we were to add Z and its conjugate,"
+    },
+    {
+      "start_s": 193.8,
+      "end_s": 196.0,
+      "text": "we could essentially just take this vector,"
+    },
+    {
+      "start_s": 196.0,
+      "end_s": 199.34,
+      "text": "shift it up here, do heads to tails."
+    },
+    {
+      "start_s": 199.34,
+      "end_s": 200.84,
+      "text": "Shift it up here, do heads to tails."
+    },
+    {
+      "start_s": 200.84,
+      "end_s": 204.54,
+      "text": "So this right here, we are adding Z to its conjugate."
+    },
+    {
+      "start_s": 204.54,
+      "end_s": 209.21,
+      "text": "And so this point right here, this point right here, or the vector"
+    },
+    {
+      "start_s": 209.23,
+      "end_s": 214.23,
+      "text": "that specifies that point, is Z plus Z's conjugate."
+    },
+    {
+      "start_s": 214.23,
+      "end_s": 218.33,
+      "text": "And you can see right here, just visually, this is going to be 2A."
+    },
+    {
+      "start_s": 218.33,
+      "end_s": 220.57,
+      "text": "This is going to be 2A."
+    },
+    {
+      "start_s": 220.57,
+      "end_s": 222.17,
+      "text": "And we could do that algebraically."
+    },
+    {
+      "start_s": 222.17,
+      "end_s": 227.43,
+      "text": "If we were to add Z, if we were to add Z, that's A plus BI,"
+    },
+    {
+      "start_s": 227.43,
+      "end_s": 232.93,
+      "text": "and add that to its conjugate, so plus A minus BI, what are we going to get?"
+    },
+    {
+      "start_s": 232.93,
+      "end_s": 234.63,
+      "text": "These two guys cancel out."
+    },
+    {
+      "start_s": 234.63,
+      "end_s": 236.33,
+      "text": "We're just going to have 2A."
+    },
+    {
+      "start_s": 236.33,
+      "end_s": 239.21,
+      "text": "Or another way to think about it, and really we're just playing around with math."
+    },
+    {
+      "start_s": 239.23,
+      "end_s": 243.73,
+      "text": "If I take any complex number, if I take any complex number,"
+    },
+    {
+      "start_s": 243.73,
+      "end_s": 248.23,
+      "text": "and to it I add its conjugate, I am going to get two times"
+    },
+    {
+      "start_s": 248.23,
+      "end_s": 252.23,
+      "text": "the real part of the complex number."
+    },
+    {
+      "start_s": 252.23,
+      "end_s": 255.03,
+      "text": "And this is also going to be two times the real part of the"
+    },
+    {
+      "start_s": 255.03,
+      "end_s": 258.73,
+      "text": "conjugate, because they have the exact same real part."
+    },
+    {
+      "start_s": 258.73,
+      "end_s": 262.23,
+      "text": "Now, with that said, let's think about where the conjugate could"
+    },
+    {
+      "start_s": 262.23,
+      "end_s": 265.23,
+      "text": "be useful, where it could be useful."
+    },
+    {
+      "start_s": 265.23,
+      "end_s": 268.79,
+      "text": "So let's say I had something like 1 plus, 1 plus,"
+    },
+    {
+      "start_s": 268.79,
+      "end_s": 275.79,
+      "text": "1 plus 2i divided by 4 minus 5i."
+    },
+    {
+      "start_s": 275.79,
+      "end_s": 279.79,
+      "text": "So it's no real obvious way to simplify this expression."
+    },
+    {
+      "start_s": 279.79,
+      "end_s": 282.29,
+      "text": "Maybe I don't like having this I in the denominator."
+    },
+    {
+      "start_s": 282.29,
+      "end_s": 284.79,
+      "text": "Maybe I just want to write this as one complex number."
+    },
+    {
+      "start_s": 284.79,
+      "end_s": 286.79,
+      "text": "If I divide one complex number by another,"
+    },
+    {
+      "start_s": 286.79,
+      "end_s": 288.29,
+      "text": "I should get another complex numbers."
+    },
+    {
+      "start_s": 288.29,
+      "end_s": 289.79,
+      "text": "But how do I do that?"
+    },
+    {
+      "start_s": 289.79,
+      "end_s": 292.79,
+      "text": "Well, one thing to do is to multiply the numerator in the"
+    },
+    {
+      "start_s": 292.79,
+      "end_s": 295.79,
+      "text": "denominator by the conjugate of the denominator."
+    },
+    {
+      "start_s": 295.79,
+      "end_s": 297.79,
+      "text": "So 4 plus 5i over."
+    },
+    {
+      "start_s": 297.79,
+      "end_s": 300.79,
+      "text": "over 4 plus 5i."
+    },
+    {
+      "start_s": 300.79,
+      "end_s": 302.79,
+      "text": "And clearly I'm just multiplying by 1,"
+    },
+    {
+      "start_s": 302.79,
+      "end_s": 304.79,
+      "text": "because this is the same number over the same number."
+    },
+    {
+      "start_s": 304.79,
+      "end_s": 306.79,
+      "text": "But the reason why this is valuable"
+    },
+    {
+      "start_s": 306.79,
+      "end_s": 309.79,
+      "text": "is if I multiply a number times its conjugate,"
+    },
+    {
+      "start_s": 309.79,
+      "end_s": 312.79,
+      "text": "I'm going to get a real number."
+    },
+    {
+      "start_s": 312.79,
+      "end_s": 314.79,
+      "text": "So let me just show you that here."
+    },
+    {
+      "start_s": 314.79,
+      "end_s": 317.79,
+      "text": "So let me just multiply this out."
+    },
+    {
+      "start_s": 317.79,
+      "end_s": 323.79,
+      "text": "So we're going to get 1 times 4 plus 5i is 4 plus 5i."
+    },
+    {
+      "start_s": 323.79,
+      "end_s": 326.79,
+      "text": "And then 2 i times 4 is plus 5i."
+    },
+    {
+      "start_s": 326.79,
+      "end_s": 331.79,
+      "text": "is plus 8i, and then 2i times 5i."
+    },
+    {
+      "start_s": 331.79,
+      "end_s": 335.79,
+      "text": "That would be 10 i squared or negative 10."
+    },
+    {
+      "start_s": 335.79,
+      "end_s": 337.79,
+      "text": "And then that will be over."
+    },
+    {
+      "start_s": 337.79,
+      "end_s": 340.79,
+      "text": "Now this has the form a minus b times a plus b"
+    },
+    {
+      "start_s": 340.79,
+      "end_s": 343.79,
+      "text": "So that's the product of,"
+    },
+    {
+      "start_s": 343.79,
+      "end_s": 346.79,
+      "text": "well, A plus b times a minus b is A squared minus v squared"
+    },
+    {
+      "start_s": 346.79,
+      "end_s": 350.79,
+      "text": "so it's going to be equal to 4 squared, which is 16"
+    },
+    {
+      "start_s": 350.79,
+      "end_s": 352.79,
+      "text": "minus 4 squared."
+    },
+    {
+      "start_s": 352.79,
+      "end_s": 354.79,
+      "text": "Oh, I did have 4 plus 4i here."
+    },
+    {
+      "start_s": 354.79,
+      "end_s": 355.79,
+      "text": "This would be 4 plus 5i."
+    },
+    {
+      "start_s": 355.79,
+      "end_s": 358.05,
+      "text": "5i. What am I doing?"
+    },
+    {
+      "start_s": 358.05,
+      "end_s": 360.05,
+      "text": "4 plus 5i."
+    },
+    {
+      "start_s": 360.05,
+      "end_s": 362.05,
+      "text": "The same number over the same number."
+    },
+    {
+      "start_s": 362.05,
+      "end_s": 365.05,
+      "text": "This was a 10 right over there."
+    },
+    {
+      "start_s": 365.05,
+      "end_s": 366.14,
+      "text": "This is the conjugate."
+    },
+    {
+      "start_s": 366.14,
+      "end_s": 367.14,
+      "text": "I don't know."
+    },
+    {
+      "start_s": 367.14,
+      "end_s": 369.14,
+      "text": "My brain must have been thinking in 4."
+    },
+    {
+      "start_s": 369.14,
+      "end_s": 371.14,
+      "text": "So obviously I don't want to change the number 4 plus 5i"
+    },
+    {
+      "start_s": 371.14,
+      "end_s": 374.14,
+      "text": "over 4 plus 5i."
+    },
+    {
+      "start_s": 374.14,
+      "end_s": 375.14,
+      "text": "So let's multiply."
+    },
+    {
+      "start_s": 375.14,
+      "end_s": 377.14,
+      "text": "This is a minus b times a plus b."
+    },
+    {
+      "start_s": 377.14,
+      "end_s": 379.14,
+      "text": "So 4 times 4."
+    },
+    {
+      "start_s": 379.14,
+      "end_s": 382.14,
+      "text": "So it's going to be 4 squared minus 5 i squared."
+    },
+    {
+      "start_s": 382.14,
+      "end_s": 385.14,
+      "text": "4 squared minus 5 i squared."
+    },
+    {
+      "start_s": 385.14,
+      "end_s": 386.14,
+      "text": "squared."
+    },
+    {
+      "start_s": 386.14,
+      "end_s": 389.14,
+      "text": "And so this is going to be equal to 4 minus 10."
+    },
+    {
+      "start_s": 389.14,
+      "end_s": 391.14,
+      "text": "Let's add the real parts."
+    },
+    {
+      "start_s": 391.14,
+      "end_s": 393.14,
+      "text": "4 minus 10 is negative 6."
+    },
+    {
+      "start_s": 393.14,
+      "end_s": 396.14,
+      "text": "5 i plus 8 i is 13 i."
+    },
+    {
+      "start_s": 396.14,
+      "end_s": 398.46,
+      "text": "Add the imaginary parts."
+    },
+    {
+      "start_s": 398.46,
+      "end_s": 401.46,
+      "text": "And then you have 16 minus 5 i squared."
+    },
+    {
+      "start_s": 401.46,
+      "end_s": 405.46,
+      "text": "Well 5 i squared is negative 1."
+    },
+    {
+      "start_s": 405.46,
+      "end_s": 406.46,
+      "text": "5 squared."
+    },
+    {
+      "start_s": 406.46,
+      "end_s": 407.46,
+      "text": "So it's going to be negative 25."
+    },
+    {
+      "start_s": 407.46,
+      "end_s": 409.46,
+      "text": "The negative and the negative cancel out."
+    },
+    {
+      "start_s": 409.46,
+      "end_s": 412.46,
+      "text": "So you have 16 plus 25."
+    },
+    {
+      "start_s": 412.46,
+      "end_s": 414.46,
+      "text": "So that is 41."
+    },
+    {
+      "start_s": 414.46,
+      "end_s": 415.46,
+      "text": "So we can write this."
+    },
+    {
+      "start_s": 415.46,
+      "end_s": 416.46,
+      "text": "this is a complex number."
+    },
+    {
+      "start_s": 416.46,
+      "end_s": 423.26,
+      "text": "This is negative 6 over 41 plus 13 over 41I."
+    },
+    {
+      "start_s": 423.26,
+      "end_s": 426.16,
+      "text": "We were able to divide these two complex numbers."
+    },
+    {
+      "start_s": 426.16,
+      "end_s": 430.06,
+      "text": "So the useful thing here is the property that if I take any"
+    },
+    {
+      "start_s": 430.06,
+      "end_s": 435.33,
+      "text": "if I take any complex number and I multiply it, any complex number"
+    },
+    {
+      "start_s": 435.33,
+      "end_s": 437.53,
+      "text": "and I multiply it by its conjugate."
+    },
+    {
+      "start_s": 437.53,
+      "end_s": 439.53,
+      "text": "And obviously the conjugate of the conjugate is the"
+    },
+    {
+      "start_s": 439.53,
+      "end_s": 441.03,
+      "text": "number is the original number."
+    },
+    {
+      "start_s": 441.03,
+      "end_s": 443.33,
+      "text": "But I would take any complex number and I multiply it by its"
+    },
+    {
+      "start_s": 443.33,
+      "end_s": 444.03,
+      "text": "conjugate."
+    },
+    {
+      "start_s": 444.03,
+      "end_s": 445.03,
+      "text": "So this would be a plus 3."
+    },
+    {
+      "start_s": 445.03,
+      "end_s": 459.41,
+      "text": "plus b i times a minus b i i'm going to get a real number it's going to be a squared a squared minus b i squared difference of squares which is equal to a squared"
+    },
+    {
+      "start_s": 459.41,
+      "end_s": 475.39,
+      "text": "now this is going to be negative b squared but we have a negative sign out here so they cancel out a squared plus b squared and just out of curiosity this is the same thing as the magnitude of our complex number squared so this is the neat property this is what makes conjugates really"
+    },
+    {
+      "start_s": 475.41,
+      "end_s": 480.41,
+      "text": "useful especially when you want to simplify division of complex numbers."
+    },
+    {
+      "start_s": 480.41,
+      "end_s": 482.41,
+      "text": "Anyway, hopefully you found that useful."
+    }
+  ],
+  "words_per_minute": 178.1,
+  "language": "en",
+  "duration_s": 483.32,
+  "elapsed_s": 21.9,
+  "real_time_factor": 0.045,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 153
+}

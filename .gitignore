@@ -22,8 +22,11 @@ uploads_video/
 *.log
 
 # Local transcript media/caption downloads
-data/transcripts/audio/
+data/transcripts/audio*/
 data/transcripts/captions/
+
+# Local task dependencies used for reproducible report generation
+.codex_tmp/
 
 # Evaluation reports are versioned under reports/ (figures, tables, JSON/CSV/XLSX).
 # Regenerate with tools/eval/* and tools/viz/*; commit updated artifacts when results change.

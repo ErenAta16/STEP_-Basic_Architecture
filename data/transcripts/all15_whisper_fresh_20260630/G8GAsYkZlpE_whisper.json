@@ -1,0 +1,556 @@
+{
+  "video_id": "G8GAsYkZlpE",
+  "url": "https://www.youtube.com/watch?v=G8GAsYkZlpE",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\G8GAsYkZlpE_whisper.txt",
+  "media_file": "G8GAsYkZlpE.mp4",
+  "media_bytes": 12189453,
+  "transcript": "In this video, we're going to use the second derivative test to determine if there's any relative extrema in the function, if there's a relative maximum or a relative minimum. So let's talk about a relative maximum or a local maximum. In order to get a local max, the critical number has to be found. So the first derivative has to equal zero at some point C. So C is the point where the local max will be located along the x-axis. So f prime of c has to be equal to zero, and the second derivative at C has to be negative, or less than zero. Whenever the second derivative is negative at a critical number, it's going to be concave down, so you can have this shape. And you could see clearly from the graph that there is a maximum at this point, and that's going to be the C value that we need. That's where we have the horizontal tangent, which is typical of a local maximum, or relative maximum. Now, to use the second derivative test to identify the local minimum, which will occur at a critical number, f prime of c must be zero, so that's how we could find the critical number, and the second derivative at that critical number has to be greater than zero or it has to be positive, which means that it has to be concave up. So we're going to have that shape. and so we could see that we have a minimum at the bottom. Now let's work on an example problem. So let's say that f of x is 2x cube minus 12x squared. So go ahead and use the second derivative test to determine any relative extrema in this particular function. So feel free to try it. Now let's determine the first derivative so we can identify any critical numbers. The derivative of x cube is 3x squared. times 2. Well, let's do it one step at a time. The derivative of x squared is 2x. And so 2 times 3 is 6, 12 times 2 is 24. Now to find the critical numbers, we need to set the first derivative equal to 0. Next, let's factor out the GCF, which in this example is going to be 6x. So 6x squared divided by 6x is x, negative 24x divided by 6x is negative 4. And then set each factor equal to 0. So if we set 6x equal to 0 and then divide by 6, we can see that the first critical number is at x equals 0. And if we set x minus 4 equal to 0 and then add 4 to both sides, the second critical number is at x equal 4. So I'm going to write that at the top over here so I can raise the stuff on the bottom. So we have two critical numbers. Now let's find the second derivative to determine the concavity. So we said the first derivative was 6x squared minus 24 x. Now for the second derivative, it's going to be 6 times the derivative of x squared, which is 2x, and 24 times the derivative of x, which is 1. And so that's going to be 12x minus 24. So now let's set the second derivative equal to 0, and let's take out the GCF, which is 12. So we have a potential inflection point at x equals 2. So let's create a sign chart. Now if we plug in a test point greater than 2, let's say 3, into the second derivative, 3 minus 2 is positive. If we plug in a number less than 2, let's say 1, 1 minus 2 is negative. So it's concave down between negative infinity and 2 and concave up between 2 and infinity. So therefore, the second derivative at 0, we could say is less than 0. It's negative because 0 is between negative infinity and 2. Now granted, you could just take this number and plug it into this expression. Actually, not that one, but you could plug it into 12x minus 24. You really don't need to create a sign chart. So just keep that in mind. So for the second example, instead of using a sign chart, I can evaluate F double prime of 4. So that's going to be 12 times 4 minus 24. 12 times 4. times 4 is 48, 48 minus 24 is 24. So that's positive. And as you can see, 4 is between 2 and infinity. So that's going to be positive as well. So f double prime of 4 is going to be greater than 0. When the second derivative is less than 0, it's going to have a negative sign. And when it's greater than 0, that means it's positive. When the second derivative is positive, we have a graph that is concave up. And when the second derivative is negative, it's concave down. So you can see that a concave up graph is associated with a minimum, and a concave down graph is associated with a maximum. So at x equals 0, we have a maximum, and at x equals 4, we have a minimum. And that's how you can use the second derivative test to determine the relative extremit in the function. You need to find a critical numbers and then find out what the second derivative is at those critical numbers. But now let's confirm our answer using the first derivative tests. So let's put the critical numbers on this number line. Now we need to rewrite the first derivative in its factor form. So it was 6x squared minus 24x. And if we take out 6x, it's going to be 6x times x minus 4. So let's say if we plug in a test point that is is greater than 4, like 5. 6 times 5 is positive, 5 minus 4 is positive. If you multiply 2 positive numbers, that will give you a positive result. Now let's plug in a number between 0 and 4. Let's try 2. 6 times 2 is positive, 2 minus 4 is negative, a positive and a negative equals a negative. Now if we plug a negative 1, 6 times negative 1 minus 4 is negative. A negative times a negative is a positive number. So going from positive to negative, the function is increasing and then it's decreasing. So this indicates that we have a maximum at 0, which indeed we do. And going from negative to positive is it's decreasing and then increasing. So that's a minimum at 4, which we do have. And so that's how you can use the first derivative tests to confirm the results of the second derivative tests. Now it's your turn. Let's say if we have the function F of x is equal to 4x cube minus 6x squared minus 24x plus 1. Use the second derivative test to determine the relative extrem of the function. So first, let's find the first derivative to identify all the critical numbers. So it's going to be 12x squared and the derivative of 6x squared, that's 12x. And for 24x, it's just going to become 24. Now let's set it equal to 0, and let's take out a 12. So it's going to be x squared minus x minus 2. And so we need to factor this expression. Two numbers that multiply to negative 2, but add to negative 1, that's going to be negative 2 and positive 1. So to factor, it's going to be x minus 2 times x plus 1. So the critical numbers are positive 2 and negative 1 if you set each factor equal to 0. So now that we have those critical numbers, let's determine the sign of the second derivative at those points. So first, we need to find the second derivative. The derivative of 12x squared is 24x. And the derivative of 12x is just 12. But we have a negative sign in front. So the second derivative at 2, that's going to be 24 times 2 minus 12. 24 times 2 minus 12. 24 times 2 is 48 minus 12, that's positive 36. Now let's do the same for the other critical number, negative 1. So it's 24 times negative 1, which is negative 24 minus 12, that's negative 36. So at 2, it's positive, therefore it's concave up, and at negative 1, it's negative. So if the second derivative is negative, then it's concave down. And anytime it's concave up, and at negative, it's negative, it's negative, up, it's associated with a minimum. When it's concave down, it's associated with a maximum. This is a max, and this is a minimum. So we can write the answers over here. So at 2, we have a minimum, and at negative 1, we have a maximum. So let's confirm the result with the first derivative tests. So let's make a sign chart. So first, let me get rid of this. So the critical numbers are negative 1 and 2. So using the first derivative in its factored form, let's plug in some test points. I'm going to try 3. 3 minus 2 is positive. 3 plus 1 is positive. Next, I'm going to try 0. 0 minus 2 is negative. 0 plus 1 is positive. So that will give us a negative result. And then negative minus 2 is negative. Negative 3 plus 1 is negative. So we're going to get a positive result. So for negative 1, it's increasing and then it's decreasing. So this is a maximum, which we do have at negative 1. And at 2, it's decreasing and then increasing. So we have a minimum at 2. And don't let this negative 2 confuse you. At 2, we do indeed have a minimum. So this answer is confirmed. And so that's it. Now you know how to use the second derivative test to determine the relative extrema of the function. And you can confirm it with the first derivative test. So make sure you find the critical numbers. and then see if the second derivative is positive or negative at those critical numbers. If the second derivative is positive, that means that it's concave up. And so you have a minimum. If the second derivative is negative, that means it's concave down. And you're going to have a maximum at that critical number. And so that's it for this video. Hopefully you found it to be helpful. Thanks for watching.",
+  "segments": [
+    {
+      "start_s": 0.53,
+      "end_s": 11.49,
+      "text": "In this video, we're going to use the second derivative test to determine if there's any relative extrema in the function, if there's a relative maximum or a relative minimum."
+    },
+    {
+      "start_s": 12.76,
+      "end_s": 16.62,
+      "text": "So let's talk about a relative maximum or a local maximum."
+    },
+    {
+      "start_s": 19.35,
+      "end_s": 26.39,
+      "text": "In order to get a local max, the critical number has to be found."
+    },
+    {
+      "start_s": 26.69,
+      "end_s": 30.17,
+      "text": "So the first derivative has to equal zero at some point C."
+    },
+    {
+      "start_s": 30.17,
+      "end_s": 35.41,
+      "text": "So C is the point where the local max will be located along the x-axis."
+    },
+    {
+      "start_s": 37.02,
+      "end_s": 47.24,
+      "text": "So f prime of c has to be equal to zero, and the second derivative at C has to be negative, or less than zero."
+    },
+    {
+      "start_s": 48.7,
+      "end_s": 55.88,
+      "text": "Whenever the second derivative is negative at a critical number, it's going to be concave down, so you can have this shape."
+    },
+    {
+      "start_s": 56.62,
+      "end_s": 63.54,
+      "text": "And you could see clearly from the graph that there is a maximum at this point, and that's going to be the C value that we need."
+    },
+    {
+      "start_s": 63.56,
+      "end_s": 70.8,
+      "text": "That's where we have the horizontal tangent, which is typical of a local maximum, or relative maximum."
+    },
+    {
+      "start_s": 72.56,
+      "end_s": 78.94,
+      "text": "Now, to use the second derivative test to identify the local minimum, which will occur at a critical number,"
+    },
+    {
+      "start_s": 80.06,
+      "end_s": 91.51,
+      "text": "f prime of c must be zero, so that's how we could find the critical number, and the second derivative at that critical number has to be greater than zero or it has to be positive,"
+    },
+    {
+      "start_s": 91.99,
+      "end_s": 96.11,
+      "text": "which means that it has to be concave up. So we're going to have that shape."
+    },
+    {
+      "start_s": 96.25,
+      "end_s": 99.65,
+      "text": "and so we could see that we have a minimum at the bottom."
+    },
+    {
+      "start_s": 109.64,
+      "end_s": 111.56,
+      "text": "Now let's work on an example problem."
+    },
+    {
+      "start_s": 114.23,
+      "end_s": 119.65,
+      "text": "So let's say that f of x is 2x cube minus 12x squared."
+    },
+    {
+      "start_s": 122.34,
+      "end_s": 128.78,
+      "text": "So go ahead and use the second derivative test to determine any relative extrema in this particular function."
+    },
+    {
+      "start_s": 129.7,
+      "end_s": 130.76,
+      "text": "So feel free to try it."
+    },
+    {
+      "start_s": 132.38,
+      "end_s": 136.58,
+      "text": "Now let's determine the first derivative so we can identify any critical numbers."
+    },
+    {
+      "start_s": 137.08,
+      "end_s": 140.23,
+      "text": "The derivative of x cube is 3x squared."
+    },
+    {
+      "start_s": 140.87,
+      "end_s": 146.19,
+      "text": "times 2. Well, let's do it one step at a time. The derivative of x squared is 2x."
+    },
+    {
+      "start_s": 146.19,
+      "end_s": 155.54,
+      "text": "And so 2 times 3 is 6, 12 times 2 is 24. Now to find the critical numbers, we need to set the first"
+    },
+    {
+      "start_s": 155.54,
+      "end_s": 163.52,
+      "text": "derivative equal to 0. Next, let's factor out the GCF, which in this example is going to be 6x."
+    },
+    {
+      "start_s": 165.24,
+      "end_s": 173.67,
+      "text": "So 6x squared divided by 6x is x, negative 24x divided by 6x is negative 4. And then"
+    },
+    {
+      "start_s": 173.69,
+      "end_s": 181.2,
+      "text": "set each factor equal to 0. So if we set 6x equal to 0 and then divide by 6, we can see that"
+    },
+    {
+      "start_s": 181.2,
+      "end_s": 188.44,
+      "text": "the first critical number is at x equals 0. And if we set x minus 4 equal to 0 and then add 4 to"
+    },
+    {
+      "start_s": 188.44,
+      "end_s": 195.71,
+      "text": "both sides, the second critical number is at x equal 4. So I'm going to write that at the top over"
+    },
+    {
+      "start_s": 195.71,
+      "end_s": 212.57,
+      "text": "here so I can raise the stuff on the bottom. So we have two critical numbers. Now let's find"
+    },
+    {
+      "start_s": 212.57,
+      "end_s": 214.55,
+      "text": "the second derivative to determine the"
+    },
+    {
+      "start_s": 214.57,
+      "end_s": 226.16,
+      "text": "concavity. So we said the first derivative was 6x squared minus 24 x. Now for the second"
+    },
+    {
+      "start_s": 226.16,
+      "end_s": 232.98,
+      "text": "derivative, it's going to be 6 times the derivative of x squared, which is 2x, and 24 times the"
+    },
+    {
+      "start_s": 232.98,
+      "end_s": 241.02,
+      "text": "derivative of x, which is 1. And so that's going to be 12x minus 24. So now let's set the second derivative"
+    },
+    {
+      "start_s": 241.02,
+      "end_s": 249.48,
+      "text": "equal to 0, and let's take out the GCF, which is 12. So we have a potential inflection point at"
+    },
+    {
+      "start_s": 249.5,
+      "end_s": 257.28,
+      "text": "x equals 2. So let's create a sign chart. Now if we plug in a test point greater"
+    },
+    {
+      "start_s": 257.28,
+      "end_s": 264.22,
+      "text": "than 2, let's say 3, into the second derivative, 3 minus 2 is positive. If we plug in a number"
+    },
+    {
+      "start_s": 264.22,
+      "end_s": 273.15,
+      "text": "less than 2, let's say 1, 1 minus 2 is negative. So it's concave down between negative infinity"
+    },
+    {
+      "start_s": 273.15,
+      "end_s": 282.03,
+      "text": "and 2 and concave up between 2 and infinity. So therefore, the second derivative at 0, we could"
+    },
+    {
+      "start_s": 282.03,
+      "end_s": 288.24,
+      "text": "say is less than 0. It's negative because 0 is between negative infinity and 2."
+    },
+    {
+      "start_s": 288.86,
+      "end_s": 294.02,
+      "text": "Now granted, you could just take this number and plug it into this expression. Actually, not that one,"
+    },
+    {
+      "start_s": 294.02,
+      "end_s": 301.45,
+      "text": "but you could plug it into 12x minus 24. You really don't need to create a sign chart. So just"
+    },
+    {
+      "start_s": 301.45,
+      "end_s": 307.21,
+      "text": "keep that in mind. So for the second example, instead of using a sign chart, I can evaluate F double"
+    },
+    {
+      "start_s": 307.21,
+      "end_s": 312.15,
+      "text": "prime of 4. So that's going to be 12 times 4 minus 24. 12 times 4."
+    },
+    {
+      "start_s": 313.09,
+      "end_s": 320.35,
+      "text": "times 4 is 48, 48 minus 24 is 24. So that's positive. And as you can see, 4 is between"
+    },
+    {
+      "start_s": 320.35,
+      "end_s": 332.07,
+      "text": "2 and infinity. So that's going to be positive as well. So f double prime of 4 is going to be greater"
+    },
+    {
+      "start_s": 332.07,
+      "end_s": 348.19,
+      "text": "than 0. When the second derivative is less than 0, it's going to have a negative sign. And when it's"
+    },
+    {
+      "start_s": 348.19,
+      "end_s": 355.04,
+      "text": "greater than 0, that means it's positive. When the second derivative is positive, we have a graph that is"
+    },
+    {
+      "start_s": 355.04,
+      "end_s": 361.67,
+      "text": "concave up. And when the second derivative is negative, it's concave down. So you can see"
+    },
+    {
+      "start_s": 361.67,
+      "end_s": 369.63,
+      "text": "that a concave up graph is associated with a minimum, and a concave down graph is associated with"
+    },
+    {
+      "start_s": 369.63,
+      "end_s": 380.13,
+      "text": "a maximum. So at x equals 0, we have a maximum, and at x equals 4, we have a minimum. And that's how you"
+    },
+    {
+      "start_s": 380.13,
+      "end_s": 385.73,
+      "text": "can use the second derivative test to determine the relative extremit in the function. You need to find"
+    },
+    {
+      "start_s": 385.73,
+      "end_s": 391.11,
+      "text": "a critical numbers and then find out what the second derivative is at those critical"
+    },
+    {
+      "start_s": 391.11,
+      "end_s": 398.2,
+      "text": "numbers. But now let's confirm our answer using the first derivative tests. So let's put"
+    },
+    {
+      "start_s": 398.2,
+      "end_s": 403.96,
+      "text": "the critical numbers on this number line. Now we need to rewrite the first derivative in its"
+    },
+    {
+      "start_s": 403.96,
+      "end_s": 412.46,
+      "text": "factor form. So it was 6x squared minus 24x. And if we take out 6x, it's going to be 6x times"
+    },
+    {
+      "start_s": 412.46,
+      "end_s": 418.01,
+      "text": "x minus 4. So let's say if we plug in a test point that is"
+    },
+    {
+      "start_s": 418.03,
+      "end_s": 426.03,
+      "text": "is greater than 4, like 5. 6 times 5 is positive, 5 minus 4 is positive. If you multiply"
+    },
+    {
+      "start_s": 426.03,
+      "end_s": 433.16,
+      "text": "2 positive numbers, that will give you a positive result. Now let's plug in a number between"
+    },
+    {
+      "start_s": 433.16,
+      "end_s": 440.16,
+      "text": "0 and 4. Let's try 2. 6 times 2 is positive, 2 minus 4 is negative, a positive and a negative equals"
+    },
+    {
+      "start_s": 440.16,
+      "end_s": 448.33,
+      "text": "a negative. Now if we plug a negative 1, 6 times negative 1 minus 4 is negative. A negative"
+    },
+    {
+      "start_s": 448.33,
+      "end_s": 454.35,
+      "text": "times a negative is a positive number. So going from positive to negative, the function"
+    },
+    {
+      "start_s": 454.35,
+      "end_s": 459.55,
+      "text": "is increasing and then it's decreasing. So this indicates that we have a maximum at 0,"
+    },
+    {
+      "start_s": 459.55,
+      "end_s": 464.35,
+      "text": "which indeed we do. And going from negative to positive is it's decreasing and then increasing."
+    },
+    {
+      "start_s": 464.95,
+      "end_s": 471.1,
+      "text": "So that's a minimum at 4, which we do have. And so that's how you can use the first derivative"
+    },
+    {
+      "start_s": 471.1,
+      "end_s": 484.34,
+      "text": "tests to confirm the results of the second derivative tests. Now it's your turn. Let's say if we"
+    },
+    {
+      "start_s": 484.34,
+      "end_s": 493.32,
+      "text": "have the function F of x is equal to 4x cube minus 6x squared minus 24x plus 1."
+    },
+    {
+      "start_s": 494.04,
+      "end_s": 499.08,
+      "text": "Use the second derivative test to determine the relative extrem of the function. So first,"
+    },
+    {
+      "start_s": 499.7,
+      "end_s": 506.79,
+      "text": "let's find the first derivative to identify all the critical numbers. So it's going to be 12x squared"
+    },
+    {
+      "start_s": 506.79,
+      "end_s": 516.27,
+      "text": "and the derivative of 6x squared, that's 12x. And for 24x, it's just going to become 24. Now let's"
+    },
+    {
+      "start_s": 516.27,
+      "end_s": 522.12,
+      "text": "set it equal to 0, and let's take out a 12. So it's going to be x squared minus x"
+    },
+    {
+      "start_s": 522.12,
+      "end_s": 527.56,
+      "text": "minus 2. And so we need to factor this expression. Two numbers that multiply to negative 2,"
+    },
+    {
+      "start_s": 527.56,
+      "end_s": 535.03,
+      "text": "but add to negative 1, that's going to be negative 2 and positive 1. So to factor, it's going to be"
+    },
+    {
+      "start_s": 535.03,
+      "end_s": 546.77,
+      "text": "x minus 2 times x plus 1. So the critical numbers are positive 2 and negative 1 if you set each factor"
+    },
+    {
+      "start_s": 546.77,
+      "end_s": 556.22,
+      "text": "equal to 0. So now that we have those critical numbers, let's determine the sign of the"
+    },
+    {
+      "start_s": 556.22,
+      "end_s": 561.89,
+      "text": "second derivative at those points. So first, we need to find the second derivative. The derivative"
+    },
+    {
+      "start_s": 561.89,
+      "end_s": 569.59,
+      "text": "of 12x squared is 24x. And the derivative of 12x is just 12. But we have a negative sign in front."
+    },
+    {
+      "start_s": 570.71,
+      "end_s": 580.34,
+      "text": "So the second derivative at 2, that's going to be 24 times 2 minus 12. 24 times 2 minus 12. 24 times 2 is 48"
+    },
+    {
+      "start_s": 580.34,
+      "end_s": 588.46,
+      "text": "minus 12, that's positive 36. Now let's do the same for the other critical number,"
+    },
+    {
+      "start_s": 588.88,
+      "end_s": 599.48,
+      "text": "negative 1. So it's 24 times negative 1, which is negative 24 minus 12, that's negative 36."
+    },
+    {
+      "start_s": 599.98,
+      "end_s": 613.56,
+      "text": "So at 2, it's positive, therefore it's concave up, and at negative 1, it's negative. So if the"
+    },
+    {
+      "start_s": 613.56,
+      "end_s": 619.5,
+      "text": "second derivative is negative, then it's concave down. And anytime it's concave up, and at negative, it's negative, it's negative,"
+    },
+    {
+      "start_s": 619.52,
+      "end_s": 627.02,
+      "text": "up, it's associated with a minimum. When it's concave down, it's associated with a maximum."
+    },
+    {
+      "start_s": 627.56,
+      "end_s": 637.04,
+      "text": "This is a max, and this is a minimum. So we can write the answers over here. So at 2, we have a minimum,"
+    },
+    {
+      "start_s": 637.54,
+      "end_s": 644.52,
+      "text": "and at negative 1, we have a maximum. So let's confirm the result with the first derivative"
+    },
+    {
+      "start_s": 644.52,
+      "end_s": 657.13,
+      "text": "tests. So let's make a sign chart. So first, let me get rid of this. So the critical numbers are negative"
+    },
+    {
+      "start_s": 657.13,
+      "end_s": 663.33,
+      "text": "1 and 2. So using the first derivative in its factored form, let's plug in some test"
+    },
+    {
+      "start_s": 663.33,
+      "end_s": 670.52,
+      "text": "points. I'm going to try 3. 3 minus 2 is positive. 3 plus 1 is positive. Next, I'm going to try"
+    },
+    {
+      "start_s": 670.52,
+      "end_s": 677.3,
+      "text": "0. 0 minus 2 is negative. 0 plus 1 is positive. So that will give us a negative result. And then negative"
+    },
+    {
+      "start_s": 677.3,
+      "end_s": 684.8,
+      "text": "minus 2 is negative. Negative 3 plus 1 is negative. So we're going to get a positive result. So for"
+    },
+    {
+      "start_s": 684.8,
+      "end_s": 687.56,
+      "text": "negative 1, it's increasing and then it's decreasing."
+    },
+    {
+      "start_s": 688.47,
+      "end_s": 692.97,
+      "text": "So this is a maximum, which we do have at negative 1."
+    },
+    {
+      "start_s": 693.65,
+      "end_s": 695.79,
+      "text": "And at 2, it's decreasing and then increasing."
+    },
+    {
+      "start_s": 696.21,
+      "end_s": 697.57,
+      "text": "So we have a minimum at 2."
+    },
+    {
+      "start_s": 699.18,
+      "end_s": 701.8,
+      "text": "And don't let this negative 2 confuse you."
+    },
+    {
+      "start_s": 703.08,
+      "end_s": 704.88,
+      "text": "At 2, we do indeed have a minimum."
+    },
+    {
+      "start_s": 705.52,
+      "end_s": 707.0,
+      "text": "So this answer is confirmed."
+    },
+    {
+      "start_s": 708.58,
+      "end_s": 709.4,
+      "text": "And so that's it."
+    },
+    {
+      "start_s": 709.52,
+      "end_s": 713.48,
+      "text": "Now you know how to use the second derivative test to determine the relative"
+    },
+    {
+      "start_s": 713.48,
+      "end_s": 714.74,
+      "text": "extrema of the function."
+    },
+    {
+      "start_s": 715.18,
+      "end_s": 717.4,
+      "text": "And you can confirm it with the first derivative test."
+    },
+    {
+      "start_s": 718.65,
+      "end_s": 720.43,
+      "text": "So make sure you find the critical numbers."
+    },
+    {
+      "start_s": 720.87,
+      "end_s": 725.89,
+      "text": "and then see if the second derivative is positive or negative at those critical numbers."
+    },
+    {
+      "start_s": 726.13,
+      "end_s": 731.25,
+      "text": "If the second derivative is positive, that means that it's concave up."
+    },
+    {
+      "start_s": 731.77,
+      "end_s": 732.75,
+      "text": "And so you have a minimum."
+    },
+    {
+      "start_s": 733.45,
+      "end_s": 737.47,
+      "text": "If the second derivative is negative, that means it's concave down."
+    },
+    {
+      "start_s": 737.95,
+      "end_s": 740.75,
+      "text": "And you're going to have a maximum at that critical number."
+    },
+    {
+      "start_s": 741.61,
+      "end_s": 742.93,
+      "text": "And so that's it for this video."
+    },
+    {
+      "start_s": 743.09,
+      "end_s": 744.51,
+      "text": "Hopefully you found it to be helpful."
+    },
+    {
+      "start_s": 745.09,
+      "end_s": 745.77,
+      "text": "Thanks for watching."
+    }
+  ],
+  "words_per_minute": 137.7,
+  "language": "en",
+  "duration_s": 767.37,
+  "elapsed_s": 31.3,
+  "real_time_factor": 0.041,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 107
+}

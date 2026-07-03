@@ -1,0 +1,611 @@
+{
+  "video_id": "QqAPCIIdx-E",
+  "url": "https://www.youtube.com/watch?v=QqAPCIIdx-E",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\QqAPCIIdx-E_whisper.txt",
+  "media_file": "QqAPCIIdx-E.mp4",
+  "media_bytes": 6470383,
+  "transcript": "What we're going to do in this video is try to find the derivative with respect to x of x squared sine of x, all of that to the third power. And what's going to be interesting is that there's multiple ways to tackle it. And I encourage you to pause the video and see if you can work through it on your own. So there's actually multiple techniques. One path is to do the chain rule first. So I'll just say C R for chain rule first. And so I have, I'm taking the derivative with respect to x of something to the third power. So if I take the derivative, it would be the derivative with respect to that something. So that would be three times that something squared times the derivative with respect to x of that something. Where the something in this case is x squared sine of x, x squared, x squared sine of x. This is just an an application of the chain rule. Now the second part, what would that be? The second part here, this in another color, in orange, well here I would apply the product rule. I have the product of two expressions. So I would take the derivative of, let me write this down. So this is going to be the product rule. Product rule. I would take the derivative of the first expression. So the derivative of x squared is 2x. Let me write a little bit to the right. It's going to be 2x times the second expression, sine of x, plus the first expression, x squared, times the derivative of the second one, cosine of x. That's just the product rule as applied to this part right over here. And all of that, of course, is being multiplied by this upfront, which actually, let me just rewrite that. So all of this I could rewrite as, let's see, this would be three times. If I have the product of things raised to the second power, I could take each of them to the second power and then take their product. So x squared squared is x to the fourth, and then sine of x squared is sine squared is sine squared of x squared. And then all of that is being multiplied by that. And if we want, we can algebraically simplify, we can distribute everything out. In which case, what would we get? Well, let's see, three times two is six, x to the fourth times x is x to the fifth. Sign squared of x times sine of x is sine of x to the third power. And then let's see, three, so plus three, x to the fourth times x squared is x to the sixth power. And then I have sine squared of x, sine squared of x, cosine of x. So there you have it. That's one strategy, chain rule first, and then product rule. What would be another strategy? Pause the video and try to think of it. Well, we could just algebraically use our exponent properties first, in which case this is going to be equal to the derivative with respect to x of, if I'm taking x squared times sine of x to the third power, instead I could say x to the third to the third power, which is going to be x to the sixth, and then sine of x to the third power, sine of x to the third power, sine of x to the third power. I'm using the same exponent property that we have, we used right over here to simplify this. If I have, if I'm taking the product things to some exponent, well that's the same thing of each of them raised to the exponent and then the product of the two. Now how would we tackle this? Well, I, here, I would do the product rule first. So let's do that. So let's do the product rule. So we're going to take the derivative of the first expression. So derivative x to the sixth is 6x to the fifth times the second sign to the third of x, or sign of x to the third power, plus the first x to the sixth, times the derivative of the second, and I'm just going to write that d, d, d x of sine of x to the third power. Now, to evaluate this right over here, it does definitely make sense to use the chain rule. Use the chain rule. And so what is this? this going to be? Well, I have the derivative of something to the third power, so that's going to be three times that something squared times the derivative of that something. So in this case, the something is sine of x, and the derivative of sign of x is cosine of x. And then I have all of this business over here. I have six x to the fifth, sine to the third, or sign of x to third power, plus x to the sixth. And if I were to just, simplify this a little bit. In fact, you see it very clearly. These two things are equivalent. This, this term is exactly equivalent to this term, the way it's written. And then this is exactly if you multiply three times x to the sixth, sine of x squared, cosine of x. So the nice thing about math, if we're doing things that make logical sense, we should get to the same endpoint. But the point here is that there's multiple strategies. You could use the chain rule first and then the product rule, or you could use a product rule, or you could use a product rule first and then the chain rule. In this case, you could debate which one is faster. It looks like the one on the right might be a little bit faster. But sometimes, but these two are pretty close, but sometimes it'll be more clear than not which one is preferable. You really want to minimize the amount of hairiness, the amount, number of steps, the chances for careless mistakes you might have.",
+  "segments": [
+    {
+      "start_s": 0.32,
+      "end_s": 12.08,
+      "text": "What we're going to do in this video is try to find the derivative with respect to x of x squared sine of x, all of that to the third power."
+    },
+    {
+      "start_s": 12.08,
+      "end_s": 15.04,
+      "text": "And what's going to be interesting is that there's multiple ways to tackle it."
+    },
+    {
+      "start_s": 15.04,
+      "end_s": 19.91,
+      "text": "And I encourage you to pause the video and see if you can work through it on your own."
+    },
+    {
+      "start_s": 19.91,
+      "end_s": 22.5,
+      "text": "So there's actually multiple techniques."
+    },
+    {
+      "start_s": 22.5,
+      "end_s": 25.94,
+      "text": "One path is to do the chain rule first."
+    },
+    {
+      "start_s": 25.94,
+      "end_s": 30.1,
+      "text": "So I'll just say C R for chain rule first."
+    },
+    {
+      "start_s": 30.1,
+      "end_s": 32.38,
+      "text": "And so I have, I'm taking the derivative with respect to x"
+    },
+    {
+      "start_s": 32.38,
+      "end_s": 35.04,
+      "text": "of something to the third power."
+    },
+    {
+      "start_s": 35.04,
+      "end_s": 38.34,
+      "text": "So if I take the derivative, it would be the derivative"
+    },
+    {
+      "start_s": 38.34,
+      "end_s": 40.06,
+      "text": "with respect to that something."
+    },
+    {
+      "start_s": 40.06,
+      "end_s": 45.16,
+      "text": "So that would be three times that something squared"
+    },
+    {
+      "start_s": 45.16,
+      "end_s": 48.66,
+      "text": "times the derivative with respect to x"
+    },
+    {
+      "start_s": 48.66,
+      "end_s": 50.66,
+      "text": "of that something."
+    },
+    {
+      "start_s": 50.66,
+      "end_s": 54.44,
+      "text": "Where the something in this case is x squared"
+    },
+    {
+      "start_s": 54.44,
+      "end_s": 59.62,
+      "text": "sine of x, x squared, x squared sine of x."
+    },
+    {
+      "start_s": 59.62,
+      "end_s": 60.14,
+      "text": "This is just an"
+    },
+    {
+      "start_s": 60.16,
+      "end_s": 63.1,
+      "text": "an application of the chain rule."
+    },
+    {
+      "start_s": 63.1,
+      "end_s": 65.84,
+      "text": "Now the second part, what would that be?"
+    },
+    {
+      "start_s": 65.84,
+      "end_s": 69.26,
+      "text": "The second part here, this in another color,"
+    },
+    {
+      "start_s": 69.26,
+      "end_s": 72.98,
+      "text": "in orange, well here I would apply the product rule."
+    },
+    {
+      "start_s": 72.98,
+      "end_s": 75.1,
+      "text": "I have the product of two expressions."
+    },
+    {
+      "start_s": 75.1,
+      "end_s": 77.44,
+      "text": "So I would take the derivative of, let me write this down."
+    },
+    {
+      "start_s": 77.44,
+      "end_s": 80.68,
+      "text": "So this is going to be the product rule."
+    },
+    {
+      "start_s": 80.68,
+      "end_s": 82.78,
+      "text": "Product rule."
+    },
+    {
+      "start_s": 82.78,
+      "end_s": 85.94,
+      "text": "I would take the derivative of the first expression."
+    },
+    {
+      "start_s": 85.94,
+      "end_s": 90.18,
+      "text": "So the derivative of x squared is 2x."
+    },
+    {
+      "start_s": 90.18,
+      "end_s": 91.8,
+      "text": "Let me write a little bit to the right."
+    },
+    {
+      "start_s": 91.8,
+      "end_s": 94.66,
+      "text": "It's going to be 2x times the second expression,"
+    },
+    {
+      "start_s": 94.66,
+      "end_s": 99.54,
+      "text": "sine of x, plus the first expression, x squared,"
+    },
+    {
+      "start_s": 99.54,
+      "end_s": 102.3,
+      "text": "times the derivative of the second one, cosine of x."
+    },
+    {
+      "start_s": 102.3,
+      "end_s": 104.22,
+      "text": "That's just the product rule as applied"
+    },
+    {
+      "start_s": 104.22,
+      "end_s": 107.04,
+      "text": "to this part right over here."
+    },
+    {
+      "start_s": 107.04,
+      "end_s": 108.78,
+      "text": "And all of that, of course, is being multiplied"
+    },
+    {
+      "start_s": 108.78,
+      "end_s": 113.82,
+      "text": "by this upfront, which actually, let me just rewrite that."
+    },
+    {
+      "start_s": 113.82,
+      "end_s": 117.96,
+      "text": "So all of this I could rewrite as, let's see,"
+    },
+    {
+      "start_s": 117.96,
+      "end_s": 120.16,
+      "text": "this would be three times."
+    },
+    {
+      "start_s": 120.18,
+      "end_s": 123.7,
+      "text": "If I have the product of things raised"
+    },
+    {
+      "start_s": 123.7,
+      "end_s": 125.44,
+      "text": "to the second power, I could take each of them"
+    },
+    {
+      "start_s": 125.44,
+      "end_s": 127.24,
+      "text": "to the second power and then take their product."
+    },
+    {
+      "start_s": 127.24,
+      "end_s": 131.04,
+      "text": "So x squared squared is x to the fourth,"
+    },
+    {
+      "start_s": 131.04,
+      "end_s": 135.8,
+      "text": "and then sine of x squared is sine squared is sine squared of x squared."
+    },
+    {
+      "start_s": 135.8,
+      "end_s": 138.7,
+      "text": "And then all of that is being multiplied by that."
+    },
+    {
+      "start_s": 138.7,
+      "end_s": 141.72,
+      "text": "And if we want, we can algebraically simplify,"
+    },
+    {
+      "start_s": 141.72,
+      "end_s": 144.6,
+      "text": "we can distribute everything out."
+    },
+    {
+      "start_s": 144.6,
+      "end_s": 147.34,
+      "text": "In which case, what would we get?"
+    },
+    {
+      "start_s": 147.34,
+      "end_s": 150.82,
+      "text": "Well, let's see, three times two is six,"
+    },
+    {
+      "start_s": 150.82,
+      "end_s": 154.78,
+      "text": "x to the fourth times x is x to the fifth."
+    },
+    {
+      "start_s": 154.78,
+      "end_s": 158.58,
+      "text": "Sign squared of x times sine of x is sine of x"
+    },
+    {
+      "start_s": 158.58,
+      "end_s": 160.4,
+      "text": "to the third power."
+    },
+    {
+      "start_s": 160.4,
+      "end_s": 163.66,
+      "text": "And then let's see, three, so plus three,"
+    },
+    {
+      "start_s": 163.66,
+      "end_s": 167.26,
+      "text": "x to the fourth times x squared is x to the sixth power."
+    },
+    {
+      "start_s": 167.26,
+      "end_s": 169.76,
+      "text": "And then I have sine squared of x,"
+    },
+    {
+      "start_s": 169.76,
+      "end_s": 173.3,
+      "text": "sine squared of x, cosine of x."
+    },
+    {
+      "start_s": 173.3,
+      "end_s": 174.08,
+      "text": "So there you have it."
+    },
+    {
+      "start_s": 174.08,
+      "end_s": 175.94,
+      "text": "That's one strategy, chain rule first,"
+    },
+    {
+      "start_s": 175.94,
+      "end_s": 177.48,
+      "text": "and then product rule."
+    },
+    {
+      "start_s": 177.48,
+      "end_s": 179.16,
+      "text": "What would be another strategy?"
+    },
+    {
+      "start_s": 179.16,
+      "end_s": 180.4,
+      "text": "Pause the video and try to think of it."
+    },
+    {
+      "start_s": 181.46,
+      "end_s": 186.46,
+      "text": "Well, we could just algebraically use our exponent properties first,"
+    },
+    {
+      "start_s": 186.46,
+      "end_s": 192.84,
+      "text": "in which case this is going to be equal to the derivative with respect to x of,"
+    },
+    {
+      "start_s": 192.84,
+      "end_s": 197.41,
+      "text": "if I'm taking x squared times sine of x to the third power,"
+    },
+    {
+      "start_s": 197.41,
+      "end_s": 202.45,
+      "text": "instead I could say x to the third to the third power, which is going to be x to the sixth,"
+    },
+    {
+      "start_s": 202.45,
+      "end_s": 208.53,
+      "text": "and then sine of x to the third power, sine of x to the third power, sine of x to the third power."
+    },
+    {
+      "start_s": 208.53,
+      "end_s": 212.05,
+      "text": "I'm using the same exponent property that we have, we used"
+    },
+    {
+      "start_s": 212.07,
+      "end_s": 213.99,
+      "text": "right over here to simplify this."
+    },
+    {
+      "start_s": 213.99,
+      "end_s": 217.13,
+      "text": "If I have, if I'm taking the product things to some exponent,"
+    },
+    {
+      "start_s": 217.13,
+      "end_s": 218.93,
+      "text": "well that's the same thing of each of them"
+    },
+    {
+      "start_s": 218.93,
+      "end_s": 221.79,
+      "text": "raised to the exponent and then the product of the two."
+    },
+    {
+      "start_s": 221.79,
+      "end_s": 223.69,
+      "text": "Now how would we tackle this?"
+    },
+    {
+      "start_s": 223.69,
+      "end_s": 227.63,
+      "text": "Well, I, here, I would do the product rule first."
+    },
+    {
+      "start_s": 227.63,
+      "end_s": 228.97,
+      "text": "So let's do that."
+    },
+    {
+      "start_s": 228.97,
+      "end_s": 232.34,
+      "text": "So let's do the product rule."
+    },
+    {
+      "start_s": 232.34,
+      "end_s": 235.78,
+      "text": "So we're going to take the derivative of the first expression."
+    },
+    {
+      "start_s": 235.78,
+      "end_s": 242.12,
+      "text": "So derivative x to the sixth is 6x to the fifth times the second"
+    },
+    {
+      "start_s": 242.14,
+      "end_s": 247.14,
+      "text": "sign to the third of x, or sign of x to the third power,"
+    },
+    {
+      "start_s": 247.64,
+      "end_s": 250.46,
+      "text": "plus the first x to the sixth,"
+    },
+    {
+      "start_s": 250.46,
+      "end_s": 251.94,
+      "text": "times the derivative of the second,"
+    },
+    {
+      "start_s": 251.94,
+      "end_s": 257.16,
+      "text": "and I'm just going to write that d, d, d x of sine of x"
+    },
+    {
+      "start_s": 257.16,
+      "end_s": 259.93,
+      "text": "to the third power."
+    },
+    {
+      "start_s": 259.93,
+      "end_s": 263.11,
+      "text": "Now, to evaluate this right over here,"
+    },
+    {
+      "start_s": 263.11,
+      "end_s": 268.35,
+      "text": "it does definitely make sense to use the chain rule."
+    },
+    {
+      "start_s": 268.35,
+      "end_s": 271.51,
+      "text": "Use the chain rule."
+    },
+    {
+      "start_s": 271.51,
+      "end_s": 272.31,
+      "text": "And so what is this?"
+    },
+    {
+      "start_s": 272.33,
+      "end_s": 274.08,
+      "text": "this going to be?"
+    },
+    {
+      "start_s": 274.08,
+      "end_s": 276.6,
+      "text": "Well, I have the derivative of something to the third power,"
+    },
+    {
+      "start_s": 276.6,
+      "end_s": 281.04,
+      "text": "so that's going to be three times that something squared"
+    },
+    {
+      "start_s": 281.04,
+      "end_s": 283.56,
+      "text": "times the derivative of that something."
+    },
+    {
+      "start_s": 283.56,
+      "end_s": 286.42,
+      "text": "So in this case, the something is sine of x,"
+    },
+    {
+      "start_s": 286.42,
+      "end_s": 289.64,
+      "text": "and the derivative of sign of x is cosine of x."
+    },
+    {
+      "start_s": 289.64,
+      "end_s": 291.68,
+      "text": "And then I have all of this business over here."
+    },
+    {
+      "start_s": 291.68,
+      "end_s": 294.44,
+      "text": "I have six x to the fifth,"
+    },
+    {
+      "start_s": 294.44,
+      "end_s": 298.08,
+      "text": "sine to the third, or sign of x to third power,"
+    },
+    {
+      "start_s": 298.08,
+      "end_s": 301.95,
+      "text": "plus x to the sixth."
+    },
+    {
+      "start_s": 301.95,
+      "end_s": 302.69,
+      "text": "And if I were to just,"
+    },
+    {
+      "start_s": 302.71,
+      "end_s": 304.03,
+      "text": "simplify this a little bit."
+    },
+    {
+      "start_s": 304.03,
+      "end_s": 305.53,
+      "text": "In fact, you see it very clearly."
+    },
+    {
+      "start_s": 305.53,
+      "end_s": 308.12,
+      "text": "These two things are equivalent."
+    },
+    {
+      "start_s": 308.12,
+      "end_s": 312.09,
+      "text": "This, this term is exactly equivalent to this term,"
+    },
+    {
+      "start_s": 312.09,
+      "end_s": 313.05,
+      "text": "the way it's written."
+    },
+    {
+      "start_s": 313.05,
+      "end_s": 315.97,
+      "text": "And then this is exactly if you multiply"
+    },
+    {
+      "start_s": 315.97,
+      "end_s": 317.97,
+      "text": "three times x to the sixth,"
+    },
+    {
+      "start_s": 317.97,
+      "end_s": 321.35,
+      "text": "sine of x squared, cosine of x."
+    },
+    {
+      "start_s": 321.35,
+      "end_s": 322.87,
+      "text": "So the nice thing about math,"
+    },
+    {
+      "start_s": 322.87,
+      "end_s": 324.73,
+      "text": "if we're doing things that make logical sense,"
+    },
+    {
+      "start_s": 324.73,
+      "end_s": 326.73,
+      "text": "we should get to the same endpoint."
+    },
+    {
+      "start_s": 326.73,
+      "end_s": 329.41,
+      "text": "But the point here is that there's multiple strategies."
+    },
+    {
+      "start_s": 329.41,
+      "end_s": 330.71,
+      "text": "You could use the chain rule first"
+    },
+    {
+      "start_s": 330.71,
+      "end_s": 331.81,
+      "text": "and then the product rule, or you could use a product rule,"
+    },
+    {
+      "start_s": 331.81,
+      "end_s": 332.79,
+      "text": "or you could use a product rule"
+    },
+    {
+      "start_s": 332.81,
+      "end_s": 334.41,
+      "text": "first and then the chain rule."
+    },
+    {
+      "start_s": 334.41,
+      "end_s": 336.71,
+      "text": "In this case, you could debate which one is faster."
+    },
+    {
+      "start_s": 336.71,
+      "end_s": 339.91,
+      "text": "It looks like the one on the right might be a little bit faster."
+    },
+    {
+      "start_s": 339.91,
+      "end_s": 343.21,
+      "text": "But sometimes, but these two are pretty close,"
+    },
+    {
+      "start_s": 343.21,
+      "end_s": 345.41,
+      "text": "but sometimes it'll be more clear than not"
+    },
+    {
+      "start_s": 345.41,
+      "end_s": 347.21,
+      "text": "which one is preferable."
+    },
+    {
+      "start_s": 347.21,
+      "end_s": 349.41,
+      "text": "You really want to minimize the amount of hairiness,"
+    },
+    {
+      "start_s": 349.41,
+      "end_s": 351.61,
+      "text": "the amount, number of steps, the chances"
+    },
+    {
+      "start_s": 351.61,
+      "end_s": 353.41,
+      "text": "for careless mistakes you might have."
+    }
+  ],
+  "words_per_minute": 175.3,
+  "language": "en",
+  "duration_s": 353.85,
+  "elapsed_s": 17.4,
+  "real_time_factor": 0.049,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 118
+}

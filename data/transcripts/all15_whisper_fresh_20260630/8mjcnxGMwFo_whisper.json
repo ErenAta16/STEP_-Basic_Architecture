@@ -1,0 +1,906 @@
+{
+  "video_id": "8mjcnxGMwFo",
+  "url": "https://www.youtube.com/watch?v=8mjcnxGMwFo",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\8mjcnxGMwFo_whisper.txt",
+  "media_file": "8mjcnxGMwFo.mp4",
+  "media_bytes": 64013683,
+  "transcript": "One of the most powerful applications of calculus is optimization. Indeed, if I'm given some function, how do I know when that function's going to have a maximum, and how do I know what it's going to have a minimum? However, what we're going to do in this video is look at a special type of optimization, a special type of trying to find maximums of minimums. It's when I ask you to find the maximum or the minimum, but I give you a constraint, I give you a restriction. For instance, consider this graph. What I have is just the graph of some function, the function x, y, plus one. And the graph itself, well, it has a saddle point at the point zero zero, but it then goes up in one direction, forever it goes down in some other direction. However, if I impose a constraint, if I say it has to be on this particular curve, and I'm asking, what is the maximum of this function restricted to that curve? What is the minimum of this function restricted to that curve? The blue curve that I've put up here, if I look at it in the domain of my function, is just the equation of a circle, x squared plus y squared is equal to 1. So in the domain I have a circle, and I'm saying you were restricted to that circle, and then in the graph of the function, you look at, well, what does the function do above that circle? And the question is, what's the maximum of the function on the circle? What's the minimum of this function on the circle? This video is going to talk about something called Legronde multipliers, and Legrange multipliers are going to give us a method to figure out the maximums of functions like these when you're constrained to Pacific constraints like this circle. For instance, I've highlighted here in the red dots the maximums of the value of the function constrained to live on the curve. And then in the domain, the two red dots say, well, where in the domain am I going to have these maximums? Also looks like I have two minimums as well. To help me understand what's going on here, I put up contours on the graph of my function. Remember that what the contour is, is you telling me the height is constant. So I'm setting the function value this x, y plus 1, equal to various constants. And then I get these resulting curves. So for instance, if I set it equal to the value of z equal to 2, you get one curve. If I set it z equal to 1.5, you get a different curve, and so on. This gives you a bunch of level curves. And then I want you, I can look at what these look like in the domain as well. Well, if I take the sort of bird's eye view and I look straight down, then I get this similar kind of effect. So I've got my blue circle, the restriction. And then the yellow curves are the level curves of the original function. For instance, if I take that z equal to 2, then I have the set equal to 2 looks like two pieces of these curves. And z equal to 1.5 is moving in a little bit, and so forth. Indeed, the way I compute, these is if that the output of my function is 2, so xY plus 1 is 2, then that means that xY is 1, which means that y is just 1 over x. So indeed, this curve here is just representing the equation 1 over x in the domain, and that it has the height of 2. Now, of all these different levels, one of them is special. One of these level curves only just barely touches the restriction. Here, I'll focus just in on this one. this one. This particular level curve has the property that this level curve goes right through what looks to be the maximum of this function. And indeed, if I look at what happens down in the domain, that level curve, it comes along and just barely kisses the constraints. And this restriction that I'm choosing the particular level curve that comes in and just barely touches it, that that's going to be my candidate to be a maximum minimum, well, if it just barely touches it, it means something about the equation of tangent lines. In particular, what it means is that the equation of the tangent line to the constraint, the equation that's just a circle, the xx plus y squared equal to 1, that's got a tangent line. And the level curve also has a tangent line. And if they come along and just meet, those tangent lines are the same thing. So at the two spots where this particular curve comes and just barely touches the constraint curve, then the tangent line is shared by both of these curves. Indeed, if I put all the curves back on here again, you see that this case is pretty special. You'll see that some of the level curves don't intersect at all, in which case they're just not relevant, they can't be part of that constraint, they're not even on the constraint. And then some of the level curves, they come in and they intersect it at multiple places, but those values have lower values in the one that just comes and touch it at the one spot. You imagine sort of continuously varying the height as you move your level curves up. Well, as you go up and up and up and up, at one point, you just finally stop being subject to it. Indeed, if I keep that special one, the one that's just come along and just kissed it, if I moved it even a little bit higher, it would no longer intersect the constraint anyway. It would no longer be relevant. So the one particular level curve that just comes and kisses it, that's going to be your candidates for maximums. And indeed, as we can see here, we also have minimums where it just comes and kisses it in the other direction along y equals minus x, or just cases that ask your candidates to be minimums. Okay, let's take this geometry and try to study it a bit more algebra. So I'm going to return back to the simplified picture. And what I want to notice is if they share a tangent line, then their normals are also related. For example, let me look at the constraint, the blue circle here. There is a normal to that curve, and you may recall that the gradient vector always is a normal are always as normal to a level curve. So at these two points, the gradient of G is normal to the particular level curve, and indeed it's normal to this particular tangent line. Likewise, if I look at the normals to the level curve of my function, well, I'm also going to get a gradient of F, and my gradient F and gradient G, they're both normal to the same tangent line. So the gradient of F and the gradient G are both normal to the same tangent line. So the gradient of F and the gradient G are both normal to the same tangent line. And if gradient of F and gradient of G are both normal to the same tangent line, what that means is they are scalar multiples of one another, that the gradient of F might be twice or one-half of the gradient G, but either way it's in the same direction. So this picture that I have motivates the Lagrange multiplier method, and it goes a little bit like this. There are two relevant equations here. The first equation is a relationship between these two gradient vectors, what we just talked about geometrically, that the gradient of F is just some multiple of the gradient of G. Lambda is just some constant, and it says that these two vectors are just a multiple of the other. And then the other equation is the one we began with. We had the original constraining equation G equal to zero, so that isn't gone anywhere, so that's still here. So I'm trying to maximize, and that means I've got these two conditions, this business about these gradients being scalar multiples, and the original constraint the G equal to zero. Okay. in the formulas and see what we get. So first of all, we started with our function f of x equal to this xY plus one. That means that my gradient of that is just going to be y, x. The gradient is the partial derivative is back to x. And the first component, that's just y, and the partial derivative expect to y in the second component, that's just x. Then if I look at my constrain equation, the g, I can do the same thing. What is the gradient of this? Well, again, I have to figure out the partial derivative is expected x, partial derivative is back to y, and what I'm going to get is 2x and 2 y, both of these gradients are easy to compute. So if I look at the two different equations that I sort of begin with, it turns out that these two equations are really three equations in three unknowns. The unknowns are the x and the y, and this new thing we've come up, this lambda, so there's three unknown is an x, y, and a lambda. But there's really three equations because the first equation is a vector equation. Gradient of f is lambda, gradient of g, is equating two, two-dimensional, that. vectors. So the first components of that is the first component of gradient f is lambda times the first component of gradient g. In other words, just y equals lambda times 2x. Comparing the second coordinates of this, now I'm saying x is lambda times lambda times is equal to the second component of gradient of g. And then my third equation is the good old constraint that we've always had the x squared plus y squared minus 1 is equal to 0. So these are my three equations. Now, depending on your problem, the specifics of the algebra of solving these equations simultaneously, that might change. In this particular case, it's relatively straightforward. What I'm going to do is I'm going to take the second equation, x equal to lambda 2 y. I'm going to plug into the first, and that's going to give me the equation that y is lambda times 2 times the lambda times y. You put all that together, you get y is 4 y squared times y. Now this equation has two possible answers. One solution is just that y times. If y is equal to 0, you just have 0 on both sides. If y is non-zero, then you can divide out by the 0. And then if you solve that, you get lambda is equal to plus or minus 1 half. Now, in the first case, if y is equal to 0, then reading off either the first or second line, you get that x is equal to 0. And 0-0 was not on the original ellipse, the ellipse x-1 plus y squared equal to 1. So this is just not actually a solution that does not satisfy the third equation. So, and if I take the lambda equal to plus or minus 1 half and plug this in, this tells you I have a relationship between y and x, y is plus or minus x. And now that I know this, if I take the y is plus or minus x and substitute it finally into that third equation, into that constraint, I get an x squared. Then I get a, well, minus x all squared is equal to 1. This tells me 2x squared is equal to 1, so x is plus or minus 1 over root 2. There's really four possibilities here. here. X is plus or minus 1 over root 2. And y is plus or minus those values, so also plus or minus 1 over the square root of root 2. So there's four different possibilities for the x's and the y's. So I've returned back to the geometry where I've got the graph of my function and where I've got my domain specified. And what I've done is I've taken two of those four points, and what you can see is that for two of those four points, those do represent the maxims of this function. If you wish, you could see. to plug these numbers into the function, you would get the value 1.5, that is the maximum of this function constrained to this particular equation. Likewise, for the other two, well, they represent if I shift the situation, I now not ask for maximums, but I ask for minimums. They give you a slightly different pair of points, and you get a different level curve, now it happens to be equal to the height of 0.5, and these two points are at the minimums. So notice that just by getting those four points, I didn't know which was maximums and which was minimums. The idea of the Grange multipliers is that this geometric analysis that we did gave a very nice extra equation, the gradient of F was lambda, gradient of G, that that equation was in addition to the constraint that we already had that G was zero. When I looked at those equations and solved them out, what they gave me were all of my candidates to be maximums or minimums. I didn't know which were maximums and minimums ahead of time, but if you then evaluate your function at the points, in this case the four points that we had, you can see the two of them we're going to be the same value in the maximum, and two of them are going to be the same value and the middle. If you have a question about this video, leave it down in the comments below. We're all mathematicians here. We appreciate algorithms, so let's just help the YouTube algorithm out by giving this video a like. And finally, if you want to watch more multivariable calculus videos, this video is part of a larger playlist, a multivariable calculus, so you can check out those videos here, and we'll do some more math in the next video.",
+  "segments": [
+    {
+      "start_s": 2.96,
+      "end_s": 6.96,
+      "text": "One of the most powerful applications of calculus is optimization."
+    },
+    {
+      "start_s": 7.66,
+      "end_s": 12.22,
+      "text": "Indeed, if I'm given some function, how do I know when that function's going to have a maximum,"
+    },
+    {
+      "start_s": 12.36,
+      "end_s": 14.36,
+      "text": "and how do I know what it's going to have a minimum?"
+    },
+    {
+      "start_s": 15.02,
+      "end_s": 20.42,
+      "text": "However, what we're going to do in this video is look at a special type of optimization,"
+    },
+    {
+      "start_s": 20.72,
+      "end_s": 23.06,
+      "text": "a special type of trying to find maximums of minimums."
+    },
+    {
+      "start_s": 23.3,
+      "end_s": 30.34,
+      "text": "It's when I ask you to find the maximum or the minimum, but I give you a constraint, I give you a restriction."
+    },
+    {
+      "start_s": 31.2,
+      "end_s": 33.0,
+      "text": "For instance, consider this graph."
+    },
+    {
+      "start_s": 33.02,
+      "end_s": 37.72,
+      "text": "What I have is just the graph of some function, the function x, y, plus one."
+    },
+    {
+      "start_s": 38.28,
+      "end_s": 46.44,
+      "text": "And the graph itself, well, it has a saddle point at the point zero zero, but it then goes up in one direction, forever it goes down in some other direction."
+    },
+    {
+      "start_s": 47.24,
+      "end_s": 54.52,
+      "text": "However, if I impose a constraint, if I say it has to be on this particular curve, and I'm asking,"
+    },
+    {
+      "start_s": 54.52,
+      "end_s": 58.46,
+      "text": "what is the maximum of this function restricted to that curve?"
+    },
+    {
+      "start_s": 58.58,
+      "end_s": 61.7,
+      "text": "What is the minimum of this function restricted to that curve?"
+    },
+    {
+      "start_s": 61.7,
+      "end_s": 67.75,
+      "text": "The blue curve that I've put up here, if I look at it in the domain of my function,"
+    },
+    {
+      "start_s": 68.27,
+      "end_s": 72.83,
+      "text": "is just the equation of a circle, x squared plus y squared is equal to 1."
+    },
+    {
+      "start_s": 73.51,
+      "end_s": 78.35,
+      "text": "So in the domain I have a circle, and I'm saying you were restricted to that circle,"
+    },
+    {
+      "start_s": 78.71,
+      "end_s": 83.79,
+      "text": "and then in the graph of the function, you look at, well, what does the function do above that circle?"
+    },
+    {
+      "start_s": 83.85,
+      "end_s": 86.77,
+      "text": "And the question is, what's the maximum of the function on the circle?"
+    },
+    {
+      "start_s": 86.87,
+      "end_s": 88.99,
+      "text": "What's the minimum of this function on the circle?"
+    },
+    {
+      "start_s": 89.66,
+      "end_s": 91.9,
+      "text": "This video is going to talk about something called"
+    },
+    {
+      "start_s": 91.9,
+      "end_s": 97.16,
+      "text": "Legronde multipliers, and Legrange multipliers are going to give us a method to figure out the"
+    },
+    {
+      "start_s": 97.16,
+      "end_s": 102.94,
+      "text": "maximums of functions like these when you're constrained to Pacific constraints like this circle."
+    },
+    {
+      "start_s": 103.28,
+      "end_s": 110.1,
+      "text": "For instance, I've highlighted here in the red dots the maximums of the value of the function constrained"
+    },
+    {
+      "start_s": 110.1,
+      "end_s": 114.5,
+      "text": "to live on the curve. And then in the domain, the two red dots say, well, where in the domain am I going"
+    },
+    {
+      "start_s": 114.5,
+      "end_s": 119.9,
+      "text": "to have these maximums? Also looks like I have two minimums as well. To help me understand what's going"
+    },
+    {
+      "start_s": 119.9,
+      "end_s": 123.9,
+      "text": "on here, I put up contours on the graph of my function."
+    },
+    {
+      "start_s": 123.9,
+      "end_s": 129.9,
+      "text": "Remember that what the contour is, is you telling me the height is constant."
+    },
+    {
+      "start_s": 129.9,
+      "end_s": 134.9,
+      "text": "So I'm setting the function value this x, y plus 1, equal to various constants."
+    },
+    {
+      "start_s": 134.9,
+      "end_s": 137.9,
+      "text": "And then I get these resulting curves."
+    },
+    {
+      "start_s": 137.9,
+      "end_s": 141.9,
+      "text": "So for instance, if I set it equal to the value of z equal to 2, you get one curve."
+    },
+    {
+      "start_s": 141.9,
+      "end_s": 146.9,
+      "text": "If I set it z equal to 1.5, you get a different curve, and so on."
+    },
+    {
+      "start_s": 146.9,
+      "end_s": 148.9,
+      "text": "This gives you a bunch of level curves."
+    },
+    {
+      "start_s": 148.9,
+      "end_s": 153.9,
+      "text": "And then I want you, I can look at what these look like in the domain as well."
+    },
+    {
+      "start_s": 153.9,
+      "end_s": 158.9,
+      "text": "Well, if I take the sort of bird's eye view and I look straight down, then I get this similar kind of effect."
+    },
+    {
+      "start_s": 158.9,
+      "end_s": 162.9,
+      "text": "So I've got my blue circle, the restriction."
+    },
+    {
+      "start_s": 162.9,
+      "end_s": 167.9,
+      "text": "And then the yellow curves are the level curves of the original function."
+    },
+    {
+      "start_s": 167.9,
+      "end_s": 173.9,
+      "text": "For instance, if I take that z equal to 2, then I have the set equal to 2 looks like two pieces of these curves."
+    },
+    {
+      "start_s": 173.9,
+      "end_s": 176.9,
+      "text": "And z equal to 1.5 is moving in a little bit, and so forth."
+    },
+    {
+      "start_s": 176.9,
+      "end_s": 179.23,
+      "text": "Indeed, the way I compute,"
+    },
+    {
+      "start_s": 179.25,
+      "end_s": 187.25,
+      "text": "these is if that the output of my function is 2, so xY plus 1 is 2, then that means that xY is 1,"
+    },
+    {
+      "start_s": 187.25,
+      "end_s": 190.25,
+      "text": "which means that y is just 1 over x."
+    },
+    {
+      "start_s": 190.25,
+      "end_s": 196.25,
+      "text": "So indeed, this curve here is just representing the equation 1 over x in the domain,"
+    },
+    {
+      "start_s": 196.25,
+      "end_s": 198.25,
+      "text": "and that it has the height of 2."
+    },
+    {
+      "start_s": 198.25,
+      "end_s": 201.25,
+      "text": "Now, of all these different levels, one of them is special."
+    },
+    {
+      "start_s": 201.25,
+      "end_s": 206.35,
+      "text": "One of these level curves only just barely touches the restriction."
+    },
+    {
+      "start_s": 206.35,
+      "end_s": 208.35,
+      "text": "Here, I'll focus just in on this one."
+    },
+    {
+      "start_s": 208.35,
+      "end_s": 218.38,
+      "text": "this one. This particular level curve has the property that this level curve goes right through what looks to be the maximum of this function."
+    },
+    {
+      "start_s": 218.38,
+      "end_s": 227.38,
+      "text": "And indeed, if I look at what happens down in the domain, that level curve, it comes along and just barely kisses the constraints."
+    },
+    {
+      "start_s": 227.38,
+      "end_s": 234.38,
+      "text": "And this restriction that I'm choosing the particular level curve that comes in and just barely touches it,"
+    },
+    {
+      "start_s": 234.38,
+      "end_s": 238.36,
+      "text": "that that's going to be my candidate to be a maximum minimum, well, if it just barely"
+    },
+    {
+      "start_s": 238.38,
+      "end_s": 242.38,
+      "text": "touches it, it means something about the equation of tangent lines. In particular,"
+    },
+    {
+      "start_s": 242.38,
+      "end_s": 248.38,
+      "text": "what it means is that the equation of the tangent line to the constraint, the equation that's"
+    },
+    {
+      "start_s": 248.38,
+      "end_s": 252.38,
+      "text": "just a circle, the xx plus y squared equal to 1, that's got a tangent line."
+    },
+    {
+      "start_s": 252.38,
+      "end_s": 255.38,
+      "text": "And the level curve also has a tangent line."
+    },
+    {
+      "start_s": 255.38,
+      "end_s": 259.38,
+      "text": "And if they come along and just meet, those tangent lines are the same thing."
+    },
+    {
+      "start_s": 259.38,
+      "end_s": 267.44,
+      "text": "So at the two spots where this particular curve comes and just barely touches the constraint curve,"
+    },
+    {
+      "start_s": 267.44,
+      "end_s": 271.44,
+      "text": "then the tangent line is shared by both of these curves."
+    },
+    {
+      "start_s": 271.44,
+      "end_s": 276.44,
+      "text": "Indeed, if I put all the curves back on here again, you see that this case is pretty special."
+    },
+    {
+      "start_s": 276.44,
+      "end_s": 281.44,
+      "text": "You'll see that some of the level curves don't intersect at all, in which case they're just not relevant,"
+    },
+    {
+      "start_s": 281.44,
+      "end_s": 285.44,
+      "text": "they can't be part of that constraint, they're not even on the constraint."
+    },
+    {
+      "start_s": 285.44,
+      "end_s": 290.44,
+      "text": "And then some of the level curves, they come in and they intersect it at multiple places,"
+    },
+    {
+      "start_s": 290.44,
+      "end_s": 296.44,
+      "text": "but those values have lower values in the one that just comes and touch it at the one spot."
+    },
+    {
+      "start_s": 296.44,
+      "end_s": 300.94,
+      "text": "You imagine sort of continuously varying the height as you move your level curves up."
+    },
+    {
+      "start_s": 300.94,
+      "end_s": 306.44,
+      "text": "Well, as you go up and up and up and up, at one point, you just finally stop being subject to it."
+    },
+    {
+      "start_s": 306.44,
+      "end_s": 310.44,
+      "text": "Indeed, if I keep that special one, the one that's just come along and just kissed it,"
+    },
+    {
+      "start_s": 310.44,
+      "end_s": 315.44,
+      "text": "if I moved it even a little bit higher, it would no longer intersect the constraint anyway."
+    },
+    {
+      "start_s": 315.44,
+      "end_s": 316.44,
+      "text": "It would no longer be relevant."
+    },
+    {
+      "start_s": 316.44,
+      "end_s": 321.44,
+      "text": "So the one particular level curve that just comes and kisses it,"
+    },
+    {
+      "start_s": 321.44,
+      "end_s": 323.44,
+      "text": "that's going to be your candidates for maximums."
+    },
+    {
+      "start_s": 323.44,
+      "end_s": 326.42,
+      "text": "And indeed, as we can see here, we also have minimums where it just comes"
+    },
+    {
+      "start_s": 326.44,
+      "end_s": 330.44,
+      "text": "and kisses it in the other direction along y equals minus x,"
+    },
+    {
+      "start_s": 330.44,
+      "end_s": 333.44,
+      "text": "or just cases that ask your candidates to be minimums."
+    },
+    {
+      "start_s": 333.44,
+      "end_s": 337.51,
+      "text": "Okay, let's take this geometry and try to study it a bit more algebra."
+    },
+    {
+      "start_s": 337.51,
+      "end_s": 340.57,
+      "text": "So I'm going to return back to the simplified picture."
+    },
+    {
+      "start_s": 340.57,
+      "end_s": 343.57,
+      "text": "And what I want to notice is if they share a tangent line,"
+    },
+    {
+      "start_s": 343.57,
+      "end_s": 347.57,
+      "text": "then their normals are also related."
+    },
+    {
+      "start_s": 347.57,
+      "end_s": 350.57,
+      "text": "For example, let me look at the constraint, the blue circle here."
+    },
+    {
+      "start_s": 350.57,
+      "end_s": 355.57,
+      "text": "There is a normal to that curve, and you may recall that the gradient vector always is a normal"
+    },
+    {
+      "start_s": 355.57,
+      "end_s": 358.97,
+      "text": "are always as normal to a level curve."
+    },
+    {
+      "start_s": 358.97,
+      "end_s": 364.97,
+      "text": "So at these two points, the gradient of G is normal to the particular level curve,"
+    },
+    {
+      "start_s": 364.97,
+      "end_s": 368.57,
+      "text": "and indeed it's normal to this particular tangent line."
+    },
+    {
+      "start_s": 368.57,
+      "end_s": 374.57,
+      "text": "Likewise, if I look at the normals to the level curve of my function,"
+    },
+    {
+      "start_s": 374.57,
+      "end_s": 380.57,
+      "text": "well, I'm also going to get a gradient of F, and my gradient F and gradient G,"
+    },
+    {
+      "start_s": 380.57,
+      "end_s": 383.57,
+      "text": "they're both normal to the same tangent line."
+    },
+    {
+      "start_s": 383.57,
+      "end_s": 384.57,
+      "text": "So the gradient of F and the gradient G are both normal to the same tangent line."
+    },
+    {
+      "start_s": 384.57,
+      "end_s": 385.55,
+      "text": "So the gradient of F and the gradient G are"
+    },
+    {
+      "start_s": 385.57,
+      "end_s": 388.76,
+      "text": "both normal to the same tangent line."
+    },
+    {
+      "start_s": 388.76,
+      "end_s": 391.76,
+      "text": "And if gradient of F and gradient of G are both normal to the same tangent line,"
+    },
+    {
+      "start_s": 391.76,
+      "end_s": 395.76,
+      "text": "what that means is they are scalar multiples of one another,"
+    },
+    {
+      "start_s": 395.76,
+      "end_s": 399.76,
+      "text": "that the gradient of F might be twice or one-half of the gradient G,"
+    },
+    {
+      "start_s": 399.76,
+      "end_s": 402.99,
+      "text": "but either way it's in the same direction."
+    },
+    {
+      "start_s": 402.99,
+      "end_s": 404.99,
+      "text": "So this picture that I have"
+    },
+    {
+      "start_s": 404.99,
+      "end_s": 407.99,
+      "text": "motivates the Lagrange multiplier method,"
+    },
+    {
+      "start_s": 407.99,
+      "end_s": 409.99,
+      "text": "and it goes a little bit like this."
+    },
+    {
+      "start_s": 409.99,
+      "end_s": 413.34,
+      "text": "There are two relevant equations here."
+    },
+    {
+      "start_s": 413.34,
+      "end_s": 416.34,
+      "text": "The first equation is a relationship between these two"
+    },
+    {
+      "start_s": 416.34,
+      "end_s": 421.34,
+      "text": "gradient vectors, what we just talked about geometrically, that the gradient of F is just some"
+    },
+    {
+      "start_s": 421.34,
+      "end_s": 423.34,
+      "text": "multiple of the gradient of G."
+    },
+    {
+      "start_s": 423.34,
+      "end_s": 428.34,
+      "text": "Lambda is just some constant, and it says that these two vectors are just a multiple of the other."
+    },
+    {
+      "start_s": 428.34,
+      "end_s": 430.34,
+      "text": "And then the other equation is the one we began with."
+    },
+    {
+      "start_s": 430.34,
+      "end_s": 436.34,
+      "text": "We had the original constraining equation G equal to zero, so that isn't gone anywhere, so that's still here."
+    },
+    {
+      "start_s": 436.34,
+      "end_s": 440.34,
+      "text": "So I'm trying to maximize, and that means I've got these two conditions, this business about these"
+    },
+    {
+      "start_s": 440.34,
+      "end_s": 445.34,
+      "text": "gradients being scalar multiples, and the original constraint the G equal to zero."
+    },
+    {
+      "start_s": 445.34,
+      "end_s": 446.34,
+      "text": "Okay."
+    },
+    {
+      "start_s": 446.34,
+      "end_s": 447.68,
+      "text": "in the formulas and see what we get."
+    },
+    {
+      "start_s": 447.68,
+      "end_s": 453.74,
+      "text": "So first of all, we started with our function f of x equal to this xY plus one."
+    },
+    {
+      "start_s": 453.74,
+      "end_s": 457.94,
+      "text": "That means that my gradient of that is just going to be y, x."
+    },
+    {
+      "start_s": 457.94,
+      "end_s": 460.14,
+      "text": "The gradient is the partial derivative is back to x."
+    },
+    {
+      "start_s": 460.14,
+      "end_s": 462.94,
+      "text": "And the first component, that's just y, and the partial derivative"
+    },
+    {
+      "start_s": 462.94,
+      "end_s": 466.24,
+      "text": "expect to y in the second component, that's just x."
+    },
+    {
+      "start_s": 466.24,
+      "end_s": 470.18,
+      "text": "Then if I look at my constrain equation, the g, I can do the same thing."
+    },
+    {
+      "start_s": 470.18,
+      "end_s": 471.58,
+      "text": "What is the gradient of this?"
+    },
+    {
+      "start_s": 471.58,
+      "end_s": 474.98,
+      "text": "Well, again, I have to figure out the partial derivative is expected x, partial derivative is"
+    },
+    {
+      "start_s": 474.98,
+      "end_s": 476.32,
+      "text": "back to y, and what I'm going to"
+    },
+    {
+      "start_s": 476.34,
+      "end_s": 480.4,
+      "text": "get is 2x and 2 y, both of these gradients are easy to compute."
+    },
+    {
+      "start_s": 480.4,
+      "end_s": 486.16,
+      "text": "So if I look at the two different equations that I sort of begin with, it turns out that"
+    },
+    {
+      "start_s": 486.16,
+      "end_s": 491.08,
+      "text": "these two equations are really three equations in three unknowns."
+    },
+    {
+      "start_s": 491.08,
+      "end_s": 495.02,
+      "text": "The unknowns are the x and the y, and this new thing we've come up, this lambda, so there's"
+    },
+    {
+      "start_s": 495.02,
+      "end_s": 497.12,
+      "text": "three unknown is an x, y, and a lambda."
+    },
+    {
+      "start_s": 497.12,
+      "end_s": 501.9,
+      "text": "But there's really three equations because the first equation is a vector equation."
+    },
+    {
+      "start_s": 501.9,
+      "end_s": 506.38,
+      "text": "Gradient of f is lambda, gradient of g, is equating two, two-dimensional, that."
+    },
+    {
+      "start_s": 506.4,
+      "end_s": 510.6,
+      "text": "vectors. So the first components of that is the first component of gradient f is lambda"
+    },
+    {
+      "start_s": 510.6,
+      "end_s": 515.4,
+      "text": "times the first component of gradient g. In other words, just y equals lambda times 2x."
+    },
+    {
+      "start_s": 515.4,
+      "end_s": 523.5,
+      "text": "Comparing the second coordinates of this, now I'm saying x is lambda times lambda times"
+    },
+    {
+      "start_s": 523.5,
+      "end_s": 530.5,
+      "text": "is equal to the second component of gradient of g. And then my third equation is the good old"
+    },
+    {
+      "start_s": 530.5,
+      "end_s": 536.5,
+      "text": "constraint that we've always had the x squared plus y squared minus 1 is equal to 0. So these are my three equations."
+    },
+    {
+      "start_s": 536.5,
+      "end_s": 543.5,
+      "text": "Now, depending on your problem, the specifics of the algebra of solving these equations simultaneously, that might change."
+    },
+    {
+      "start_s": 543.5,
+      "end_s": 545.5,
+      "text": "In this particular case, it's relatively straightforward."
+    },
+    {
+      "start_s": 545.5,
+      "end_s": 549.5,
+      "text": "What I'm going to do is I'm going to take the second equation, x equal to lambda 2 y."
+    },
+    {
+      "start_s": 549.5,
+      "end_s": 558.5,
+      "text": "I'm going to plug into the first, and that's going to give me the equation that y is lambda times 2 times the lambda times y."
+    },
+    {
+      "start_s": 558.5,
+      "end_s": 561.5,
+      "text": "You put all that together, you get y is 4 y squared times y."
+    },
+    {
+      "start_s": 561.5,
+      "end_s": 564.5,
+      "text": "Now this equation has two possible answers."
+    },
+    {
+      "start_s": 564.5,
+      "end_s": 566.5,
+      "text": "One solution is just that y times."
+    },
+    {
+      "start_s": 566.5,
+      "end_s": 573.5,
+      "text": "If y is equal to 0, you just have 0 on both sides. If y is non-zero, then you can divide out by the 0."
+    },
+    {
+      "start_s": 573.5,
+      "end_s": 577.5,
+      "text": "And then if you solve that, you get lambda is equal to plus or minus 1 half."
+    },
+    {
+      "start_s": 577.5,
+      "end_s": 585.5,
+      "text": "Now, in the first case, if y is equal to 0, then reading off either the first or second line, you get that x is equal to 0."
+    },
+    {
+      "start_s": 585.5,
+      "end_s": 591.5,
+      "text": "And 0-0 was not on the original ellipse, the ellipse x-1 plus y squared equal to 1."
+    },
+    {
+      "start_s": 591.5,
+      "end_s": 595.5,
+      "text": "So this is just not actually a solution that does not satisfy the third equation."
+    },
+    {
+      "start_s": 595.5,
+      "end_s": 599.69,
+      "text": "So, and if I take the lambda equal to plus or minus 1 half and plug this in,"
+    },
+    {
+      "start_s": 599.69,
+      "end_s": 604.69,
+      "text": "this tells you I have a relationship between y and x, y is plus or minus x."
+    },
+    {
+      "start_s": 604.69,
+      "end_s": 609.69,
+      "text": "And now that I know this, if I take the y is plus or minus x and substitute it finally into that"
+    },
+    {
+      "start_s": 609.69,
+      "end_s": 612.69,
+      "text": "third equation, into that constraint, I get an x squared."
+    },
+    {
+      "start_s": 612.69,
+      "end_s": 617.69,
+      "text": "Then I get a, well, minus x all squared is equal to 1."
+    },
+    {
+      "start_s": 617.69,
+      "end_s": 623.76,
+      "text": "This tells me 2x squared is equal to 1, so x is plus or minus 1 over root 2."
+    },
+    {
+      "start_s": 623.76,
+      "end_s": 624.76,
+      "text": "There's really four possibilities here."
+    },
+    {
+      "start_s": 624.76,
+      "end_s": 625.76,
+      "text": "here."
+    },
+    {
+      "start_s": 625.76,
+      "end_s": 627.76,
+      "text": "X is plus or minus 1 over root 2."
+    },
+    {
+      "start_s": 627.76,
+      "end_s": 633.76,
+      "text": "And y is plus or minus those values, so also plus or minus 1 over the square root of root 2."
+    },
+    {
+      "start_s": 633.76,
+      "end_s": 637.76,
+      "text": "So there's four different possibilities for the x's and the y's."
+    },
+    {
+      "start_s": 637.76,
+      "end_s": 641.76,
+      "text": "So I've returned back to the geometry where I've got the graph of my function and where I've"
+    },
+    {
+      "start_s": 641.76,
+      "end_s": 643.76,
+      "text": "got my domain specified."
+    },
+    {
+      "start_s": 643.76,
+      "end_s": 648.76,
+      "text": "And what I've done is I've taken two of those four points, and what you can see is that for"
+    },
+    {
+      "start_s": 648.76,
+      "end_s": 653.76,
+      "text": "two of those four points, those do represent the maxims of this function."
+    },
+    {
+      "start_s": 653.76,
+      "end_s": 654.76,
+      "text": "If you wish, you could see."
+    },
+    {
+      "start_s": 654.76,
+      "end_s": 656.76,
+      "text": "to plug these numbers into the function,"
+    },
+    {
+      "start_s": 656.76,
+      "end_s": 659.76,
+      "text": "you would get the value 1.5, that is the maximum of this function"
+    },
+    {
+      "start_s": 659.76,
+      "end_s": 662.76,
+      "text": "constrained to this particular equation."
+    },
+    {
+      "start_s": 662.76,
+      "end_s": 667.95,
+      "text": "Likewise, for the other two, well, they represent if I shift the situation,"
+    },
+    {
+      "start_s": 667.95,
+      "end_s": 671.95,
+      "text": "I now not ask for maximums, but I ask for minimums."
+    },
+    {
+      "start_s": 671.95,
+      "end_s": 675.95,
+      "text": "They give you a slightly different pair of points, and you get a different level curve,"
+    },
+    {
+      "start_s": 675.95,
+      "end_s": 678.95,
+      "text": "now it happens to be equal to the height of 0.5,"
+    },
+    {
+      "start_s": 678.95,
+      "end_s": 681.95,
+      "text": "and these two points are at the minimums."
+    },
+    {
+      "start_s": 681.95,
+      "end_s": 684.93,
+      "text": "So notice that just by getting those four points, I didn't"
+    },
+    {
+      "start_s": 684.95,
+      "end_s": 687.25,
+      "text": "know which was maximums and which was minimums."
+    },
+    {
+      "start_s": 687.25,
+      "end_s": 693.41,
+      "text": "The idea of the Grange multipliers is that this geometric analysis that we did gave a very nice"
+    },
+    {
+      "start_s": 693.41,
+      "end_s": 698.91,
+      "text": "extra equation, the gradient of F was lambda, gradient of G, that that equation was in addition"
+    },
+    {
+      "start_s": 698.91,
+      "end_s": 702.09,
+      "text": "to the constraint that we already had that G was zero."
+    },
+    {
+      "start_s": 702.09,
+      "end_s": 707.79,
+      "text": "When I looked at those equations and solved them out, what they gave me were all of my candidates"
+    },
+    {
+      "start_s": 707.79,
+      "end_s": 709.67,
+      "text": "to be maximums or minimums."
+    },
+    {
+      "start_s": 709.67,
+      "end_s": 714.65,
+      "text": "I didn't know which were maximums and minimums ahead of time, but if you then evaluate your function"
+    },
+    {
+      "start_s": 714.65,
+      "end_s": 718.33,
+      "text": "at the points, in this case the four points that we had, you can see the two of them"
+    },
+    {
+      "start_s": 718.33,
+      "end_s": 722.49,
+      "text": "we're going to be the same value in the maximum, and two of them are going to be the same value"
+    },
+    {
+      "start_s": 722.49,
+      "end_s": 723.62,
+      "text": "and the middle."
+    },
+    {
+      "start_s": 723.62,
+      "end_s": 726.74,
+      "text": "If you have a question about this video, leave it down in the comments below."
+    },
+    {
+      "start_s": 726.74,
+      "end_s": 731.14,
+      "text": "We're all mathematicians here. We appreciate algorithms, so let's just help the YouTube algorithm"
+    },
+    {
+      "start_s": 731.14,
+      "end_s": 735.78,
+      "text": "out by giving this video a like. And finally, if you want to watch more multivariable calculus"
+    },
+    {
+      "start_s": 735.78,
+      "end_s": 740.26,
+      "text": "videos, this video is part of a larger playlist, a multivariable calculus, so you can check out those"
+    },
+    {
+      "start_s": 740.26,
+      "end_s": 743.22,
+      "text": "videos here, and we'll do some more math in the next video."
+    }
+  ],
+  "words_per_minute": 197.8,
+  "language": "en",
+  "duration_s": 743.32,
+  "elapsed_s": 36.1,
+  "real_time_factor": 0.049,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 177
+}

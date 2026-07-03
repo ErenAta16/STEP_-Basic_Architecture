@@ -1,0 +1,111 @@
+{
+  "video_id": "uKfcS7-O6UE",
+  "url": "https://www.youtube.com/watch?v=uKfcS7-O6UE",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\uKfcS7-O6UE_whisper.txt",
+  "media_file": "uKfcS7-O6UE.mp4",
+  "media_bytes": 5200469,
+  "transcript": "Hi, I'm Ashling Lynch, I'm a lecturer in Limerick Institute of Technology, and as part of the Math E project, I'm going to be recording a video today talking about the quotient rule. The quotient rule then is used to differentiate a function that consists of two functions, one divided by another. So, for example, if we have y is equal to 2x plus 1 over 3x minus 4, we can't use the general rule here, we must use, use a special rule called the quotient rule. So the quotient rule tells us that if y is equal to u over v, in other words, one function divided by another function, then the derivative of y, d y, d x, is equal to v multiplied by d u d x, minus u multiplied by d u d x, all over v. squared. So what we have here is v, the lower function, multiplied by the derivative of u minus u, the upper function, multiplied by the derivative of u minus u, the upper function, multiplied by the derivative of v, all over v squared. squared. So let's start then with, if we write that out again, y is equal to 2x plus 1 over 3x minus 4. So the first thing we need to do then is let u equals 2x plus 1, and we'll let v equals 3x minus 4. So that's u over v. We'll differentiate u, do u d x is equal to 2. We'll differentiate v, d, d, d, x is equal to 2. We'll differentiate v, d, d, d, d, d, is equal to 3. all of the elements that we need to put back into the rule. We have u, we have v, we have d u, and we have d u, and we have d v, so we put it all back into the rule now. Okay, so, d y, d x, then, is equal to v, which is 3x minus 4, by du d u d x, which is 2, which is 2, minus 4, by du, du, which is 2, minus minus u, which is 2x plus 1, multiplied by dvdx, which is 3. And we're going to put that all over b squared, which is 3x, excuse me, 3x minus 4 squared. So, now we can simplify the top line by multiplying out the brackets, and we leave the bottom line as it is, we can simplify it any further, and we can't simplify it any further, and we can't. cancel for example. All right. So that will give us 6x minus 8, minus 6x minus 3, all over 3x minus 4 squared. And now we can just simplify the top line a little further. We can cancel the 6x with the minus 6x, and we can add minus 8 and minus 3 to give us minus 11. So we have minus 11 over 3x minus 4 squared. And so that is the derivative of y is equal to 2x plus 1 over 3x minus 4.",
+  "segments": [
+    {
+      "start_s": 8.21,
+      "end_s": 18.19,
+      "text": "Hi, I'm Ashling Lynch, I'm a lecturer in Limerick Institute of Technology, and as part of the Math E project, I'm going to be recording a video today talking about the quotient rule."
+    },
+    {
+      "start_s": 18.59,
+      "end_s": 25.75,
+      "text": "The quotient rule then is used to differentiate a function that consists of two functions, one divided by another."
+    },
+    {
+      "start_s": 25.75,
+      "end_s": 38.19,
+      "text": "So, for example, if we have y is equal to 2x plus 1 over 3x minus 4, we can't use the general rule here, we must use,"
+    },
+    {
+      "start_s": 38.21,
+      "end_s": 45.51,
+      "text": "use a special rule called the quotient rule. So the quotient rule tells us that if y is equal"
+    },
+    {
+      "start_s": 45.51,
+      "end_s": 53.23,
+      "text": "to u over v, in other words, one function divided by another function, then the derivative of"
+    },
+    {
+      "start_s": 53.23,
+      "end_s": 70.17,
+      "text": "y, d y, d x, is equal to v multiplied by d u d x, minus u multiplied by d u d x, all over v."
+    },
+    {
+      "start_s": 70.19,
+      "end_s": 99.91,
+      "text": "squared. So what we have here is v, the lower function, multiplied by the derivative of u minus u, the upper function, multiplied by the derivative of u minus u, the upper function, multiplied by the derivative of v, all over v squared. squared. So let's start then with, if we write that out again, y is equal to 2x plus 1 over 3x minus 4."
+    },
+    {
+      "start_s": 99.91,
+      "end_s": 113.89,
+      "text": "So the first thing we need to do then is let u equals 2x plus 1, and we'll let v equals 3x minus 4."
+    },
+    {
+      "start_s": 114.29,
+      "end_s": 127.84,
+      "text": "So that's u over v. We'll differentiate u, do u d x is equal to 2. We'll differentiate v, d, d, d, x is equal to 2. We'll differentiate v, d, d, d, d, d, is equal to 3."
+    },
+    {
+      "start_s": 130.87,
+      "end_s": 146.66,
+      "text": "all of the elements that we need to put back into the rule. We have u, we have v, we have d u, and we have d u, and we have d v, so we put it all back into the rule now."
+    },
+    {
+      "start_s": 146.66,
+      "end_s": 164.21,
+      "text": "Okay, so, d y, d x, then, is equal to v, which is 3x minus 4, by du d u d x, which is 2, which is 2, minus 4, by du, du, which is 2, minus"
+    },
+    {
+      "start_s": 164.23,
+      "end_s": 172.68,
+      "text": "minus u, which is 2x plus 1, multiplied by dvdx, which is 3."
+    },
+    {
+      "start_s": 172.68,
+      "end_s": 182.78,
+      "text": "And we're going to put that all over b squared, which is 3x, excuse me, 3x minus 4 squared."
+    },
+    {
+      "start_s": 182.78,
+      "end_s": 196.39,
+      "text": "So, now we can simplify the top line by multiplying out the brackets, and we leave the bottom line as it is, we can simplify it any further, and we can't simplify it any further, and we can't."
+    },
+    {
+      "start_s": 196.41,
+      "end_s": 212.03,
+      "text": "cancel for example. All right. So that will give us 6x minus 8, minus 6x minus 3, all over 3x minus 4 squared."
+    },
+    {
+      "start_s": 214.14,
+      "end_s": 226.34,
+      "text": "And now we can just simplify the top line a little further. We can cancel the 6x with the minus 6x, and we can add minus 8 and minus 3 to give us minus 11."
+    },
+    {
+      "start_s": 226.34,
+      "end_s": 232.94,
+      "text": "So we have minus 11 over 3x minus 4 squared."
+    },
+    {
+      "start_s": 233.64,
+      "end_s": 240.96,
+      "text": "And so that is the derivative of y is equal to 2x plus 1 over 3x minus 4."
+    }
+  ],
+  "words_per_minute": 120.5,
+  "language": "en",
+  "duration_s": 251.98,
+  "elapsed_s": 9.0,
+  "real_time_factor": 0.036,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 18
+}

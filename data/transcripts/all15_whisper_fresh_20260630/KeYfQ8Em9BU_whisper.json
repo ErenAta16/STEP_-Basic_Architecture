@@ -1,0 +1,281 @@
+{
+  "video_id": "KeYfQ8Em9BU",
+  "url": "https://www.youtube.com/watch?v=KeYfQ8Em9BU",
+  "transcript_path": "data\\transcripts\\all15_whisper_fresh_20260630\\KeYfQ8Em9BU_whisper.txt",
+  "media_file": "KeYfQ8Em9BU.mp4",
+  "media_bytes": 8345482,
+  "transcript": "Okay, so in the real number system, I can show the relationship that x is greater than or equal to one on the number line like so. So if I draw myself a number line with a zero in the middle, and then the number one to the right of it, and it continues to positive and negative infinity, then the condition that x is greater than or equal to one can be first shown by drawing a circle around the number one and then filling it in. to show that x can take on the value of one, and then drawing an arrow to represent that x can also take on any value that is above the number one on the number line. And this principle can work exactly the same way for complex numbers as well. So suppose that complex number z is equal to x plus i y, and I have the condition that the real part of z is is greater than negative 2, which implies that x, because x is the real part, is greater than negative 2. So on the complex plane, if I draw myself a complex plane as neat as I can do, and the real part is on the horizontal, and the imaginary part is on the vertical, then the number negative 2 can be place, say, here. Then I can express this relationship. that the real part is greater than negative 2 by drawing a dashed line at the value of negative 2 or a dashed vertical line at the value of x is negative 2 because the dash means that x can't actually take on the value of negative 2 but it can take on anything in the shaded region here so there's no bound to the the imaginary value or the y value, but x must be greater than negative 2. So the shaded region is what I call the locus of the complex number z for the condition that the real part has to be greater than negative 2. Now let's do another example. Let's say that the imaginary part of z has to be greater than or equal to negative 1. So this time there are no constraints on what the real part is, but if I draw myself another set of axes with the real part being on the horizontal and the imaginary part being on the vertical, and the number negative 1 is somewhere down here. So this is implying that y can be greater than or equal to negative 1. So I can draw a solid line to show that the y value can be equal to negative 1. 1 and then the shaded region will be anything above this solid line. So again the shaded region is the locus of z given the condition that the imaginary part of z is greater than or equal to the number negative 1. So this is example 2. My apologies for the very untidy writing. Now let's do another example. Example 3. Let's say that the number 1 is still than or equal to the imaginary part of z. But the imaginary part of z is also less than the number 2. So if the number 2 is up here on the vertical axis, then my upper bound is a dotted line at the value of 2. So all valid points must fall between the solid line at y is equal to negative 1. The dotted line, y is equal to positive 2. 2. And of course y can take on the value of negative 1 in this case. Now let's do another example. So example 4. And let's do a combine example. The real part of z plus the imaginary part of z is less than or equal to 4. So this means the real part of z being x and the imaginary part of z being y is less than or equal to 4. Then on the complex plane, again, real axis on the horizontal and imaginary axis on the vertical. So first of all, if I plot x plus y is equal to 4, it has the y intercept of 4 and a x intercept of 4 as well. So it's a straight line that goes down like that. So this is the line x plus y is equal to 4. And to satisfy the condition that it can be less than or equal to this value. Then all points in this shaded region, and including the line, the green line, is the locus of z for the condition that the real part plus the imaginary part of z is less than or equal to four. And let's do one final example. Example 5. If I'm given the condition that the real part of z plus the imaginary part of z is actually equal to the equal to the value of 4, then the locus is purely just the green line. So the locus can only lie on the green line of x plus y is equal to 4. So what's the practical implications of these locus problems? Well, this becomes very important when we get into calculus of complex numbers. So I hope this video has given you a basic understanding of the loci of complex numbers. Please give me a thumb. If you have found this video useful, and please subscribe for my channel. For more helpful math tutorial videos. And in the meantime, best of luck with your studies and I'll see you on the next video.",
+  "segments": [
+    {
+      "start_s": 0.4,
+      "end_s": 11.35,
+      "text": "Okay, so in the real number system, I can show the relationship that x is greater than or equal to one on the number line like so."
+    },
+    {
+      "start_s": 11.35,
+      "end_s": 31.95,
+      "text": "So if I draw myself a number line with a zero in the middle, and then the number one to the right of it, and it continues to positive and negative infinity, then the condition that x is greater than or equal to one can be first shown by drawing a circle around the number one and then filling it in."
+    },
+    {
+      "start_s": 32.29,
+      "end_s": 45.67,
+      "text": "to show that x can take on the value of one, and then drawing an arrow to represent that x can also take on any value that is above the number one on the number line."
+    },
+    {
+      "start_s": 45.67,
+      "end_s": 51.13,
+      "text": "And this principle can work exactly the same way for complex numbers as well."
+    },
+    {
+      "start_s": 51.13,
+      "end_s": 62.37,
+      "text": "So suppose that complex number z is equal to x plus i y, and I have the condition that the real part of z is"
+    },
+    {
+      "start_s": 62.37,
+      "end_s": 72.37,
+      "text": "is greater than negative 2, which implies that x, because x is the real part, is greater than negative 2."
+    },
+    {
+      "start_s": 72.37,
+      "end_s": 95.65,
+      "text": "So on the complex plane, if I draw myself a complex plane as neat as I can do, and the real part is on the horizontal, and the imaginary part is on the vertical, then the number negative 2 can be place, say, here."
+    },
+    {
+      "start_s": 95.65,
+      "end_s": 97.85,
+      "text": "Then I can express this relationship."
+    },
+    {
+      "start_s": 97.87,
+      "end_s": 130.68,
+      "text": "that the real part is greater than negative 2 by drawing a dashed line at the value of negative 2 or a dashed vertical line at the value of x is negative 2 because the dash means that x can't actually take on the value of negative 2 but it can take on anything in the shaded region here so there's no bound to the"
+    },
+    {
+      "start_s": 130.68,
+      "end_s": 137.32,
+      "text": "the imaginary value or the y value, but x must be greater than negative 2."
+    },
+    {
+      "start_s": 137.32,
+      "end_s": 150.48,
+      "text": "So the shaded region is what I call the locus of the complex number z for the condition that the real part has to be greater than negative 2."
+    },
+    {
+      "start_s": 150.48,
+      "end_s": 154.6,
+      "text": "Now let's do another example."
+    },
+    {
+      "start_s": 154.6,
+      "end_s": 163.09,
+      "text": "Let's say that the imaginary part of z has to be greater than or equal to"
+    },
+    {
+      "start_s": 163.11,
+      "end_s": 182.38,
+      "text": "negative 1. So this time there are no constraints on what the real part is, but if I draw myself another set of axes with the real part being on the horizontal and the imaginary part being on the vertical, and the number negative 1 is somewhere down here."
+    },
+    {
+      "start_s": 182.38,
+      "end_s": 189.44,
+      "text": "So this is implying that y can be greater than or equal to negative 1."
+    },
+    {
+      "start_s": 189.44,
+      "end_s": 195.73,
+      "text": "So I can draw a solid line to show that the y value can be equal to negative 1."
+    },
+    {
+      "start_s": 195.73,
+      "end_s": 202.98,
+      "text": "1 and then the shaded region will be anything above this solid line."
+    },
+    {
+      "start_s": 202.98,
+      "end_s": 215.82,
+      "text": "So again the shaded region is the locus of z given the condition that the imaginary part of z is greater than or equal to the number negative 1."
+    },
+    {
+      "start_s": 215.82,
+      "end_s": 221.82,
+      "text": "So this is example 2. My apologies for the very untidy writing."
+    },
+    {
+      "start_s": 221.82,
+      "end_s": 228.46,
+      "text": "Now let's do another example. Example 3. Let's say that the number 1 is still"
+    },
+    {
+      "start_s": 228.48,
+      "end_s": 232.22,
+      "text": "than or equal to the imaginary part of z."
+    },
+    {
+      "start_s": 232.22,
+      "end_s": 238.28,
+      "text": "But the imaginary part of z is also less than the number 2."
+    },
+    {
+      "start_s": 238.28,
+      "end_s": 241.28,
+      "text": "So if the number 2 is up here on the vertical axis,"
+    },
+    {
+      "start_s": 241.28,
+      "end_s": 247.54,
+      "text": "then my upper bound is a dotted line at the value of 2."
+    },
+    {
+      "start_s": 247.54,
+      "end_s": 254.54,
+      "text": "So all valid points must fall between the solid line at y is equal to negative 1."
+    },
+    {
+      "start_s": 254.54,
+      "end_s": 258.54,
+      "text": "The dotted line, y is equal to positive 2."
+    },
+    {
+      "start_s": 258.54,
+      "end_s": 264.54,
+      "text": "2. And of course y can take on the value of negative 1 in this case."
+    },
+    {
+      "start_s": 264.54,
+      "end_s": 270.55,
+      "text": "Now let's do another example. So example 4."
+    },
+    {
+      "start_s": 270.55,
+      "end_s": 273.0,
+      "text": "And let's do a combine example."
+    },
+    {
+      "start_s": 273.0,
+      "end_s": 281.19,
+      "text": "The real part of z plus the imaginary part of z is less than or equal to 4."
+    },
+    {
+      "start_s": 281.19,
+      "end_s": 291.7,
+      "text": "So this means the real part of z being x and the imaginary part of z being y is less than or equal to 4."
+    },
+    {
+      "start_s": 291.7,
+      "end_s": 306.64,
+      "text": "Then on the complex plane, again, real axis on the horizontal and imaginary axis on the vertical."
+    },
+    {
+      "start_s": 306.64,
+      "end_s": 312.63,
+      "text": "So first of all, if I plot x plus y is equal to 4,"
+    },
+    {
+      "start_s": 312.63,
+      "end_s": 320.72,
+      "text": "it has the y intercept of 4 and a x intercept of 4 as well."
+    },
+    {
+      "start_s": 320.72,
+      "end_s": 324.78,
+      "text": "So it's a straight line that goes down like that."
+    },
+    {
+      "start_s": 324.78,
+      "end_s": 328.98,
+      "text": "So this is the line x plus y is equal to 4."
+    },
+    {
+      "start_s": 328.98,
+      "end_s": 331.1,
+      "text": "And to satisfy the condition that"
+    },
+    {
+      "start_s": 331.1,
+      "end_s": 335.93,
+      "text": "it can be less than or equal to this value."
+    },
+    {
+      "start_s": 335.93,
+      "end_s": 342.54,
+      "text": "Then all points in this shaded region, and including the line, the green line,"
+    },
+    {
+      "start_s": 342.54,
+      "end_s": 352.54,
+      "text": "is the locus of z for the condition that the real part plus the imaginary part of z is less than or equal to four."
+    },
+    {
+      "start_s": 352.54,
+      "end_s": 354.54,
+      "text": "And let's do one final example."
+    },
+    {
+      "start_s": 354.54,
+      "end_s": 356.11,
+      "text": "Example 5."
+    },
+    {
+      "start_s": 356.11,
+      "end_s": 363.5,
+      "text": "If I'm given the condition that the real part of z plus the imaginary part of z is actually equal to the"
+    },
+    {
+      "start_s": 363.5,
+      "end_s": 372.34,
+      "text": "equal to the value of 4, then the locus is purely just the green line."
+    },
+    {
+      "start_s": 372.34,
+      "end_s": 387.33,
+      "text": "So the locus can only lie on the green line of x plus y is equal to 4."
+    },
+    {
+      "start_s": 387.33,
+      "end_s": 390.33,
+      "text": "So what's the practical implications of these locus problems?"
+    },
+    {
+      "start_s": 390.33,
+      "end_s": 395.33,
+      "text": "Well, this becomes very important when we get into calculus of complex numbers."
+    },
+    {
+      "start_s": 395.33,
+      "end_s": 401.33,
+      "text": "So I hope this video has given you a basic understanding of the loci of complex numbers."
+    },
+    {
+      "start_s": 401.33,
+      "end_s": 402.33,
+      "text": "Please give me a thumb."
+    },
+    {
+      "start_s": 402.33,
+      "end_s": 406.33,
+      "text": "If you have found this video useful, and please subscribe for my channel."
+    },
+    {
+      "start_s": 406.33,
+      "end_s": 409.33,
+      "text": "For more helpful math tutorial videos."
+    },
+    {
+      "start_s": 409.33,
+      "end_s": 414.33,
+      "text": "And in the meantime, best of luck with your studies and I'll see you on the next video."
+    }
+  ],
+  "words_per_minute": 134.5,
+  "language": "en",
+  "duration_s": 413.9,
+  "elapsed_s": 16.2,
+  "real_time_factor": 0.039,
+  "model": "distil-large-v3",
+  "device": "cuda",
+  "compute_type": "float16",
+  "beam_size": 5,
+  "prompt_version": "mathe-transcribe-v4-readable",
+  "segment_count": 52
+}
